@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return { title: project ? `${project.title} — Edward Centorame` : 'Edward Centorame' };
 }
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
+export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
   if (!project) notFound();
 
