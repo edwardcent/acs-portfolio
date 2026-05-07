@@ -8,14 +8,12 @@ export default function Home() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <div style={{ paddingTop: '48px' }}>
-      {projects.map((project, i) => (
+    <div style={{ paddingTop: '64px', maxWidth: '1100px', margin: '0 auto', padding: '64px 40px 80px' }}>
+      {projects.map((project) => (
         <ProjectRow
           key={project.slug}
           project={project}
-          index={i}
           isHovered={hovered === project.slug}
-          anyHovered={hovered !== null}
           onEnter={() => setHovered(project.slug)}
           onLeave={() => setHovered(null)}
         />
@@ -25,102 +23,73 @@ export default function Home() {
 }
 
 function ProjectRow({
-  project, index, isHovered, anyHovered, onEnter, onLeave,
+  project, isHovered, onEnter, onLeave,
 }: {
   project: typeof projects[0];
-  index: number;
   isHovered: boolean;
-  anyHovered: boolean;
   onEnter: () => void;
   onLeave: () => void;
 }) {
   return (
-    <Link href={`/work/${project.slug}`} style={{ display: 'block' }}>
-      <div
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
-        style={{ borderBottom: '1px solid #e8e8e8', overflow: 'hidden' }}
-      >
-        {/* Collapsed row */}
+    <div
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      style={{ borderBottom: '1px solid #ccc' }}
+    >
+      {/* Title row — always visible, never moves */}
+      <Link href={`/work/${project.slug}`} style={{ display: 'block' }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 24px',
-          height: isHovered ? '0px' : '56px',
-          opacity: isHovered ? 0 : anyHovered ? 0.3 : 1,
-          overflow: 'hidden',
-          transition: 'height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease',
-          pointerEvents: isHovered ? 'none' : 'auto',
+          padding: '10px 0',
+          gap: '12px',
         }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px' }}>
-            <span style={{ fontSize: '13px', fontWeight: '500', color: '#0a0a0a', letterSpacing: '0.01em' }}>
-              {project.title}
-            </span>
-            <span style={{ fontSize: '12px', color: '#aaa' }}>{project.category}</span>
-          </div>
-          <span style={{ fontSize: '12px', color: '#aaa' }}>{project.year}</span>
+          <span style={{
+            fontSize: '15px',
+            fontWeight: '700',
+            color: '#0a0a0a',
+            whiteSpace: 'nowrap',
+          }}>
+            {project.title}
+          </span>
+          <span style={{
+            fontSize: '13px',
+            color: '#999',
+            fontWeight: '400',
+          }}>
+            {project.category}
+          </span>
+          <span style={{
+            marginLeft: 'auto',
+            fontSize: '13px',
+            color: '#999',
+            fontWeight: '400',
+            whiteSpace: 'nowrap',
+          }}>
+            {project.year}
+          </span>
         </div>
+      </Link>
 
-        {/* Expanded card */}
-        <div style={{
-          height: isHovered ? '400px' : '0px',
-          opacity: isHovered ? 1 : 0,
-          overflow: 'hidden',
-          transition: 'height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
-        }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: '400px' }}>
-            {/* Image */}
-            <div style={{
-              overflow: 'hidden',
-              background: '#e8e6e2',
-              position: 'relative',
-            }}>
-              <img
-                src={`/images/${project.image}`}
-                alt={project.title}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                  display: 'block',
-                }}
-              />
-            </div>
-            {/* Info */}
-            <div style={{
-              background: '#f7f6f4',
-              borderLeft: '1px solid #e8e8e8',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: '32px',
-            }}>
-              <div>
-                <p style={{ fontSize: '11px', color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
-                  {project.category}
-                </p>
-                <h2 style={{ fontSize: '22px', fontWeight: '500', lineHeight: '1.25', color: '#0a0a0a', marginBottom: '14px' }}>
-                  {project.title}
-                </h2>
-                <p style={{ fontSize: '13px', color: '#555', lineHeight: '1.65' }}>
-                  {project.description}
-                </p>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '12px', color: '#888' }}>{project.year}</span>
-                <span style={{ fontSize: '12px', color: '#0a0a0a', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  View project
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </div>
+      {/* Image — expands below the title row on hover */}
+      <div style={{
+        overflow: 'hidden',
+        maxHeight: isHovered ? '420px' : '0px',
+        transition: 'max-height 0.45s cubic-bezier(0.4,0,0.2,1)',
+      }}>
+        <div style={{ paddingBottom: '16px' }}>
+          <img
+            src={`/images/${project.image}`}
+            alt={project.title}
+            style={{
+              width: '100%',
+              display: 'block',
+              objectFit: 'cover',
+              maxHeight: '400px',
+            }}
+          />
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
