@@ -33,14 +33,9 @@ function ProjectRow({
   onLeave: () => void;
 }) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      style={{ display: 'block', textDecoration: 'none' }}
-    >
-      <div
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
-      >
+    <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
+      <div onMouseEnter={onEnter} onMouseLeave={onLeave}>
+
         {/* Title row */}
         <div style={{
           display: 'flex',
@@ -52,38 +47,34 @@ function ProjectRow({
           <span style={{ fontSize: '15px', fontWeight: '700', color: '#0a0a0a', whiteSpace: 'nowrap' }}>
             {project.title}
           </span>
-          <span style={{ fontSize: '13px', color: '#999', fontWeight: '400' }}>
+          <span style={{ fontSize: '13px', color: '#999' }}>
             {project.category}
           </span>
-          <span style={{ marginLeft: 'auto', fontSize: '13px', color: '#999', fontWeight: '400', whiteSpace: 'nowrap' }}>
+          <span style={{ marginLeft: 'auto', fontSize: '13px', color: '#999', whiteSpace: 'nowrap' }}>
             {project.year}
           </span>
         </div>
 
-        {/* Image — slides down below title row */}
+        {/* Image container — fixed height, clipped, no leaking gaps */}
         <div style={{
+          height: isHovered ? '400px' : '0px',
           overflow: 'hidden',
-          maxHeight: isHovered ? '500px' : '0px',
-          transition: 'max-height 0.45s cubic-bezier(0.4,0,0.2,1)',
-          fontSize: '0',
-          lineHeight: '0',
+          transition: 'height 0.45s cubic-bezier(0.4,0,0.2,1)',
+          background: '#f0efed',
         }}>
           <img
             src={`/images/${project.image}`}
             alt={project.title}
             style={{
               width: '100%',
+              height: '400px',
               display: 'block',
-              verticalAlign: 'top',
               objectFit: 'cover',
-              maxHeight: '420px',
-              border: 'none',
-              outline: 'none',
-              margin: '0',
-              padding: '0',
+              objectPosition: 'center',
             }}
           />
         </div>
+
       </div>
     </Link>
   );
