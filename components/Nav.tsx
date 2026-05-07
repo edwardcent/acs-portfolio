@@ -18,17 +18,17 @@ export default function Nav() {
       height: '48px',
       display: 'flex',
       alignItems: 'center',
-      padding: '0 40px',
     }}>
+      {/* Same max-width and padding as content */}
       <nav style={{
         width: '100%',
         maxWidth: '1100px',
         margin: '0 auto',
+        padding: '0 40px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
       }}>
-        {/* Left: nav links */}
         <div style={{ display: 'flex', gap: '20px' }}>
           {[
             { href: '/', label: 'projects' },
@@ -42,7 +42,6 @@ export default function Nav() {
                 fontSize: '13px',
                 color: pathname === href ? '#0a0a0a' : '#999',
                 fontWeight: '400',
-                letterSpacing: '0.01em',
               }}
             >
               {label}
@@ -50,12 +49,10 @@ export default function Nav() {
           ))}
         </div>
 
-        {/* Right: name bold */}
         <Link href="/" style={{
           fontSize: '14px',
           fontWeight: '700',
           color: '#0a0a0a',
-          letterSpacing: '0.01em',
         }}>
           edward centorame
         </Link>
