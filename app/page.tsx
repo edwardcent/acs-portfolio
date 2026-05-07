@@ -8,16 +8,18 @@ export default function Home() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <div style={{ paddingTop: '64px', maxWidth: '1100px', margin: '0 auto', padding: '64px 40px 80px' }}>
-      {projects.map((project) => (
-        <ProjectRow
-          key={project.slug}
-          project={project}
-          isHovered={hovered === project.slug}
-          onEnter={() => setHovered(project.slug)}
-          onLeave={() => setHovered(null)}
-        />
-      ))}
+    <div style={{ paddingTop: '48px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 40px 80px' }}>
+        {projects.map((project) => (
+          <ProjectRow
+            key={project.slug}
+            project={project}
+            isHovered={hovered === project.slug}
+            onEnter={() => setHovered(project.slug)}
+            onLeave={() => setHovered(null)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -31,13 +33,16 @@ function ProjectRow({
   onLeave: () => void;
 }) {
   return (
-    <div
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      style={{ borderBottom: '1px solid #ccc' }}
+    <Link
+      href={`/work/${project.slug}`}
+      style={{ display: 'block', textDecoration: 'none' }}
     >
-      {/* Title row — always visible, never moves */}
-      <Link href={`/work/${project.slug}`} style={{ display: 'block' }}>
+      <div
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
+        style={{ borderBottom: '1px solid #ccc' }}
+      >
+        {/* Title row — always visible */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -69,27 +74,29 @@ function ProjectRow({
             {project.year}
           </span>
         </div>
-      </Link>
 
-      {/* Image — expands below the title row on hover */}
-      <div style={{
-        overflow: 'hidden',
-        maxHeight: isHovered ? '420px' : '0px',
-        transition: 'max-height 0.45s cubic-bezier(0.4,0,0.2,1)',
-      }}>
-        <div style={{ paddingBottom: '16px' }}>
-          <img
-            src={`/images/${project.image}`}
-            alt={project.title}
-            style={{
-              width: '100%',
-              display: 'block',
-              objectFit: 'cover',
-              maxHeight: '400px',
-            }}
-          />
+        {/* Image — expands below title row */}
+        <div style={{
+          overflow: 'hidden',
+          maxHeight: isHovered ? '500px' : '0px',
+          transition: 'max-height 0.45s cubic-bezier(0.4,0,0.2,1)',
+        }}>
+          <div style={{ paddingBottom: '16px', lineHeight: 0 }}>
+            <img
+              src={`/images/${project.image}`}
+              alt={project.title}
+              style={{
+                width: '100%',
+                display: 'block',
+                objectFit: 'cover',
+                maxHeight: '420px',
+                border: 'none',
+                outline: 'none',
+              }}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
