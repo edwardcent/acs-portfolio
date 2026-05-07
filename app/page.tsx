@@ -40,61 +40,49 @@ function ProjectRow({
       <div
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-        style={{ borderBottom: '1px solid #ccc' }}
       >
-        {/* Title row — always visible */}
+        {/* Title row */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           padding: '10px 0',
           gap: '12px',
+          borderTop: '1px solid #ccc',
         }}>
-          <span style={{
-            fontSize: '15px',
-            fontWeight: '700',
-            color: '#0a0a0a',
-            whiteSpace: 'nowrap',
-          }}>
+          <span style={{ fontSize: '15px', fontWeight: '700', color: '#0a0a0a', whiteSpace: 'nowrap' }}>
             {project.title}
           </span>
-          <span style={{
-            fontSize: '13px',
-            color: '#999',
-            fontWeight: '400',
-          }}>
+          <span style={{ fontSize: '13px', color: '#999', fontWeight: '400' }}>
             {project.category}
           </span>
-          <span style={{
-            marginLeft: 'auto',
-            fontSize: '13px',
-            color: '#999',
-            fontWeight: '400',
-            whiteSpace: 'nowrap',
-          }}>
+          <span style={{ marginLeft: 'auto', fontSize: '13px', color: '#999', fontWeight: '400', whiteSpace: 'nowrap' }}>
             {project.year}
           </span>
         </div>
 
-        {/* Image — expands below title row */}
+        {/* Image — slides down below title row */}
         <div style={{
           overflow: 'hidden',
           maxHeight: isHovered ? '500px' : '0px',
           transition: 'max-height 0.45s cubic-bezier(0.4,0,0.2,1)',
+          fontSize: '0',
+          lineHeight: '0',
         }}>
-          <div style={{ paddingBottom: '16px', lineHeight: 0 }}>
-            <img
-              src={`/images/${project.image}`}
-              alt={project.title}
-              style={{
-                width: '100%',
-                display: 'block',
-                objectFit: 'cover',
-                maxHeight: '420px',
-                border: 'none',
-                outline: 'none',
-              }}
-            />
-          </div>
+          <img
+            src={`/images/${project.image}`}
+            alt={project.title}
+            style={{
+              width: '100%',
+              display: 'block',
+              verticalAlign: 'top',
+              objectFit: 'cover',
+              maxHeight: '420px',
+              border: 'none',
+              outline: 'none',
+              margin: '0',
+              padding: '0',
+            }}
+          />
         </div>
       </div>
     </Link>
