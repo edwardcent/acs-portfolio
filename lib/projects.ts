@@ -4,6 +4,7 @@ export type Project = {
   year: string;
   category: string;
   description: string;
+  image: string;
   sections: Section[];
 };
 
@@ -22,6 +23,7 @@ export const projects: Project[] = [
     year: '2023–2026',
     category: 'Product Design',
     description: 'Aluminum table lighter — a tribute to the Braun T2 by Dieter Rams, machined in Toronto.',
+    image: 'lighter.png',
     sections: [],
   },
   {
@@ -30,6 +32,7 @@ export const projects: Project[] = [
     year: '2021',
     category: 'Product Design / Manufacturing',
     description: 'Concrete catchall hand-poured in Toronto for MakeWay. Featured in Complex Canada, December 2021.',
+    image: 'makeway.png',
     sections: [],
   },
   {
@@ -38,6 +41,7 @@ export const projects: Project[] = [
     year: '2021',
     category: 'Illustration / Graphics',
     description: 'Licensed and original illustrations commissioned by Warner Music for official Grateful Dead merchandise.',
+    image: 'warner.png',
     sections: [],
   },
   {
@@ -46,6 +50,7 @@ export const projects: Project[] = [
     year: '2024–Present',
     category: 'Hardware / Brand',
     description: 'Custom hardware, branded goods, and retail pop-up build for Park (formerly Frequency Worldwide), Atlanta.',
+    image: 'park.png',
     sections: [],
   },
   {
@@ -53,7 +58,8 @@ export const projects: Project[] = [
     title: 'Studio S-Timetron Watch',
     year: '2024',
     category: 'Product Design',
-    description: 'Concept watch design for Studio S.',
+    description: 'Concept watch design — a love letter to the 1999 Seiko H Timetron, reimagined for ACS.',
+    image: 'watch.png',
     sections: [],
   },
   {
@@ -62,6 +68,7 @@ export const projects: Project[] = [
     year: '2020–Present',
     category: 'Identity',
     description: 'Selected logo and identity marks from All Conditions Studio.',
+    image: 'logos.png',
     sections: [],
   },
   {
@@ -69,7 +76,8 @@ export const projects: Project[] = [
     title: 'BMW × Grateful Dead Tee Drop',
     year: '2022',
     category: 'Graphics',
-    description: 'Graphic tee collaboration between BMW and the Grateful Dead estate.',
+    description: 'Graphic tee collaboration merging BMW and Grateful Dead iconography.',
+    image: 'bmw.png',
     sections: [],
   },
   {
@@ -78,6 +86,7 @@ export const projects: Project[] = [
     year: '2022',
     category: 'Production Design',
     description: 'Technical production package for Counterfeit Studio.',
+    image: 'techpack.png',
     sections: [],
   },
 ];

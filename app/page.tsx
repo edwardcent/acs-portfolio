@@ -34,9 +34,6 @@ function ProjectRow({
   onEnter: () => void;
   onLeave: () => void;
 }) {
-  const bgColors = ['#d4d0cb','#c8c4be','#dedad4','#c0bbb4','#e0dcd6','#cac6bf','#d8d4ce','#bfbbb4'];
-  const bg = bgColors[index % bgColors.length];
-
   return (
     <Link href={`/work/${project.slug}`} style={{ display: 'block' }}>
       <div
@@ -44,7 +41,7 @@ function ProjectRow({
         onMouseLeave={onLeave}
         style={{ borderBottom: '1px solid #e8e8e8', overflow: 'hidden' }}
       >
-        {/* Collapsed title row */}
+        {/* Collapsed row */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -73,19 +70,25 @@ function ProjectRow({
           transition: 'height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
         }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: '400px' }}>
-            {/* Image side */}
+            {/* Image */}
             <div style={{
-              background: bg,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               overflow: 'hidden',
+              background: '#e8e6e2',
+              position: 'relative',
             }}>
-              <span style={{ fontSize: '11px', color: 'rgba(0,0,0,0.25)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                Image
-              </span>
+              <img
+                src={`/images/${project.image}`}
+                alt={project.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block',
+                }}
+              />
             </div>
-            {/* Info side */}
+            {/* Info */}
             <div style={{
               background: '#f7f6f4',
               borderLeft: '1px solid #e8e8e8',
