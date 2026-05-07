@@ -55,24 +55,24 @@ function ProjectRow({
           </span>
         </div>
 
-        {/* Image container — fixed height, clipped, no leaking gaps */}
+        {/* Image — slides down, uses aspect ratio of actual images (1719x594) */}
         <div style={{
-          height: isHovered ? '400px' : '0px',
-          overflow: 'hidden',
-          transition: 'height 0.45s cubic-bezier(0.4,0,0.2,1)',
-          background: '#f0efed',
+          display: 'grid',
+          gridTemplateRows: isHovered ? '1fr' : '0fr',
+          transition: 'grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1)',
         }}>
-          <img
-            src={`/images/${project.image}`}
-            alt={project.title}
-            style={{
-              width: '100%',
-              height: '400px',
-              display: 'block',
-              objectFit: 'cover',
-              objectPosition: 'center',
-            }}
-          />
+          <div style={{ overflow: 'hidden' }}>
+            <img
+              src={`/images/${project.image}`}
+              alt={project.title}
+              style={{
+                width: '100%',
+                aspectRatio: '1719 / 594',
+                display: 'block',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
         </div>
 
       </div>
