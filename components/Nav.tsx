@@ -3,12 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-interface NavProps {
-  interactionEnabled: boolean;
-  onToggle: () => void;
-}
-
-export default function Nav({ interactionEnabled, onToggle }: NavProps) {
+export default function Nav() {
   const pathname = usePathname();
 
   return (
@@ -49,44 +44,9 @@ export default function Nav({ interactionEnabled, onToggle }: NavProps) {
           ))}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {/* Interaction toggle */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em' }}>
-              interaction
-            </span>
-            <button
-              onClick={onToggle}
-              style={{
-                width: '28px',
-                height: '16px',
-                borderRadius: '8px',
-                border: 'none',
-                background: interactionEnabled ? '#0a0a0a' : '#ccc',
-                position: 'relative',
-                cursor: 'pointer',
-                padding: 0,
-                transition: 'background 0.2s',
-                flexShrink: 0,
-              }}
-            >
-              <span style={{
-                position: 'absolute',
-                top: '2px',
-                left: interactionEnabled ? '14px' : '2px',
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                background: '#fff',
-                transition: 'left 0.2s',
-              }} />
-            </button>
-          </div>
-
-          <Link href="/" style={{ fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
-            edward centorame
-          </Link>
-        </div>
+        <Link href="/" style={{ fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
+          edward centorame
+        </Link>
       </nav>
     </header>
   );

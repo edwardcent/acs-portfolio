@@ -1,12 +1,10 @@
 'use client';
 import Nav from '@/components/Nav';
-import { useState } from 'react';
 
 export default function Contact() {
-  const [on, setOn] = useState(true);
   return (
     <>
-      <Nav interactionEnabled={on} onToggle={() => setOn(v=>!v)} />
+      <Nav />
       <div style={{ maxWidth: '640px', margin: '0 auto', padding: '96px 24px 80px' }}>
         <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '32px' }}>Contact</p>
         <p style={{ fontSize: '14px', lineHeight: '1.75', color: '#333', marginBottom: '20px' }}>

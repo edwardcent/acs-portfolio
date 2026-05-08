@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import { projects } from '@/lib/projects';
@@ -8,63 +8,69 @@ import { projects } from '@/lib/projects';
 export default function Home() {
   const [hovered, setHovered] = useState<string | null>(null);
   const [interactionOn, setInteractionOn] = useState(true);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const trailRef = useRef<{x:number,y:number,a:number}[]>([]);
-  const rafRef = useRef<number>(0);
-
-  // Cursor trail
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const onMove = (e: MouseEvent) => {
-      if (!interactionOn) return;
-      trailRef.current.push({ x: e.clientX, y: e.clientY, a: 1 });
-      if (trailRef.current.length > 28) trailRef.current.shift();
-    };
-    window.addEventListener('mousemove', onMove);
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (interactionOn) {
-        const trail = trailRef.current;
-        for (let i = 1; i < trail.length; i++) {
-          const t = i / trail.length;
-          const r = t * 5;
-          ctx.beginPath();
-          ctx.arc(trail[i].x, trail[i].y, r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(10,10,10,${t * 0.18})`;
-          ctx.fill();
-        }
-      } else {
-        trailRef.current = [];
-      }
-      rafRef.current = requestAnimationFrame(draw);
-    };
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMove);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, [interactionOn]);
 
   return (
     <>
-      <canvas ref={canvasRef} style={{
-        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9999,
-      }} />
-      <Nav interactionEnabled={interactionOn} onToggle={() => setInteractionOn(v => !v)} />
+      <Nav />
+
+      {/* Interaction toggle — fixed, right-aligned to content column */}
+      <div style={{
+        position: 'fixed',
+        top: '64px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '100%',
+        maxWidth: '1100px',
+        padding: '0 40px',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        zIndex: 99,
+        pointerEvents: 'none',
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          pointerEvents: 'auto',
+        }}>
+          <span style={{
+            fontSize: '11px',
+            color: '#aaa',
+            letterSpacing: '0.04em',
+            userSelect: 'none',
+          }}>
+            interaction
+          </span>
+          <button
+            onClick={() => setInteractionOn(v => !v)}
+            style={{
+              width: '28px',
+              height: '16px',
+              borderRadius: '8px',
+              border: 'none',
+              background: interactionOn ? '#0a0a0a' : '#ccc',
+              position: 'relative',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'background 0.2s',
+              flexShrink: 0,
+            }}
+          >
+            <span style={{
+              position: 'absolute',
+              top: '2px',
+              left: interactionOn ? '14px' : '2px',
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              background: '#fff',
+              transition: 'left 0.2s',
+              display: 'block',
+            }} />
+          </button>
+        </div>
+      </div>
+
       <div style={{ paddingTop: '48px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 40px 80px' }}>
           {projects.map((project, i) => {
@@ -102,7 +108,6 @@ function ProjectRow({
   return (
     <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
       <div onMouseEnter={onEnter} onMouseLeave={onLeave}>
-        {/* Title row */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -135,7 +140,6 @@ function ProjectRow({
           </span>
         </div>
 
-        {/* Image */}
         <div style={{
           display: 'grid',
           gridTemplateRows: isHovered ? '1fr' : '0fr',
