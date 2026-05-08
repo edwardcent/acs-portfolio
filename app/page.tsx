@@ -15,8 +15,8 @@ export default function Home() {
 
       {/* Interaction toggle — fixed, right-aligned to content column */}
       <div style={{
-        position: 'fixed',
-        top: '64px',
+        position: 'absolute',
+        top: '56px',
         left: '50%',
         transform: 'translateX(-50%)',
         width: '100%',
@@ -71,7 +71,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ paddingTop: '48px' }}>
+      <div style={{ paddingTop: '48px', position: 'relative' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 40px 80px' }}>
           {projects.map((project, i) => {
             const isFirst = i === 0;
