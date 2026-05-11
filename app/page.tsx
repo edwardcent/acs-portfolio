@@ -48,21 +48,21 @@ export default function Home() {
 
 function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   // Math.round ensures every frame is hit even on fast scroll
-  const armP  = prog(scrollY, 600, 1200);
+  const armP  = prog(scrollY, 600, 1800);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP = ease(prog(scrollY, 2200, 2800));
+  const moveP = ease(prog(scrollY, 2800, 3400));
   const figTX = moveP * 25;
   const figTY = moveP * 5;
-  const t1P      = ease(prog(scrollY, 3800, 4400));
-  const t1Out    = prog(scrollY, 5400, 5800);
+  const t1P      = ease(prog(scrollY, 4400, 5000));
+  const t1Out    = prog(scrollY, 6000, 6400);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X      = (1 - t1P) * -60;
-  const t2Opacity = ease(prog(scrollY, 5800, 6400));
+  const t2Opacity = ease(prog(scrollY, 6400, 7000));
 
   return (
     <>
       <Nav />
-      <div style={{ height: '8500px', position: 'relative' }}>
+      <div style={{ height: '9000px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           <div style={{
