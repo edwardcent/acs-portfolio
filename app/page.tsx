@@ -57,9 +57,12 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
   const t1Out    = prog(scrollY, 6000, 6400);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X      = (1 - t1P) * -60;
-  const t2Out    = prog(scrollY, 8000, 8400);
-  const t2Opacity = ease(prog(scrollY, 6400, 7000)) * (1 - t2Out);
-  const projOpacity = ease(prog(scrollY, 8000, 8600));
+  const t2In     = ease(prog(scrollY, 6400, 7000));
+  const transP   = ease(prog(scrollY, 8000, 8600)); // 0→1 drives both text2 out and proj in
+  const t2Opacity = t2In * (1 - transP);
+  const t2SlideY  = transP * -80; // px — text slides up as it fades
+  const projOpacity = transP;
+  const projSlideY  = (1 - transP) * 80; // px — list starts below, slides up into place
 
   return (
     <>
@@ -85,7 +88,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
           </div>
 
           {/* Text 2 */}
-          <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: 'translateY(-50%)', width: 'min(420px, 38vw)', opacity: t2Opacity, pointerEvents: t2Opacity > 0.1 ? 'auto' : 'none' }}>
+          <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${t2SlideY}px))`, width: 'min(420px, 38vw)', opacity: t2Opacity, pointerEvents: t2Opacity > 0.1 ? 'auto' : 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               My focus is on how design shapes the world that people live in.{' '}
               <span style={{ fontWeight: '400' }}>Please look through this selection of my work below. Every project I work on feels like it contains a world of context, so if you'd like to discuss any of these projects in more depth, or if you'd like to discuss a new project, feel free to reach out to me{' '}
@@ -96,7 +99,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
 
           {/* Project list — fades in over left column, minifig stays right */}
           <div style={{
-            position: 'absolute', left: '10vw', top: '50%', transform: 'translateY(-50%)',
+            position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${projSlideY}px))`,
             width: 'min(520px, 44vw)', opacity: projOpacity,
             pointerEvents: projOpacity > 0.1 ? 'auto' : 'none',
             zIndex: 20,
