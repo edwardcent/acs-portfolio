@@ -113,14 +113,22 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   const armP  = prog(scrollY, 300, 700);
   const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
 
-  // Minifig zooms from 60vh → 95vh (crops bottom), stays centered horizontally
-  const zoomP  = ease(prog(scrollY, 1000, 1400));
-  const figH   = 60 + (95 - 60) * zoomP;  // vh — fixed unit, no width change
+  // Phase 1: arm raises, minifig centered (0–700)
+  // Phase 2: static hold (700–1100)
+  // Phase 3: minifig moves to bottom half — translate down only, NO size change (1100–1500)
+  const moveP = ease(prog(scrollY, 1100, 1500));
 
+  // Text phases
   const t1P      = ease(prog(scrollY, 1800, 2100));
   const t1Out    = prog(scrollY, 3100, 3400);
   const t1Opacity = t1P * (1 - t1Out);
   const t2Opacity = ease(prog(scrollY, 3100, 3400));
+
+  // Minifig:
+  // Phase 1: centered (top:50%, transform: translate(-50%,-50%))
+  // Phase 3: shifted down so it sits in bottom 55% of screen
+  // We move the center point from 50vh to 72vh — pure translateY, no size change
+  const figCenterY = 50 + (72 - 50) * moveP; // vh
 
   return (
     <>
@@ -128,13 +136,13 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
       <div style={{ height: '4400px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
-          {/* Minifig — centered, only vertical position shifts slightly as it grows */}
+          {/* Minifig — FIXED size 65vh, only center position moves */}
           <div style={{
             position: 'absolute',
             left: '50%',
-            top: '50%',
-            transform: `translate(-50%, calc(-50% + ${zoomP * 10}vh))`,
-            height: `${figH}vh`,
+            top: `${figCenterY}vh`,
+            transform: 'translate(-50%, -50%)',
+            height: '65vh',
             width: 'auto',
             pointerEvents: 'none',
             zIndex: 5,
@@ -142,12 +150,12 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
           </div>
 
-          {/* Text 1 — sits in top portion of screen */}
+          {/* Text 1 — top 40% of screen, never touches minifig zone */}
           <div style={{
-            position: 'absolute', left: '6vw', right: '6vw', top: '12vh',
+            position: 'absolute', left: '6vw', right: '6vw', top: '10vh',
             opacity: t1Opacity, pointerEvents: 'none',
           }}>
-            <p style={{ fontSize: 'clamp(22px, 5.5vw, 32px)', fontWeight: '700', lineHeight: 1.25, color: '#0a0a0a' }}>
+            <p style={{ fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: '700', lineHeight: 1.25, color: '#0a0a0a' }}>
               Hello, my name is Edward Centorame.{' '}
               <span style={{ fontWeight: '400' }}>I'm a passionate designer focusing on both product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May 2026!</span>
             </p>
@@ -155,10 +163,10 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
 
           {/* Text 2 */}
           <div style={{
-            position: 'absolute', left: '6vw', right: '6vw', top: '12vh',
+            position: 'absolute', left: '6vw', right: '6vw', top: '10vh',
             opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none',
           }}>
-            <p style={{ fontSize: 'clamp(22px, 5.5vw, 32px)', fontWeight: '700', lineHeight: 1.25, color: '#0a0a0a' }}>
+            <p style={{ fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: '700', lineHeight: 1.25, color: '#0a0a0a' }}>
               My focus is on how design shapes the world that people live in.{' '}
               <span style={{ fontWeight: '400' }}>Please look through this selection of my work below. Every project I work on feels like it contains a world of context, so if you'd like to discuss any of these projects in more depth, or if you'd like to discuss a new project, feel free to reach out to me{' '}
                 <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', pointerEvents: 'auto' }}>(here)</Link>, I'm friendly, let's chat!
