@@ -89,7 +89,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
           </div>
         </div>
       </div>
-      <ProjectList hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />
+      <ProjectList hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} isMobile={false} />
     </>
   );
 }
@@ -177,7 +177,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
 
         </div>
       </div>
-      <ProjectList hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />
+      <ProjectList hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} isMobile={true} />
     </>
   );
 }
@@ -185,21 +185,23 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
 // ─────────────────────────────────────────────
 // SHARED PROJECT LIST
 // ─────────────────────────────────────────────
-function ProjectList({ hovered, setHovered, interactionOn, setInteractionOn }: any) {
+function ProjectList({ hovered, setHovered, interactionOn, setInteractionOn, isMobile }: any) {
   return (
     <div id="projects" style={{ background: '#fff', paddingBottom: '120px' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px 12px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '8px' }}>
-        <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em', userSelect: 'none' }}>interaction</span>
-        <button onClick={() => setInteractionOn((v: boolean) => !v)} style={{ width: '28px', height: '16px', borderRadius: '8px', border: 'none', background: interactionOn ? '#0a0a0a' : '#ccc', position: 'relative', cursor: 'pointer', padding: 0, transition: 'background 0.2s', flexShrink: 0 }}>
-          <span style={{ position: 'absolute', top: '2px', left: interactionOn ? '14px' : '2px', width: '12px', height: '12px', borderRadius: '50%', background: '#fff', transition: 'left 0.2s', display: 'block' }} />
-        </button>
-      </div>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
+      {!isMobile && (
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px 12px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em', userSelect: 'none' }}>interaction</span>
+          <button onClick={() => setInteractionOn((v: boolean) => !v)} style={{ width: '28px', height: '16px', borderRadius: '8px', border: 'none', background: interactionOn ? '#0a0a0a' : '#ccc', position: 'relative', cursor: 'pointer', padding: 0, transition: 'background 0.2s', flexShrink: 0 }}>
+            <span style={{ position: 'absolute', top: '2px', left: interactionOn ? '14px' : '2px', width: '12px', height: '12px', borderRadius: '50%', background: '#fff', transition: 'left 0.2s', display: 'block' }} />
+          </button>
+        </div>
+      )}
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '40px 24px 0' : '0 24px' }}>
         {projects.map((project, i) => {
-          const isOpen = interactionOn ? hovered === project.slug : true;
+          const isOpen = isMobile ? true : (interactionOn ? hovered === project.slug : true);
           return (
             <ProjectRow key={project.slug} project={project} isFirst={i === 0} isLast={i === projects.length - 1}
-              isHovered={isOpen} onEnter={() => interactionOn && setHovered(project.slug)} onLeave={() => interactionOn && setHovered(null)} />
+              isHovered={isOpen} onEnter={() => !isMobile && interactionOn && setHovered(project.slug)} onLeave={() => !isMobile && interactionOn && setHovered(null)} />
           );
         })}
       </div>
