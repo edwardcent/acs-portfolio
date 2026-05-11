@@ -1,11 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Nav() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHome = pathname === '/';
+
+  const handleHome = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isHome) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      router.push('/');
+    }
+  };
 
   return (
     <header style={{
@@ -28,20 +38,21 @@ export default function Nav() {
         justifyContent: 'space-between',
       }}>
         <div style={{ display: 'flex', gap: '20px' }}>
-          {/* home — always shows, scrolls to top of homepage */}
-          <Link href="/" style={{
+          <a href="/" onClick={handleHome} style={{
             fontSize: '13px',
             color: isHome ? '#0a0a0a' : '#999',
             fontWeight: '400',
+            cursor: 'pointer',
+            textDecoration: 'none',
           }}>
             home
-          </Link>
-          {/* projects — scrolls to #projects anchor on homepage */}
+          </a>
           <a href={isHome ? '#projects' : '/#projects'} style={{
             fontSize: '13px',
             color: '#999',
             fontWeight: '400',
             cursor: 'pointer',
+            textDecoration: 'none',
           }}>
             projects
           </a>
@@ -54,9 +65,12 @@ export default function Nav() {
           </Link>
         </div>
 
-        <Link href="/" style={{ fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
+        <a href="/" onClick={handleHome} style={{
+          fontSize: '14px', fontWeight: '700', color: '#0a0a0a',
+          textDecoration: 'none', cursor: 'pointer',
+        }}>
           edward centorame
-        </Link>
+        </a>
       </nav>
     </header>
   );
