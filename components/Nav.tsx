@@ -17,6 +17,16 @@ export default function Nav() {
     }
   };
 
+  const handleProjects = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isHome) {
+      const el = document.getElementById('projects');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push('/#projects');
+    }
+  };
+
   return (
     <header style={{
       position: 'fixed',
@@ -47,7 +57,7 @@ export default function Nav() {
           }}>
             home
           </a>
-          <a href={isHome ? '#projects' : '/#projects'} style={{
+          <a href="/#projects" onClick={handleProjects} style={{
             fontSize: '13px',
             color: '#999',
             fontWeight: '400',

@@ -5,7 +5,7 @@ export default function Contact() {
   return (
     <>
       <Nav />
-      <div style={{ maxWidth: '640px', margin: '0 auto', padding: '96px 24px 80px', textAlign: 'center' }}>
+      <div style={{ maxWidth: '640px', margin: '0 auto', padding: '15vh 24px 80px', textAlign: 'center' }}>
         <p style={{ fontSize: '14px', lineHeight: '1.75', marginBottom: '8px' }}>
           I'm available for full-time roles, contract work, and commissions.
         </p>
