@@ -1,15 +1,35 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import { projects } from '@/lib/projects';
 
 const TOTAL_FRAMES = 10;
 
+function clamp(val: number, min: number, max: number) {
+  return Math.min(Math.max(val, min), max);
+}
+function progress(scroll: number, start: number, end: number) {
+  return clamp((scroll - start) / (end - start), 0, 1);
+}
 function easeInOut(t: number): number {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
+
+// ─── Scroll zones ────────────────────────────────────────────────
+// 0–200       static hold: minifig centered, arm down
+// 200–700     arm raises (frames 1→10), minifig centered
+// 700–1000    static hold: arm up, minifig centered (Frame 2)
+// 1000–1350   minifig moves → bottom-right + zooms
+// 1350–1600   static hold: minifig locked bottom-right (Frame 3)
+// 1600–1900   text block 1 slides in from left
+// 1900–2200   static hold: text 1 readable
+// 2200–2450   text 1 fades out
+// 2450–2750   text 2 fades in, nav appears
+// 2750–3000   static hold: text 2 readable
+// 3000–3300   project list fades in
+// TOTAL HEIGHT: 5000px
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -22,54 +42,55 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Phase 1: arm raise (scroll 0 → 500)
-  const armProgress = Math.min(Math.max(scrollY / 500, 0), 1);
-  const frameIndex = Math.min(Math.floor(armProgress * TOTAL_FRAMES), TOTAL_FRAMES - 1);
+  // Arm animation
+  const armProgress = progress(scrollY, 200, 700);
+  const frameIndex = clamp(Math.floor(armProgress * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1);
   const currentFrame = frameIndex + 1;
 
-  // Phase 2: minifig moves center → right (scroll 400 → 750)
-  const moveProgress = easeInOut(Math.min(Math.max((scrollY - 400) / 350, 0), 1));
+  // Minifig move to bottom-right
+  const moveP = easeInOut(progress(scrollY, 1000, 1350));
 
-  // Minifig position: centered (50vw) → right column (72vw)
-  const figLeft = 50 + (72 - 50) * moveProgress;
-  // Minifig size: 340px → 260px
-  const figWidth = 340 + (260 - 340) * moveProgress;
+  // Position: center (50vw, 50vh) → bottom-right
+  const figLeft = 50 + (78 - 50) * moveP;   // vw
+  const figTop  = 50 + (82 - 50) * moveP;   // vh
+  // Size: 320px centered → 220px corner
+  const figWidth = 320 + (220 - 320) * moveP;
 
-  // Phase 3: text block 1 fades+slides in (scroll 550 → 820)
-  const text1Progress = Math.min(Math.max((scrollY - 550) / 270, 0), 1);
-  const text1SlideX = (1 - text1Progress) * -60;
+  // Text block 1
+  const text1SlideP = easeInOut(progress(scrollY, 1600, 1900));
+  const text1FadeOutP = progress(scrollY, 2200, 2450);
+  const text1Opacity = text1SlideP * (1 - text1FadeOutP);
+  const text1X = (1 - text1SlideP) * -80; // slides in from left (px offset)
 
-  // Phase 4: text 1 fades out, text 2 fades in (scroll 1000 → 1250)
-  const text1FadeOut = 1 - Math.min(Math.max((scrollY - 1000) / 220, 0), 1);
-  const text2Opacity = Math.min(Math.max((scrollY - 1050) / 250, 0), 1);
-  const navOpacity = Math.min(Math.max((scrollY - 1150) / 200, 0), 1);
+  // Text block 2
+  const text2Opacity = easeInOut(progress(scrollY, 2450, 2750));
+  const navOpacity = progress(scrollY, 2600, 2850);
 
-  // Phase 5: project list fades in (scroll 1500 → 1750)
-  const projectsOpacity = Math.min(Math.max((scrollY - 1500) / 250, 0), 1);
+  // Projects
+  const projectsOpacity = easeInOut(progress(scrollY, 3000, 3300));
 
   return (
     <>
       <Nav />
 
       {/* Tall scroll container */}
-      <div style={{ height: '4000px', position: 'relative' }}>
+      <div style={{ height: '5200px', position: 'relative' }}>
 
-        {/* Sticky viewport */}
+        {/* Sticky viewport — everything animated lives here */}
         <div style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
           overflow: 'hidden',
           pointerEvents: 'none',
-          zIndex: 1,
         }}>
 
           {/* LEGO minifig */}
           <div style={{
             position: 'absolute',
-            left: `${figLeft}%`,
-            top: '50%',
-            transform: 'translate(-50%, -52%)',
+            left: `${figLeft}vw`,
+            top: `${figTop}vh`,
+            transform: 'translate(-50%, -50%)',
             width: `${figWidth}px`,
             pointerEvents: 'none',
             zIndex: 10,
@@ -84,20 +105,22 @@ export default function Home() {
           {/* Text block 1 */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% - 200px)',
+            left: '8vw',
             top: '50%',
-            transform: `translate(-50%, -50%) translateX(${text1SlideX}px)`,
-            width: 'min(400px, 38vw)',
-            opacity: text1Progress * text1FadeOut,
+            transform: `translateY(-50%) translateX(${text1X}px)`,
+            width: 'min(420px, 40vw)',
+            opacity: text1Opacity,
             pointerEvents: 'none',
           }}>
             <p style={{
               fontSize: 'clamp(14px, 1.5vw, 17px)',
-              lineHeight: 1.7,
+              lineHeight: 1.75,
               color: '#0a0a0a',
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             }}>
-              Hello! My name's Edward Centorame — a designer focused on both product and brand.
-              I've been operating as <strong>All Conditions Studio</strong> since 2020, and I graduate
+              Hello! My name's Edward Centorame — a designer focused on both
+              product and brand. I've been operating as{' '}
+              <strong>All Conditions Studio</strong> since 2020, and I graduate
               from Toronto Metropolitan University's New Media BFA in May 2026.
             </p>
           </div>
@@ -105,48 +128,49 @@ export default function Home() {
           {/* Text block 2 */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% - 200px)',
+            left: '8vw',
             top: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 'min(400px, 38vw)',
+            transform: 'translateY(-50%)',
+            width: 'min(420px, 40vw)',
             opacity: text2Opacity,
             pointerEvents: text2Opacity > 0.5 ? 'auto' : 'none',
           }}>
             <p style={{
               fontSize: 'clamp(14px, 1.5vw, 17px)',
-              lineHeight: 1.7,
+              lineHeight: 1.75,
               color: '#0a0a0a',
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             }}>
-              My focus is on how design shapes the world people live in. If you'd like to see some
-              examples of my work, have a look through the selection below. Every project contains
-              a world of context — if you'd like to go deeper on any of them, or connect on something
+              My focus is on how design shapes the world people live in. If
+              you'd like to see some examples of my work, have a look through
+              the selection below. Every project contains a world of context —
+              if you'd like to go deeper on any of them, or connect on something
               new, feel free to{' '}
-              <Link href="/contact" style={{ textDecoration: 'underline' }}>reach out</Link>.
-              I'm friendly, let's chat.
+              <Link href="/contact" style={{ textDecoration: 'underline', pointerEvents: 'auto' }}>
+                reach out
+              </Link>
+              . I'm friendly, let's chat.
             </p>
 
-            {/* Inline nav */}
+            {/* Nav below text 2 */}
             <div style={{
-              marginTop: '28px',
+              marginTop: '32px',
               opacity: navOpacity,
               display: 'flex',
-              gap: '24px',
+              gap: '28px',
             }}>
               {[
                 { href: '#projects', label: 'projects' },
                 { href: '/about', label: 'about' },
                 { href: '/contact', label: 'contact' },
               ].map(({ href, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  style={{
-                    fontSize: '13px',
-                    color: '#0a0a0a',
-                    letterSpacing: '0.03em',
-                    textDecoration: 'none',
-                  }}
-                >
+                <a key={href} href={href} style={{
+                  fontSize: '13px',
+                  color: '#0a0a0a',
+                  letterSpacing: '0.03em',
+                  textDecoration: 'none',
+                  pointerEvents: 'auto',
+                }}>
                   {label}
                 </a>
               ))}
@@ -155,12 +179,12 @@ export default function Home() {
 
         </div>
 
-        {/* Project list — positioned in the scroll flow after sticky section ends */}
+        {/* Project list — sits in scroll flow after sticky section */}
         <div
           id="projects"
           style={{
             position: 'absolute',
-            top: '1900px',
+            top: '3500px',
             left: 0,
             right: 0,
             opacity: projectsOpacity,
