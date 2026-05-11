@@ -188,13 +188,13 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
 function ProjectList({ hovered, setHovered, interactionOn, setInteractionOn }: any) {
   return (
     <div id="projects" style={{ background: '#fff', paddingBottom: '120px' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '60px 40px 12px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '8px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px 12px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '8px' }}>
         <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em', userSelect: 'none' }}>interaction</span>
         <button onClick={() => setInteractionOn((v: boolean) => !v)} style={{ width: '28px', height: '16px', borderRadius: '8px', border: 'none', background: interactionOn ? '#0a0a0a' : '#ccc', position: 'relative', cursor: 'pointer', padding: 0, transition: 'background 0.2s', flexShrink: 0 }}>
           <span style={{ position: 'absolute', top: '2px', left: interactionOn ? '14px' : '2px', width: '12px', height: '12px', borderRadius: '50%', background: '#fff', transition: 'left 0.2s', display: 'block' }} />
         </button>
       </div>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
         {projects.map((project, i) => {
           const isOpen = interactionOn ? hovered === project.slug : true;
           return (
@@ -211,10 +211,26 @@ function ProjectRow({ project, isFirst, isLast, isHovered, onEnter, onLeave }: a
   return (
     <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
       <div onMouseEnter={onEnter} onMouseLeave={onLeave}>
-        <div style={{ display: 'flex', alignItems: 'center', padding: '10px 0', gap: '12px', borderTop: isFirst ? 'none' : '1px solid #ccc', borderBottom: isLast ? '1px solid #ccc' : 'none' }}>
-          <span style={{ fontSize: 'clamp(12px, 1.4vw, 15px)', fontWeight: '700', color: '#0a0a0a', whiteSpace: 'nowrap' }}>{project.title}</span>
-          <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999' }}>{project.category}</span>
-          <span style={{ marginLeft: 'auto', fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999', whiteSpace: 'nowrap' }}>{project.year}</span>
+        <div style={{
+          padding: '14px 0',
+          borderTop: isFirst ? 'none' : '1px solid #ccc',
+          borderBottom: isLast ? '1px solid #ccc' : 'none',
+        }}>
+          {/* Top row: title + year */}
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
+            <span style={{ fontSize: 'clamp(13px, 1.4vw, 15px)', fontWeight: '700', color: '#0a0a0a' }}>
+              {project.title}
+            </span>
+            <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              {project.year}
+            </span>
+          </div>
+          {/* Category on its own line */}
+          <div style={{ marginTop: '2px' }}>
+            <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999' }}>
+              {project.category}
+            </span>
+          </div>
         </div>
         <div style={{ display: 'grid', gridTemplateRows: isHovered ? '1fr' : '0fr', transition: 'grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1)' }}>
           <div style={{ overflow: 'hidden' }}>
