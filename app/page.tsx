@@ -18,18 +18,17 @@ function ease(t: number): number {
 }
 
 // ── Scroll zones ──────────────────────────────────────────────────
-//   0– 300  static hold: minifig centered small, arm down
-// 300– 800  arm raises (frames 1→10), minifig stays centered
-// 800–1100  static hold: arm fully up, minifig centered   ← Frame 2
-//1100–1500  minifig moves right + grows to fill right half ← → Frame 3
-//1500–1800  static hold: minifig locked right, left empty
-//1800–2100  text block 1 fades+slides in from left         ← Frame 4
-//2100–2400  static hold: text 1 readable
+//   0– 300  static: minifig centered, arm down
+// 300– 800  arm raises
+// 800–1100  static: arm up, centered        ← Frame 2 hold
+//1100–1500  minifig moves right + grows large, crops off edges
+//1500–1800  static: minifig locked right    ← Frame 3 hold
+//1800–2100  text 1 slides in from left
+//2100–2400  static: text 1 readable
 //2400–2650  text 1 fades out
-//2650–2950  text 2 fades in                                ← Frame 5/6
-//2950–3200  static hold: text 2 readable
-//3200–3500  project list scrolls into view                 ← Frame 7
-// Total height: 5500px
+//2650–2950  text 2 fades in
+//2950–3300  static: text 2 readable
+//3300       sticky section ends — page scrolls normally into project list
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -42,50 +41,35 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // ── Arm animation ──
+  // Arm
   const armP = prog(scrollY, 300, 800);
   const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
 
-  // ── Minifig position ──
-  // Centered small → right side large (crops off bottom/right)
+  // Minifig move: centered → right, small → large+cropped
   const moveP = ease(prog(scrollY, 1100, 1500));
 
-  // Start: centered horizontally, vertically centered in viewport
-  // End: right-anchored, cropped — matches mockup frames 3-7
-  // We use left% for horizontal center of the image
-  const figCenterX_start = 50;   // vw — centered
-  const figCenterX_end   = 88;   // vw — right side, allows cropping off right edge
-  const figCenterX = figCenterX_start + (figCenterX_end - figCenterX_start) * moveP;
+  // Horizontal: image center goes from 50vw → 105vw (crops off right)
+  const figCX = 50 + (105 - 50) * moveP;
+  // Vertical: image center goes from 50vh → 110vh (crops off bottom)
+  const figCY = 50 + (110 - 50) * moveP;
+  // Height: 480px → 1100px
+  const figH = 480 + (1100 - 480) * moveP;
 
-  // Vertical: centered → bottom-anchored (crops off bottom)
-  const figBottom_start = 50;   // vh from top (transform handles centering)
-  const figBottom_end   = 108;  // vh — pushes bottom below viewport
-  const figCenterY = figBottom_start + (figBottom_end - figBottom_start) * moveP;
-
-  // Size: moderate centered → large right
-  const figH_start = 520;  // px height when centered
-  const figH_end   = 900;  // px height when right/large — crops off edges
-  const figH = figH_start + (figH_end - figH_start) * moveP;
-
-  // ── Text block 1 ──
+  // Text 1
   const t1P = ease(prog(scrollY, 1800, 2100));
-  const t1FadeOut = prog(scrollY, 2400, 2650);
-  const t1Opacity = t1P * (1 - t1FadeOut);
-  const t1X = (1 - t1P) * -50;
+  const t1Out = prog(scrollY, 2400, 2650);
+  const t1Opacity = t1P * (1 - t1Out);
+  const t1X = (1 - t1P) * -60;
 
-  // ── Text block 2 ──
+  // Text 2
   const t2Opacity = ease(prog(scrollY, 2650, 2950));
-
-  // ── Projects ──
-  const projOpacity = ease(prog(scrollY, 3200, 3500));
 
   return (
     <>
       <Nav />
 
-      <div style={{ height: '5500px', position: 'relative' }}>
-
-        {/* Sticky viewport */}
+      {/* Sticky scroll section — 3300px of scroll drive the animation */}
+      <div style={{ height: '3300px', position: 'relative' }}>
         <div style={{
           position: 'sticky',
           top: 0,
@@ -97,8 +81,8 @@ export default function Home() {
           {/* LEGO minifig */}
           <div style={{
             position: 'absolute',
-            left: `${figCenterX}vw`,
-            top: `${figCenterY}vh`,
+            left: `${figCX}vw`,
+            top: `${figCY}vh`,
             transform: 'translate(-50%, -50%)',
             height: `${figH}px`,
             width: 'auto',
@@ -118,14 +102,14 @@ export default function Home() {
             left: '10vw',
             top: '50%',
             transform: `translateY(-50%) translateX(${t1X}px)`,
-            width: 'min(520px, 45vw)',
+            width: 'min(500px, 44vw)',
             opacity: t1Opacity,
             pointerEvents: 'none',
           }}>
             <p style={{
-              fontSize: 'clamp(22px, 2.4vw, 34px)',
+              fontSize: 'clamp(20px, 2.2vw, 32px)',
               fontWeight: '700',
-              lineHeight: 1.25,
+              lineHeight: 1.3,
               color: '#0a0a0a',
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             }}>
@@ -144,14 +128,14 @@ export default function Home() {
             left: '10vw',
             top: '50%',
             transform: 'translateY(-50%)',
-            width: 'min(520px, 45vw)',
+            width: 'min(500px, 44vw)',
             opacity: t2Opacity,
             pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none',
           }}>
             <p style={{
-              fontSize: 'clamp(22px, 2.4vw, 34px)',
+              fontSize: 'clamp(20px, 2.2vw, 32px)',
               fontWeight: '700',
-              lineHeight: 1.25,
+              lineHeight: 1.3,
               color: '#0a0a0a',
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             }}>
@@ -169,67 +153,56 @@ export default function Home() {
           </div>
 
         </div>
+      </div>
 
-        {/* Project list */}
-        <div
-          id="projects"
-          style={{
-            position: 'absolute',
-            top: '3700px',
-            left: 0,
-            right: 0,
-            opacity: projOpacity,
-            paddingBottom: '120px',
-          }}
-        >
-          <div style={{
-            maxWidth: '960px',
-            margin: '0 auto',
-            padding: '0 40px 12px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            gap: '8px',
-          }}>
-            <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em', userSelect: 'none' }}>
-              interaction
-            </span>
-            <button
-              onClick={() => setInteractionOn(v => !v)}
-              style={{
-                width: '28px', height: '16px', borderRadius: '8px', border: 'none',
-                background: interactionOn ? '#0a0a0a' : '#ccc',
-                position: 'relative', cursor: 'pointer', padding: 0,
-                transition: 'background 0.2s', flexShrink: 0,
-              }}
-            >
-              <span style={{
-                position: 'absolute', top: '2px',
-                left: interactionOn ? '14px' : '2px',
-                width: '12px', height: '12px', borderRadius: '50%',
-                background: '#fff', transition: 'left 0.2s', display: 'block',
-              }} />
-            </button>
-          </div>
-
-          <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 40px' }}>
-            {projects.map((project, i) => {
-              const isOpen = interactionOn ? hovered === project.slug : true;
-              return (
-                <ProjectRow
-                  key={project.slug}
-                  project={project}
-                  isFirst={i === 0}
-                  isLast={i === projects.length - 1}
-                  isHovered={isOpen}
-                  onEnter={() => interactionOn && setHovered(project.slug)}
-                  onLeave={() => interactionOn && setHovered(null)}
-                />
-              );
-            })}
-          </div>
+      {/* ── Project list — static, physically below sticky section ── */}
+      <div id="projects" style={{ background: '#fff', paddingBottom: '120px' }}>
+        <div style={{
+          maxWidth: '1100px',
+          margin: '0 auto',
+          padding: '60px 40px 12px',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          gap: '8px',
+        }}>
+          <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em', userSelect: 'none' }}>
+            interaction
+          </span>
+          <button
+            onClick={() => setInteractionOn(v => !v)}
+            style={{
+              width: '28px', height: '16px', borderRadius: '8px', border: 'none',
+              background: interactionOn ? '#0a0a0a' : '#ccc',
+              position: 'relative', cursor: 'pointer', padding: 0,
+              transition: 'background 0.2s', flexShrink: 0,
+            }}
+          >
+            <span style={{
+              position: 'absolute', top: '2px',
+              left: interactionOn ? '14px' : '2px',
+              width: '12px', height: '12px', borderRadius: '50%',
+              background: '#fff', transition: 'left 0.2s', display: 'block',
+            }} />
+          </button>
         </div>
 
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 40px' }}>
+          {projects.map((project, i) => {
+            const isOpen = interactionOn ? hovered === project.slug : true;
+            return (
+              <ProjectRow
+                key={project.slug}
+                project={project}
+                isFirst={i === 0}
+                isLast={i === projects.length - 1}
+                isHovered={isOpen}
+                onEnter={() => interactionOn && setHovered(project.slug)}
+                onLeave={() => interactionOn && setHovered(null)}
+              />
+            );
+          })}
+        </div>
       </div>
     </>
   );
