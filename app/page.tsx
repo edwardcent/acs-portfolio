@@ -128,7 +128,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   // Phase 1: centered (top:50%, transform: translate(-50%,-50%))
   // Phase 3: shifted down so it sits in bottom 55% of screen
   // We move the center point from 50vh to 72vh — pure translateY, no size change
-  const figCenterY = 50 + (72 - 50) * moveP; // vh
+  const figCenterY = 50 + (95 - 50) * moveP; // vh — crops bottom half off screen when text shows
 
   return (
     <>
@@ -153,7 +153,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
           {/* Text zone — strictly top 42vh, overflow hidden so it can never reach minifig */}
           <div style={{
             position: 'absolute', left: '6vw', right: '6vw',
-            top: '10vh', height: '38vh',
+            top: '10vh', height: '48vh',
             overflow: 'hidden',
           }}>
             {/* Text 1 */}
