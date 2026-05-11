@@ -34,20 +34,20 @@ export default function Home() {
 // ─────────────────────────────────────────────
 // DESKTOP
 // ─────────────────────────────────────────────
-// Each animation: 600px. Each static hold: 1000px.
-//    0–  600  static hold: arm down
-//  600– 1200  arm raises (10 frames, 60px each)
-// 1200– 2200  STATIC HOLD: arm up, centered
-// 2200– 2800  minifig moves right
-// 2800– 3800  STATIC HOLD: minifig right
-// 3800– 4400  text 1 slides in
-// 4400– 5400  STATIC HOLD: text 1
-// 5400– 5800  text 1 fades out
-// 5800– 6400  text 2 fades in
-// 6400– 7400  STATIC HOLD: text 2
+//    0–  600  static: arm down
+//  600– 1800  arm raises
+// 1800– 2800  HOLD: arm up
+// 2800– 3400  minifig moves right
+// 3400– 4400  HOLD: minifig right
+// 4400– 5000  text 1 slides in
+// 5000– 6000  HOLD: text 1
+// 6000– 6400  text 1 fades out
+// 6400– 7000  text 2 fades in
+// 7000– 8000  HOLD: text 2
+// 8000– 8600  text 2 fades out → project list fades in
+// 8600– 9600  HOLD: project list (minifig stays right)
 
 function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  // Math.round ensures every frame is hit even on fast scroll
   const armP  = prog(scrollY, 600, 1800);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
   const moveP = ease(prog(scrollY, 2800, 3400));
@@ -57,14 +57,17 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
   const t1Out    = prog(scrollY, 6000, 6400);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X      = (1 - t1P) * -60;
-  const t2Opacity = ease(prog(scrollY, 6400, 7000));
+  const t2Out    = prog(scrollY, 8000, 8400);
+  const t2Opacity = ease(prog(scrollY, 6400, 7000)) * (1 - t2Out);
+  const projOpacity = ease(prog(scrollY, 8000, 8600));
 
   return (
     <>
       <Nav />
-      <div style={{ height: '9000px', position: 'relative' }}>
+      <div style={{ height: '10500px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
+          {/* Minifig */}
           <div style={{
             position: 'absolute', left: '50%', top: '50%',
             transform: `translate(calc(-50% + ${figTX}vw), calc(-50% + ${figTY}vh))`,
@@ -73,6 +76,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
           </div>
 
+          {/* Text 1 */}
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(-50%) translateX(${t1X}px)`, width: 'min(420px, 38vw)', opacity: t1Opacity, pointerEvents: 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               Hello, my name is Edward Centorame.{' '}
@@ -80,7 +84,8 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
             </p>
           </div>
 
-          <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: 'translateY(-50%)', width: 'min(420px, 38vw)', opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none' }}>
+          {/* Text 2 */}
+          <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: 'translateY(-50%)', width: 'min(420px, 38vw)', opacity: t2Opacity, pointerEvents: t2Opacity > 0.1 ? 'auto' : 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               My focus is on how design shapes the world that people live in.{' '}
               <span style={{ fontWeight: '400' }}>Please look through this selection of my work below. Every project I work on feels like it contains a world of context, so if you'd like to discuss any of these projects in more depth, or if you'd like to discuss a new project, feel free to reach out to me{' '}
@@ -88,10 +93,57 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
               </span>
             </p>
           </div>
+
+          {/* Project list — fades in over left column, minifig stays right */}
+          <div style={{
+            position: 'absolute', left: '10vw', top: '50%', transform: 'translateY(-50%)',
+            width: 'min(520px, 44vw)', opacity: projOpacity,
+            pointerEvents: projOpacity > 0.1 ? 'auto' : 'none',
+            zIndex: 20,
+          }}>
+            {/* Interaction toggle */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <span style={{ fontSize: '11px', color: '#aaa', letterSpacing: '0.04em', userSelect: 'none' }}>interaction</span>
+              <button onClick={() => setInteractionOn((v: boolean) => !v)} style={{ width: '28px', height: '16px', borderRadius: '8px', border: 'none', background: interactionOn ? '#0a0a0a' : '#ccc', position: 'relative', cursor: 'pointer', padding: 0, transition: 'background 0.2s', flexShrink: 0, pointerEvents: 'auto' }}>
+                <span style={{ position: 'absolute', top: '2px', left: interactionOn ? '14px' : '2px', width: '12px', height: '12px', borderRadius: '50%', background: '#fff', transition: 'left 0.2s', display: 'block' }} />
+              </button>
+            </div>
+            {projects.map((project, i) => {
+              const isOpen = interactionOn ? hovered === project.slug : true;
+              return (
+                <DesktopProjectRow key={project.slug} project={project} isFirst={i === 0}
+                  isHovered={isOpen}
+                  onEnter={() => interactionOn && setHovered(project.slug)}
+                  onLeave={() => interactionOn && setHovered(null)} />
+              );
+            })}
+          </div>
+
         </div>
       </div>
-      <ProjectList hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} isMobile={false} />
     </>
+  );
+}
+
+function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: any) {
+  return (
+    <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
+      <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ borderTop: isFirst ? 'none' : '1px solid #ccc' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', padding: '8px 0 4px' }}>
+          <span style={{ fontSize: 'clamp(12px, 1.3vw, 14px)', fontWeight: '700', color: '#0a0a0a' }}>{project.title}</span>
+          <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#999', whiteSpace: 'nowrap', flexShrink: 0 }}>{project.year}</span>
+        </div>
+        <div style={{ paddingBottom: '4px' }}>
+          <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#999' }}>{project.category}</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateRows: isHovered ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+          <div style={{ overflow: 'hidden' }}>
+            <img src={`/images/${project.image}`} alt={project.title} style={{ width: '100%', aspectRatio: '1719 / 594', display: 'block', objectFit: 'cover' }} />
+          </div>
+        </div>
+        <div style={{ borderBottom: '1px solid #ccc' }} />
+      </div>
+    </Link>
   );
 }
 
