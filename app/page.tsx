@@ -47,27 +47,27 @@ export default function Home() {
 // 4500– 5500  static hold: text 2
 
 function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP  = prog(scrollY, 400, 900);
+  const armP  = prog(scrollY, 500, 1200);
   const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP = ease(prog(scrollY, 1400, 1800));
+  const moveP = ease(prog(scrollY, 1800, 2400));
   const figTX = moveP * 25;
-  const figTY = moveP * 10;
-  const t1P      = ease(prog(scrollY, 2400, 2800));
-  const t1Out    = prog(scrollY, 3800, 4100);
+  const figTY = moveP * 5;
+  const t1P      = ease(prog(scrollY, 2800, 3200));
+  const t1Out    = prog(scrollY, 4800, 5100);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X      = (1 - t1P) * -60;
-  const t2Opacity = ease(prog(scrollY, 4100, 4500));
+  const t2Opacity = ease(prog(scrollY, 5100, 5500));
 
   return (
     <>
       <Nav />
-      <div style={{ height: '5500px', position: 'relative' }}>
+      <div style={{ height: '7500px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           <div style={{
             position: 'absolute', left: '50%', top: '50%',
             transform: `translate(calc(-50% + ${figTX}vw), calc(-50% + ${figTY}vh))`,
-            height: '75vh', width: 'auto', pointerEvents: 'none', zIndex: 10,
+            height: '94vh', width: 'auto', pointerEvents: 'none', zIndex: 10,
           }}>
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
           </div>
@@ -116,24 +116,24 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   // Phase 1: arm raises, minifig centered (0–700)
   // Phase 2: static hold (700–1100)
   // Phase 3: minifig moves to bottom half — translate down only, NO size change (1100–1500)
-  const moveP = ease(prog(scrollY, 1100, 1500));
+  const moveP = ease(prog(scrollY, 1300, 1900));
 
   // Text phases
-  const t1P      = ease(prog(scrollY, 1800, 2100));
-  const t1Out    = prog(scrollY, 3100, 3400);
+  const t1P      = ease(prog(scrollY, 2200, 2600));
+  const t1Out    = prog(scrollY, 4200, 4600);
   const t1Opacity = t1P * (1 - t1Out);
-  const t2Opacity = ease(prog(scrollY, 3100, 3400));
+  const t2Opacity = ease(prog(scrollY, 4200, 4600));
 
   // Minifig:
   // Phase 1: centered (top:50%, transform: translate(-50%,-50%))
   // Phase 3: shifted down so it sits in bottom 55% of screen
   // We move the center point from 50vh to 72vh — pure translateY, no size change
-  const figCenterY = 50 + (95 - 50) * moveP; // vh — crops bottom half off screen when text shows
+  const figCenterY = 50 + (88 - 50) * moveP; // vh — crops bottom half off screen when text shows
 
   return (
     <>
       <Nav />
-      <div style={{ height: '4400px', position: 'relative' }}>
+      <div style={{ height: '6000px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig — fixed width in px so browser cannot squish it */}
@@ -142,7 +142,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             left: '50%',
             top: `${figCenterY}vh`,
             transform: 'translate(-50%, -50%)',
-            width: '286px',
+            width: '358px',
             flexShrink: 0,
             pointerEvents: 'none',
             zIndex: 5,
@@ -212,13 +212,12 @@ function ProjectList({ hovered, setHovered, interactionOn, setInteractionOn, isM
 function ProjectRow({ project, isFirst, isLast, isHovered, onEnter, onLeave }: any) {
   return (
     <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
-      <div onMouseEnter={onEnter} onMouseLeave={onLeave}>
-        <div style={{
-          padding: '14px 0',
-          borderTop: isFirst ? 'none' : '1px solid #ccc',
-          borderBottom: isLast ? '1px solid #ccc' : 'none',
-        }}>
-          {/* Top row: title + year */}
+      {/* Border wraps the entire row including expanded image */}
+      <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{
+        borderTop: isFirst ? 'none' : '1px solid #ccc',
+      }}>
+        {/* Header: title, category, year */}
+        <div style={{ padding: '10px 0 6px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
             <span style={{ fontSize: 'clamp(13px, 1.4vw, 15px)', fontWeight: '700', color: '#0a0a0a' }}>
               {project.title}
@@ -227,18 +226,20 @@ function ProjectRow({ project, isFirst, isLast, isHovered, onEnter, onLeave }: a
               {project.year}
             </span>
           </div>
-          {/* Category on its own line */}
-          <div style={{ marginTop: '2px' }}>
+          <div style={{ marginTop: '1px' }}>
             <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999' }}>
               {project.category}
             </span>
           </div>
         </div>
+        {/* Expandable image */}
         <div style={{ display: 'grid', gridTemplateRows: isHovered ? '1fr' : '0fr', transition: 'grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1)' }}>
           <div style={{ overflow: 'hidden' }}>
             <img src={`/images/${project.image}`} alt={project.title} style={{ width: '100%', aspectRatio: '1719 / 594', display: 'block', objectFit: 'cover' }} />
           </div>
         </div>
+        {/* Bottom border always travels with content */}
+        <div style={{ borderBottom: '1px solid #ccc' }} />
       </div>
     </Link>
   );

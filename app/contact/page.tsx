@@ -6,14 +6,30 @@ export default function Contact() {
     <>
       <Nav />
       <div style={{ maxWidth: '640px', margin: '0 auto', padding: '96px 24px 80px' }}>
-        <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '32px' }}>Contact</p>
-        <p style={{ fontSize: '14px', lineHeight: '1.75', color: '#333', marginBottom: '20px' }}>
-          Available for full-time roles, contract work, and commissions.
+        <p style={{ fontSize: '14px', lineHeight: '1.75', marginBottom: '8px' }}>
+          I'm available for full-time roles, contract work, and commissions.
         </p>
-        <a href="mailto:edwardcentorame@gmail.com" style={{ fontSize: '14px', color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: '1px' }}>
-          edwardcentorame@gmail.com
-        </a>
-        <p style={{ fontSize: '14px', color: '#888', marginTop: '32px' }}>Toronto, Ontario</p>
+        <p style={{ fontSize: '14px', lineHeight: '1.75', marginBottom: '32px' }}>
+          I'm also available to talk shop in general!
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <p style={{ fontSize: '14px' }}>
+            <span style={{ color: '#999' }}>email: </span>
+            <a href="mailto:edwardcentorame@gmail.com" style={{ borderBottom: '1px solid #0a0a0a', paddingBottom: '1px' }}>
+              edwardcentorame@gmail.com
+            </a>
+          </p>
+          <p style={{ fontSize: '14px' }}>
+            <span style={{ color: '#999' }}>more work: </span>
+            <a href="https://www.allconditions.studio" target="_blank" rel="noopener noreferrer" style={{ borderBottom: '1px solid #0a0a0a', paddingBottom: '1px' }}>
+              www.allconditions.studio
+            </a>
+          </p>
+          <p style={{ fontSize: '14px' }}>
+            <span style={{ color: '#999' }}>instagram: </span>
+            @edwardcentorame @allconditions.studio
+          </p>
+        </div>
       </div>
     </>
   );

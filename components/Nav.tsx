@@ -5,13 +5,12 @@ import { usePathname } from 'next/navigation';
 
 export default function Nav() {
   const pathname = usePathname();
+  const isHome = pathname === '/';
 
   return (
     <header style={{
       position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
+      top: 0, left: 0, right: 0,
       zIndex: 100,
       background: 'rgba(255,255,255,0.97)',
       borderBottom: '1px solid #e8e8e8',
@@ -29,19 +28,30 @@ export default function Nav() {
         justifyContent: 'space-between',
       }}>
         <div style={{ display: 'flex', gap: '20px' }}>
-          {[
-            { href: '/', label: 'projects' },
-            { href: '/about', label: 'about' },
-            { href: '/contact', label: 'contact' },
-          ].map(({ href, label }) => (
-            <Link key={href} href={href} style={{
-              fontSize: '13px',
-              color: pathname === href ? '#0a0a0a' : '#999',
-              fontWeight: '400',
-            }}>
-              {label}
-            </Link>
-          ))}
+          {/* home — always shows, scrolls to top of homepage */}
+          <Link href="/" style={{
+            fontSize: '13px',
+            color: isHome ? '#0a0a0a' : '#999',
+            fontWeight: '400',
+          }}>
+            home
+          </Link>
+          {/* projects — scrolls to #projects anchor on homepage */}
+          <a href={isHome ? '#projects' : '/#projects'} style={{
+            fontSize: '13px',
+            color: '#999',
+            fontWeight: '400',
+            cursor: 'pointer',
+          }}>
+            projects
+          </a>
+          <Link href="/contact" style={{
+            fontSize: '13px',
+            color: pathname === '/contact' ? '#0a0a0a' : '#999',
+            fontWeight: '400',
+          }}>
+            contact
+          </Link>
         </div>
 
         <Link href="/" style={{ fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
