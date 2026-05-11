@@ -136,42 +136,43 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
       <div style={{ height: '4400px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
-          {/* Minifig — FIXED size 65vh, only center position moves */}
+          {/* Minifig — fixed width in px so browser cannot squish it */}
           <div style={{
             position: 'absolute',
             left: '50%',
             top: `${figCenterY}vh`,
             transform: 'translate(-50%, -50%)',
-            height: '65vh',
-            width: 'auto',
+            width: '260px',
+            flexShrink: 0,
             pointerEvents: 'none',
             zIndex: 5,
           }}>
-            <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
+            <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
 
-          {/* Text 1 — top 40% of screen, never touches minifig zone */}
+          {/* Text zone — strictly top 42vh, overflow hidden so it can never reach minifig */}
           <div style={{
-            position: 'absolute', left: '6vw', right: '6vw', top: '10vh',
-            opacity: t1Opacity, pointerEvents: 'none',
+            position: 'absolute', left: '6vw', right: '6vw',
+            top: '10vh', height: '38vh',
+            overflow: 'hidden',
           }}>
-            <p style={{ fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: '700', lineHeight: 1.25, color: '#0a0a0a' }}>
-              Hello, my name is Edward Centorame.{' '}
-              <span style={{ fontWeight: '400' }}>I'm a passionate designer focusing on both product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May 2026!</span>
-            </p>
-          </div>
+            {/* Text 1 */}
+            <div style={{ position: 'absolute', inset: 0, opacity: t1Opacity, pointerEvents: 'none' }}>
+              <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
+                Hello, my name is Edward Centorame.{' '}
+                <span style={{ fontWeight: '400' }}>I'm a passionate designer focusing on both product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May 2026!</span>
+              </p>
+            </div>
 
-          {/* Text 2 */}
-          <div style={{
-            position: 'absolute', left: '6vw', right: '6vw', top: '10vh',
-            opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none',
-          }}>
-            <p style={{ fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: '700', lineHeight: 1.25, color: '#0a0a0a' }}>
-              My focus is on how design shapes the world that people live in.{' '}
-              <span style={{ fontWeight: '400' }}>Please look through this selection of my work below. Every project I work on feels like it contains a world of context, so if you'd like to discuss any of these projects in more depth, or if you'd like to discuss a new project, feel free to reach out to me{' '}
-                <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', pointerEvents: 'auto' }}>(here)</Link>, I'm friendly, let's chat!
-              </span>
-            </p>
+            {/* Text 2 */}
+            <div style={{ position: 'absolute', inset: 0, opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none' }}>
+              <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
+                My focus is on how design shapes the world that people live in.{' '}
+                <span style={{ fontWeight: '400' }}>Please look through my work below. If you'd like to discuss any project in more depth or connect on something new, feel free to reach out{' '}
+                  <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', pointerEvents: 'auto' }}>(here)</Link>. I'm friendly, let's chat!
+                </span>
+              </p>
+            </div>
           </div>
 
         </div>
