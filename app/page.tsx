@@ -17,11 +17,18 @@ function ease(t: number): number {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
-// Target final state (matches mockup frames 3-7):
-// - Minifig right edge flush with/slightly past viewport right
-// - Minifig bottom crops off viewport bottom
-// - Body of minifig (shirt/face) visible in right ~40% of screen
-// - Large: ~90vh tall
+// ── Scroll zones ──────────────────────────────────────────────────
+//    0–  400  static: minifig centered, arm down
+//  400–  900  arm raises (frames 1→10)
+//  900– 1400  static hold: arm up, centered
+// 1400– 1800  minifig moves right (position only, NO size change)
+// 1800– 2400  static hold: minifig locked right
+// 2400– 2800  text 1 slides in
+// 2800– 3800  static hold: text 1 readable  ← long hold
+// 3800– 4100  text 1 fades out
+// 4100– 4500  text 2 fades in
+// 4500– 5500  static hold: text 2 readable  ← long hold
+// Total sticky height: 5500px
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -35,34 +42,31 @@ export default function Home() {
   }, []);
 
   // Arm
-  const armP = prog(scrollY, 300, 800);
+  const armP = prog(scrollY, 400, 900);
   const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
 
-  // Minifig move
-  const moveP = ease(prog(scrollY, 1100, 1500));
-
-  // Centered (50vw, 50vh, 480px tall) →
-  // Right side: center at 75vw, 62vh, 90vh tall
-  // This puts the figure mostly on right, cropping bottom edge
-  const figCX  = 50  + (75  - 50)  * moveP;   // vw
-  const figCY  = 50  + (62  - 50)  * moveP;   // vh  (moves down just a bit)
-  const figVH  = 75;   // vh — fixed, never changes
+  // Minifig position — ONLY translateX/translateY move, size is 100% fixed
+  // Start: centered (0vw offset from center, 0vh offset from center)
+  // End: right side (shift right by 25vw, shift down by 10vh)
+  const moveP = ease(prog(scrollY, 1400, 1800));
+  const figTX = moveP * 25;   // vw — how far right from center
+  const figTY = moveP * 10;   // vh — how far down from center
 
   // Text 1
-  const t1P    = ease(prog(scrollY, 1800, 2100));
-  const t1Out  = prog(scrollY, 2400, 2650);
+  const t1P    = ease(prog(scrollY, 2400, 2800));
+  const t1Out  = prog(scrollY, 3800, 4100);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X    = (1 - t1P) * -60;
 
   // Text 2
-  const t2Opacity = ease(prog(scrollY, 2650, 2950));
+  const t2Opacity = ease(prog(scrollY, 4100, 4500));
 
   return (
     <>
       <Nav />
 
       {/* Sticky scroll section */}
-      <div style={{ height: '3300px', position: 'relative' }}>
+      <div style={{ height: '5500px', position: 'relative' }}>
         <div style={{
           position: 'sticky',
           top: 0,
@@ -71,13 +75,15 @@ export default function Home() {
           pointerEvents: 'none',
         }}>
 
-          {/* LEGO minifig — fixed size, position only changes */}
+          {/* LEGO minifig — anchored to center, moved only via translate */}
+          {/* Size is 100% constant: 75vh tall, width auto from portrait image */}
           <div style={{
             position: 'absolute',
-            left: `${figCX}vw`,
-            top: `${figCY}vh`,
-            transform: 'translate(-50%, -50%)',
-            height: `${figVH}vh`,
+            left: '50%',
+            top: '50%',
+            // Base centering + scroll-driven offset — size NEVER changes
+            transform: `translate(calc(-50% + ${figTX}vw), calc(-50% + ${figTY}vh))`,
+            height: '75vh',
             width: 'auto',
             pointerEvents: 'none',
             zIndex: 10,
