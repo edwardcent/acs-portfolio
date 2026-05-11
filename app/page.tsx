@@ -17,18 +17,11 @@ function ease(t: number): number {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
-// ── Scroll zones ──────────────────────────────────────────────────
-//   0– 300  static: minifig centered, arm down
-// 300– 800  arm raises
-// 800–1100  static: arm up, centered        ← Frame 2 hold
-//1100–1500  minifig moves right + grows large, crops off edges
-//1500–1800  static: minifig locked right    ← Frame 3 hold
-//1800–2100  text 1 slides in from left
-//2100–2400  static: text 1 readable
-//2400–2650  text 1 fades out
-//2650–2950  text 2 fades in
-//2950–3300  static: text 2 readable
-//3300       sticky section ends — page scrolls normally into project list
+// Target final state (matches mockup frames 3-7):
+// - Minifig right edge flush with/slightly past viewport right
+// - Minifig bottom crops off viewport bottom
+// - Body of minifig (shirt/face) visible in right ~40% of screen
+// - Large: ~90vh tall
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -45,21 +38,21 @@ export default function Home() {
   const armP = prog(scrollY, 300, 800);
   const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
 
-  // Minifig move: centered → right, small → large+cropped
+  // Minifig move
   const moveP = ease(prog(scrollY, 1100, 1500));
 
-  // Horizontal: image center goes from 50vw → 105vw (crops off right)
-  const figCX = 50 + (105 - 50) * moveP;
-  // Vertical: image center goes from 50vh → 110vh (crops off bottom)
-  const figCY = 50 + (110 - 50) * moveP;
-  // Height: 480px → 1100px
-  const figH = 480 + (1100 - 480) * moveP;
+  // Centered (50vw, 50vh, 480px tall) →
+  // Right side: center at 75vw, 62vh, 90vh tall
+  // This puts the figure mostly on right, cropping bottom edge
+  const figCX  = 50  + (75  - 50)  * moveP;   // vw
+  const figCY  = 50  + (62  - 50)  * moveP;   // vh  (moves down just a bit)
+  const figVH  = 52  + (90  - 52)  * moveP;   // vh height — grows large
 
   // Text 1
-  const t1P = ease(prog(scrollY, 1800, 2100));
-  const t1Out = prog(scrollY, 2400, 2650);
+  const t1P    = ease(prog(scrollY, 1800, 2100));
+  const t1Out  = prog(scrollY, 2400, 2650);
   const t1Opacity = t1P * (1 - t1Out);
-  const t1X = (1 - t1P) * -60;
+  const t1X    = (1 - t1P) * -60;
 
   // Text 2
   const t2Opacity = ease(prog(scrollY, 2650, 2950));
@@ -68,7 +61,7 @@ export default function Home() {
     <>
       <Nav />
 
-      {/* Sticky scroll section — 3300px of scroll drive the animation */}
+      {/* Sticky scroll section */}
       <div style={{ height: '3300px', position: 'relative' }}>
         <div style={{
           position: 'sticky',
@@ -78,13 +71,13 @@ export default function Home() {
           pointerEvents: 'none',
         }}>
 
-          {/* LEGO minifig */}
+          {/* LEGO minifig — sized in vh so it's always viewport-relative */}
           <div style={{
             position: 'absolute',
             left: `${figCX}vw`,
             top: `${figCY}vh`,
             transform: 'translate(-50%, -50%)',
-            height: `${figH}px`,
+            height: `${figVH}vh`,
             width: 'auto',
             pointerEvents: 'none',
             zIndex: 10,
@@ -155,7 +148,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Project list — static, physically below sticky section ── */}
+      {/* Project list — static, physically below sticky */}
       <div id="projects" style={{ background: '#fff', paddingBottom: '120px' }}>
         <div style={{
           maxWidth: '1100px',
