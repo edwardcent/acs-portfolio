@@ -10,26 +10,26 @@ const TOTAL_FRAMES = 10;
 function clamp(val: number, min: number, max: number) {
   return Math.min(Math.max(val, min), max);
 }
-function progress(scroll: number, start: number, end: number) {
+function prog(scroll: number, start: number, end: number) {
   return clamp((scroll - start) / (end - start), 0, 1);
 }
-function easeInOut(t: number): number {
+function ease(t: number): number {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
-// ─── Scroll zones ────────────────────────────────────────────────
-// 0–200       static hold: minifig centered, arm down
-// 200–700     arm raises (frames 1→10), minifig centered
-// 700–1000    static hold: arm up, minifig centered (Frame 2)
-// 1000–1350   minifig moves → bottom-right + zooms
-// 1350–1600   static hold: minifig locked bottom-right (Frame 3)
-// 1600–1900   text block 1 slides in from left
-// 1900–2200   static hold: text 1 readable
-// 2200–2450   text 1 fades out
-// 2450–2750   text 2 fades in, nav appears
-// 2750–3000   static hold: text 2 readable
-// 3000–3300   project list fades in
-// TOTAL HEIGHT: 5000px
+// ── Scroll zones ──────────────────────────────────────────────────
+//   0– 300  static hold: minifig centered small, arm down
+// 300– 800  arm raises (frames 1→10), minifig stays centered
+// 800–1100  static hold: arm fully up, minifig centered   ← Frame 2
+//1100–1500  minifig moves right + grows to fill right half ← → Frame 3
+//1500–1800  static hold: minifig locked right, left empty
+//1800–2100  text block 1 fades+slides in from left         ← Frame 4
+//2100–2400  static hold: text 1 readable
+//2400–2650  text 1 fades out
+//2650–2950  text 2 fades in                                ← Frame 5/6
+//2950–3200  static hold: text 2 readable
+//3200–3500  project list scrolls into view                 ← Frame 7
+// Total height: 5500px
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -42,41 +42,50 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Arm animation
-  const armProgress = progress(scrollY, 200, 700);
-  const frameIndex = clamp(Math.floor(armProgress * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1);
-  const currentFrame = frameIndex + 1;
+  // ── Arm animation ──
+  const armP = prog(scrollY, 300, 800);
+  const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
 
-  // Minifig move to bottom-right
-  const moveP = easeInOut(progress(scrollY, 1000, 1350));
+  // ── Minifig position ──
+  // Centered small → right side large (crops off bottom/right)
+  const moveP = ease(prog(scrollY, 1100, 1500));
 
-  // Position: center (50vw, 50vh) → bottom-right
-  const figLeft = 50 + (78 - 50) * moveP;   // vw
-  const figTop  = 50 + (82 - 50) * moveP;   // vh
-  // Size: 320px centered → 220px corner
-  const figWidth = 320 + (220 - 320) * moveP;
+  // Start: centered horizontally, vertically centered in viewport
+  // End: right-anchored, cropped — matches mockup frames 3-7
+  // We use left% for horizontal center of the image
+  const figCenterX_start = 50;   // vw — centered
+  const figCenterX_end   = 88;   // vw — right side, allows cropping off right edge
+  const figCenterX = figCenterX_start + (figCenterX_end - figCenterX_start) * moveP;
 
-  // Text block 1
-  const text1SlideP = easeInOut(progress(scrollY, 1600, 1900));
-  const text1FadeOutP = progress(scrollY, 2200, 2450);
-  const text1Opacity = text1SlideP * (1 - text1FadeOutP);
-  const text1X = (1 - text1SlideP) * -80; // slides in from left (px offset)
+  // Vertical: centered → bottom-anchored (crops off bottom)
+  const figBottom_start = 50;   // vh from top (transform handles centering)
+  const figBottom_end   = 108;  // vh — pushes bottom below viewport
+  const figCenterY = figBottom_start + (figBottom_end - figBottom_start) * moveP;
 
-  // Text block 2
-  const text2Opacity = easeInOut(progress(scrollY, 2450, 2750));
-  const navOpacity = progress(scrollY, 2600, 2850);
+  // Size: moderate centered → large right
+  const figH_start = 520;  // px height when centered
+  const figH_end   = 900;  // px height when right/large — crops off edges
+  const figH = figH_start + (figH_end - figH_start) * moveP;
 
-  // Projects
-  const projectsOpacity = easeInOut(progress(scrollY, 3000, 3300));
+  // ── Text block 1 ──
+  const t1P = ease(prog(scrollY, 1800, 2100));
+  const t1FadeOut = prog(scrollY, 2400, 2650);
+  const t1Opacity = t1P * (1 - t1FadeOut);
+  const t1X = (1 - t1P) * -50;
+
+  // ── Text block 2 ──
+  const t2Opacity = ease(prog(scrollY, 2650, 2950));
+
+  // ── Projects ──
+  const projOpacity = ease(prog(scrollY, 3200, 3500));
 
   return (
     <>
       <Nav />
 
-      {/* Tall scroll container */}
-      <div style={{ height: '5200px', position: 'relative' }}>
+      <div style={{ height: '5500px', position: 'relative' }}>
 
-        {/* Sticky viewport — everything animated lives here */}
+        {/* Sticky viewport */}
         <div style={{
           position: 'sticky',
           top: 0,
@@ -88,112 +97,93 @@ export default function Home() {
           {/* LEGO minifig */}
           <div style={{
             position: 'absolute',
-            left: `${figLeft}vw`,
-            top: `${figTop}vh`,
+            left: `${figCenterX}vw`,
+            top: `${figCenterY}vh`,
             transform: 'translate(-50%, -50%)',
-            width: `${figWidth}px`,
+            height: `${figH}px`,
+            width: 'auto',
             pointerEvents: 'none',
             zIndex: 10,
           }}>
             <img
-              src={`/images/arm-${currentFrame}.png`}
+              src={`/images/arm-${frame}.png`}
               alt="ACS mascot"
-              style={{ width: '100%', height: 'auto', display: 'block' }}
+              style={{ height: '100%', width: 'auto', display: 'block' }}
             />
           </div>
 
           {/* Text block 1 */}
           <div style={{
             position: 'absolute',
-            left: '8vw',
+            left: '10vw',
             top: '50%',
-            transform: `translateY(-50%) translateX(${text1X}px)`,
-            width: 'min(420px, 40vw)',
-            opacity: text1Opacity,
+            transform: `translateY(-50%) translateX(${t1X}px)`,
+            width: 'min(520px, 45vw)',
+            opacity: t1Opacity,
             pointerEvents: 'none',
           }}>
             <p style={{
-              fontSize: 'clamp(14px, 1.5vw, 17px)',
-              lineHeight: 1.75,
+              fontSize: 'clamp(22px, 2.4vw, 34px)',
+              fontWeight: '700',
+              lineHeight: 1.25,
               color: '#0a0a0a',
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             }}>
-              Hello! My name's Edward Centorame — a designer focused on both
-              product and brand. I've been operating as{' '}
-              <strong>All Conditions Studio</strong> since 2020, and I graduate
-              from Toronto Metropolitan University's New Media BFA in May 2026.
+              Hello, my name is Edward Centorame.{' '}
+              <span style={{ fontWeight: '400' }}>
+                I'm a passionate designer focusing on both product and brand. I have been operating as
+                All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's
+                New Media (BFA) in May 2026!
+              </span>
             </p>
           </div>
 
           {/* Text block 2 */}
           <div style={{
             position: 'absolute',
-            left: '8vw',
+            left: '10vw',
             top: '50%',
             transform: 'translateY(-50%)',
-            width: 'min(420px, 40vw)',
-            opacity: text2Opacity,
-            pointerEvents: text2Opacity > 0.5 ? 'auto' : 'none',
+            width: 'min(520px, 45vw)',
+            opacity: t2Opacity,
+            pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none',
           }}>
             <p style={{
-              fontSize: 'clamp(14px, 1.5vw, 17px)',
-              lineHeight: 1.75,
+              fontSize: 'clamp(22px, 2.4vw, 34px)',
+              fontWeight: '700',
+              lineHeight: 1.25,
               color: '#0a0a0a',
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             }}>
-              My focus is on how design shapes the world people live in. If
-              you'd like to see some examples of my work, have a look through
-              the selection below. Every project contains a world of context —
-              if you'd like to go deeper on any of them, or connect on something
-              new, feel free to{' '}
-              <Link href="/contact" style={{ textDecoration: 'underline', pointerEvents: 'auto' }}>
-                reach out
-              </Link>
-              . I'm friendly, let's chat.
+              My focus is on how design shapes the world that people live in.{' '}
+              <span style={{ fontWeight: '400' }}>
+                Please look through this selection of my work below. Every project I work on feels
+                like it contains a world of context, so if you'd like to discuss any of these projects
+                in more depth, or if you'd like to discuss a new project, feel free to reach out to me{' '}
+                <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', pointerEvents: 'auto' }}>
+                  (here)
+                </Link>
+                , I'm friendly, let's chat!
+              </span>
             </p>
-
-            {/* Nav below text 2 */}
-            <div style={{
-              marginTop: '32px',
-              opacity: navOpacity,
-              display: 'flex',
-              gap: '28px',
-            }}>
-              {[
-                { href: '#projects', label: 'projects' },
-                { href: '/about', label: 'about' },
-                { href: '/contact', label: 'contact' },
-              ].map(({ href, label }) => (
-                <a key={href} href={href} style={{
-                  fontSize: '13px',
-                  color: '#0a0a0a',
-                  letterSpacing: '0.03em',
-                  textDecoration: 'none',
-                  pointerEvents: 'auto',
-                }}>
-                  {label}
-                </a>
-              ))}
-            </div>
           </div>
 
         </div>
 
-        {/* Project list — sits in scroll flow after sticky section */}
+        {/* Project list */}
         <div
           id="projects"
           style={{
             position: 'absolute',
-            top: '3500px',
+            top: '3700px',
             left: 0,
             right: 0,
-            opacity: projectsOpacity,
+            opacity: projOpacity,
             paddingBottom: '120px',
           }}
         >
-          {/* Interaction toggle */}
           <div style={{
-            maxWidth: '1100px',
+            maxWidth: '960px',
             margin: '0 auto',
             padding: '0 40px 12px',
             display: 'flex',
@@ -222,7 +212,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 40px' }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 40px' }}>
             {projects.map((project, i) => {
               const isOpen = interactionOn ? hovered === project.slug : true;
               return (
