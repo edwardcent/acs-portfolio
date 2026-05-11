@@ -46,7 +46,7 @@ export default function Home() {
   // This puts the figure mostly on right, cropping bottom edge
   const figCX  = 50  + (75  - 50)  * moveP;   // vw
   const figCY  = 50  + (62  - 50)  * moveP;   // vh  (moves down just a bit)
-  const figVH  = 55  + (90  - 55)  * moveP;   // vh height — portrait images, width follows naturally
+  const figVH  = 75;   // vh — fixed, never changes
 
   // Text 1
   const t1P    = ease(prog(scrollY, 1800, 2100));
@@ -71,7 +71,7 @@ export default function Home() {
           pointerEvents: 'none',
         }}>
 
-          {/* LEGO minifig — height-based, portrait images scale naturally */}
+          {/* LEGO minifig — fixed size, position only changes */}
           <div style={{
             position: 'absolute',
             left: `${figCX}vw`,
