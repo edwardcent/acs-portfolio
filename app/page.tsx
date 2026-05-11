@@ -34,40 +34,41 @@ export default function Home() {
 // ─────────────────────────────────────────────
 // DESKTOP
 // ─────────────────────────────────────────────
-// Scroll zones:
-//    0–  400  static: minifig centered, arm down
-//  400–  900  arm raises
-//  900– 1400  static hold: arm up
-// 1400– 1800  minifig moves right
-// 1800– 2400  static hold: minifig right
-// 2400– 2800  text 1 slides in
-// 2800– 3800  static hold: text 1
-// 3800– 4100  text 1 fades out
-// 4100– 4500  text 2 fades in
-// 4500– 5500  static hold: text 2
+// Each animation: 600px. Each static hold: 1000px.
+//    0–  600  static hold: arm down
+//  600– 1200  arm raises (10 frames, 60px each)
+// 1200– 2200  STATIC HOLD: arm up, centered
+// 2200– 2800  minifig moves right
+// 2800– 3800  STATIC HOLD: minifig right
+// 3800– 4400  text 1 slides in
+// 4400– 5400  STATIC HOLD: text 1
+// 5400– 5800  text 1 fades out
+// 5800– 6400  text 2 fades in
+// 6400– 7400  STATIC HOLD: text 2
 
 function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP  = prog(scrollY, 500, 1200);
-  const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP = ease(prog(scrollY, 1800, 2400));
+  // Math.round ensures every frame is hit even on fast scroll
+  const armP  = prog(scrollY, 600, 1200);
+  const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
+  const moveP = ease(prog(scrollY, 2200, 2800));
   const figTX = moveP * 25;
   const figTY = moveP * 5;
-  const t1P      = ease(prog(scrollY, 2800, 3200));
-  const t1Out    = prog(scrollY, 4800, 5100);
+  const t1P      = ease(prog(scrollY, 3800, 4400));
+  const t1Out    = prog(scrollY, 5400, 5800);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X      = (1 - t1P) * -60;
-  const t2Opacity = ease(prog(scrollY, 5100, 5500));
+  const t2Opacity = ease(prog(scrollY, 5800, 6400));
 
   return (
     <>
       <Nav />
-      <div style={{ height: '7500px', position: 'relative' }}>
+      <div style={{ height: '8500px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           <div style={{
             position: 'absolute', left: '50%', top: '50%',
             transform: `translate(calc(-50% + ${figTX}vw), calc(-50% + ${figTY}vh))`,
-            height: '94vh', width: 'auto', pointerEvents: 'none', zIndex: 10,
+            height: '75vh', width: 'auto', pointerEvents: 'none', zIndex: 10,
           }}>
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
           </div>
@@ -111,7 +112,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
 
 function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   const armP  = prog(scrollY, 300, 700);
-  const frame = clamp(Math.floor(armP * TOTAL_FRAMES), 0, TOTAL_FRAMES - 1) + 1;
+  const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
 
   // Phase 1: arm raises, minifig centered (0–700)
   // Phase 2: static hold (700–1100)
