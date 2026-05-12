@@ -185,10 +185,15 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   const t2Opacity = ease(prog(scrollY, 4200, 4600));
 
   // Minifig:
-  // Phase 1: centered (top:50%, transform: translate(-50%,-50%))
-  // Phase 3: shifted down so it sits in bottom 55% of screen
-  // We move the center point from 50vh to 72vh — pure translateY, no size change
-  const figCenterY = 50 + (88 - 50) * moveP; // vh — crops bottom half off screen when text shows
+  // Phase 1: arm raises, minifig centered (scrollY 0–700)
+  // Phase 2: static hold (700–1300)
+  // Phase 3: minifig moves down so bottom quarter crops off (1300–1900)
+  // figBottom = vh position of the bottom edge of the image
+  // Image is ~85vw wide, portrait ~4:3 so height ≈ 113vw ≈ 113vh on mobile
+  // Centered: top of img = 50vh - 56.5vh = off top. We position by center.
+  // Start: center at 50vh (fully centered)
+  // End: center at 81vh (bottom 25% = ~28vh below viewport bottom crops off)
+  const figCenterY = 50 + (81 - 50) * moveP; // vh
 
   return (
     <>
@@ -196,11 +201,12 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
       <div style={{ height: '6000px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
-          {/* Minifig — anchored bottom-right, crops off both edges */}
+          {/* Minifig — centered then moves down, bottom quarter crops */}
           <div style={{
             position: 'absolute',
-            right: '-8vw',
-            bottom: '-35vh',
+            left: '50%',
+            top: `${figCenterY}vh`,
+            transform: 'translate(-50%, -50%)',
             width: '85vw',
             flexShrink: 0,
             pointerEvents: 'none',
