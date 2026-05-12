@@ -83,7 +83,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(-50%) translateX(${t1X}px)`, width: 'min(420px, 38vw)', opacity: t1Opacity, pointerEvents: 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               Hello, my name is Edward Centorame.{' '}
-              <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May of 2026 :)</span>
+              <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I've been operating as All Conditions Studio since 2020, and I'm graduating from Toronto Metropolitan University's The Creative School — studying the intersection of art and technology :)</span>
             </p>
           </div>
 
@@ -216,7 +216,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             <div style={{ position: 'absolute', inset: 0, opacity: t1Opacity, pointerEvents: 'none' }}>
               <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
                 Hello, my name is Edward Centorame.{' '}
-                <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May of 2026 :)</span>
+                <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I've been operating as All Conditions Studio since 2020, and I'm graduating from Toronto Metropolitan University's The Creative School — studying the intersection of art and technology :)</span>
               </p>
             </div>
 
