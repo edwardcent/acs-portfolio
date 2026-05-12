@@ -157,42 +157,31 @@ function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: an
 // ─────────────────────────────────────────────
 // MOBILE
 // ─────────────────────────────────────────────
-// Scroll zones:
-//    0–  300  static: minifig centered, arm down
-//  300–  700  arm raises
-//  700– 1000  static hold: arm up, minifig centered
-// 1000– 1400  minifig zooms larger (stays centered)
-// 1400– 1800  static hold: minifig large
-// 1800– 2100  text 1 fades in above minifig
-// 2100– 3100  static hold: text 1 readable
-// 3100– 3400  text 1 fades out → text 2 fades in
-// 3400– 4400  static hold: text 2 readable
-// then project list below
+// Mirrors desktop structure exactly:
+//    0–  600  static: minifig centered, arm down
+//  600– 1800  arm raises (10 frames, 120px each)
+// 1800– 2800  STATIC HOLD: arm fully up, centered
+// 2800– 3400  minifig moves down (bottom quarter crops off)
+// 3400– 4400  STATIC HOLD: minifig locked in position
+// 4400– 5000  text 1 fades in
+// 5000– 6000  STATIC HOLD: text 1 readable
+// 6000– 6400  text 1 fades out
+// 6400– 7000  text 2 fades in
+// 7000– 8000  STATIC HOLD: text 2 readable
+// 8000+       project list below
 
 function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP  = prog(scrollY, 300, 700);
+  const armP  = prog(scrollY, 600, 1800);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
 
-  // Phase 1: arm raises, minifig centered (0–700)
-  // Phase 2: static hold (700–1100)
-  // Phase 3: minifig moves to bottom half — translate down only, NO size change (1100–1500)
-  const moveP = ease(prog(scrollY, 1300, 1900));
+  const moveP = ease(prog(scrollY, 2800, 3400));
 
-  // Text phases
-  const t1P      = ease(prog(scrollY, 2200, 2600));
-  const t1Out    = prog(scrollY, 5200, 5600);
+  const t1P      = ease(prog(scrollY, 4400, 5000));
+  const t1Out    = prog(scrollY, 6000, 6400);
   const t1Opacity = t1P * (1 - t1Out);
-  const t2Opacity = ease(prog(scrollY, 4200, 4600));
+  const t2Opacity = ease(prog(scrollY, 6400, 7000));
 
-  // Minifig:
-  // Phase 1: arm raises, minifig centered (scrollY 0–700)
-  // Phase 2: static hold (700–1300)
-  // Phase 3: minifig moves down so bottom quarter crops off (1300–1900)
-  // figBottom = vh position of the bottom edge of the image
-  // Image is ~85vw wide, portrait ~4:3 so height ≈ 113vw ≈ 113vh on mobile
-  // Centered: top of img = 50vh - 56.5vh = off top. We position by center.
-  // Start: center at 50vh (fully centered)
-  // End: center at 81vh (bottom 25% = ~28vh below viewport bottom crops off)
+  // Minifig: centered → bottom quarter crops off
   const figCenterY = 50 + (81 - 50) * moveP; // vh
 
   return (
