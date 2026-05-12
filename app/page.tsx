@@ -212,7 +212,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
           {/* Text zone — strictly top 42vh, overflow hidden so it can never reach minifig */}
           <div style={{
             position: 'absolute', left: '6vw', right: '6vw',
-            top: '18vh', height: '42vh', zIndex: 20,
+            top: '14vh', height: '32vh', zIndex: 20,
             overflow: 'hidden',
           }}>
             {/* Text 1 */}
