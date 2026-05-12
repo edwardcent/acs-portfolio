@@ -180,7 +180,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
 
   // Text phases
   const t1P      = ease(prog(scrollY, 2200, 2600));
-  const t1Out    = prog(scrollY, 4200, 4600);
+  const t1Out    = prog(scrollY, 5200, 5600);
   const t1Opacity = t1P * (1 - t1Out);
   const t2Opacity = ease(prog(scrollY, 4200, 4600));
 
@@ -198,7 +198,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   return (
     <>
       <Nav />
-      <div style={{ height: '6000px', position: 'relative' }}>
+      <div style={{ height: '7000px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig — centered then moves down, bottom quarter crops */}
