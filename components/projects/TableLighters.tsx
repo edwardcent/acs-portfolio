@@ -1,21 +1,45 @@
-// ─── Image placeholder ────────────────────────────────────────────────────────
+// ─── Image component ─────────────────────────────────────────────────────────
+// Drop image files into public/images/table-lighters/ with the matching label
+// name, e.g. hero-braun-box.jpg. Shows a placeholder until the file exists.
 
 function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+  const src = `/images/table-lighters/${label}.jpg`;
   return (
     <div style={{
       width: '100%',
       aspectRatio: aspect,
       background: '#e0ddd8',
       borderRadius: '12px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       overflow: 'hidden',
       flexShrink: 0,
+      position: 'relative',
     }}>
-      <span style={{ fontSize: '9px', color: '#aaa', fontFamily: 'monospace', textAlign: 'center', padding: '8px', wordBreak: 'break-all', lineHeight: 1.4 }}>
-        {label}
-      </span>
+      <img
+        src={src}
+        alt={label}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block',
+        }}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+      />
+    </div>
+  );
+}
+
+function RefImg({ label, style }: { label: string; style: React.CSSProperties }) {
+  return (
+    <div style={{ position: 'absolute', background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden', ...style }}>
+      <img
+        src={`/images/table-lighters/${label}.jpg`}
+        alt={label}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+      />
     </div>
   );
 }
@@ -108,15 +132,9 @@ export default function TableLighters() {
           ]} />
         </div>
         <div style={{ position: 'relative', width: '100%', aspectRatio: '745/643', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: '2.18%', left: '3.49%', right: '48.63%', bottom: '42.34%', background: '#e0ddd8', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '9px', color: '#aaa', fontFamily: 'monospace', textAlign: 'center', padding: '6px' }}>ref-t2-box</span>
-          </div>
-          <div style={{ position: 'absolute', top: '22.18%', left: '47.97%', right: '3.46%', bottom: '21.53%', background: '#e0ddd8', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '9px', color: '#aaa', fontFamily: 'monospace', textAlign: 'center', padding: '6px' }}>ref-braun-lighters</span>
-          </div>
-          <div style={{ position: 'absolute', top: '62.40%', left: '14.65%', right: '47.36%', bottom: '5.41%', background: '#e0ddd8', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '9px', color: '#aaa', fontFamily: 'monospace', textAlign: 'center', padding: '6px' }}>ref-braun-cased</span>
-          </div>
+          <RefImg label="ref-t2-box"         style={{ top: '2.18%',  left: '3.49%',  right: '48.63%', bottom: '42.34%' }} />
+          <RefImg label="ref-braun-lighters" style={{ top: '22.18%', left: '47.97%', right: '3.46%',  bottom: '21.53%' }} />
+          <RefImg label="ref-braun-cased"    style={{ top: '62.40%', left: '14.65%', right: '47.36%', bottom: '5.41%'  }} />
         </div>
       </div>
 
