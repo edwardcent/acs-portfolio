@@ -187,7 +187,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   return (
     <>
       <Nav />
-      <div style={{ height: '7000px', position: 'relative' }}>
+      <div style={{ height: '9000px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig — centered then moves down, bottom quarter crops */}
