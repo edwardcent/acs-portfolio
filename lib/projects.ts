@@ -73,7 +73,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'bmw-grateful-dead',
-    title: 'BMW × Grateful Dead Tee Drop',
+    title: 'Upcycling Project',
     year: '2022',
     category: 'Graphics',
     description: 'Graphic tee collaboration merging BMW and Grateful Dead iconography.',
