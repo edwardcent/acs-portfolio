@@ -60,9 +60,9 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
   const t2In     = ease(prog(scrollY, 6400, 7000));
   const transP   = ease(prog(scrollY, 8000, 8600)); // 0→1 drives both text2 out and proj in
   const t2Opacity = t2In * (1 - transP);
-  const t2SlideY  = transP * -80; // px — text slides up as it fades
+  const t2SlideY  = transP * -160; // px — text slides up as it fades
   const projOpacity = transP;
-  const projSlideY  = (1 - transP) * 80; // px — list starts below, slides up into place
+  const projSlideY  = (1 - transP) * 160; // px — list starts below, slides up into place
 
   return (
     <>
@@ -90,10 +90,8 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
           {/* Text 2 */}
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${t2SlideY}px))`, width: 'min(420px, 38vw)', opacity: t2Opacity, pointerEvents: t2Opacity > 0.1 ? 'auto' : 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
-              Hello, my name is Edward Centorame.{' '}
-              <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May of 2026 :)</span>
-              <br /><br />
-              <span style={{ fontWeight: '400' }}>I am obsessed with how design shapes the world we live in. I have put together some examples of my work. Each project I work on contains a world of context and problem solving, so if you'd like to discuss any of these projects in more depth or discuss a new project, feel free to reach out to me{' '}
+              I am obsessed with how design shapes the world we live in.{' '}
+              <span style={{ fontWeight: '400' }}>I have put together some examples of my work. Each project I work on contains a world of context and problem solving, so if you'd like to discuss any of these projects in more depth or discuss a new project, feel free to reach out to me{' '}
                 <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>, I'm friendly, let's chat!
               </span>
             </p>
@@ -225,10 +223,8 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             {/* Text 2 */}
             <div style={{ position: 'absolute', inset: 0, opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none' }}>
               <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
-                Hello, my name is Edward Centorame.{' '}
-                <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I have been operating as All Conditions Studio since 2020, and graduate from Toronto Metropolitan University's New Media (BFA) in May of 2026 :)</span>
-                <br /><br />
-                <span style={{ fontWeight: '400' }}>I am obsessed with how design shapes the world we live in. Each project I work on contains a world of context and problem solving, so if you'd like to discuss any of these projects or a new project, feel free to reach out{' '}
+                I am obsessed with how design shapes the world we live in.{' '}
+                <span style={{ fontWeight: '400' }}>Each project I work on contains a world of context and problem solving, so if you'd like to discuss any of these projects or a new project, feel free to reach out{' '}
                   <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>, I'm friendly, let's chat!
                 </span>
               </p>
