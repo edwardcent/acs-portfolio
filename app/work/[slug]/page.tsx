@@ -18,10 +18,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
-  if (slug === 'table-lighters') {
-    const { default: TableLightersPage } = await import('@/app/work/table-lighters/page');
-    return <TableLightersPage />;
-  }
   const project = projects.find((p) => p.slug === slug);
   if (!project) notFound();
 
