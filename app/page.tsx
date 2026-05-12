@@ -99,8 +99,12 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
 
           {/* Project list — fades in over left column, minifig stays right */}
           <div style={{
-            position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${projSlideY}px))`,
-            width: 'min(520px, 44vw)', opacity: projOpacity,
+            position: 'absolute', left: '10vw', top: '10vh',
+            transform: `translateY(${projSlideY}px)`,
+            width: 'min(520px, 44vw)',
+            height: '80vh',
+            overflowY: projOpacity > 0.1 ? 'auto' : 'hidden',
+            opacity: projOpacity,
             pointerEvents: projOpacity > 0.1 ? 'auto' : 'none',
             zIndex: 20,
           }}>
@@ -192,13 +196,12 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
       <div style={{ height: '6000px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
-          {/* Minifig — fixed width in px so browser cannot squish it */}
+          {/* Minifig — anchored bottom-right, crops off both edges */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: `${figCenterY}vh`,
-            transform: 'translate(-50%, -50%)',
-            width: '358px',
+            right: '-8vw',
+            bottom: '-5vh',
+            width: '85vw',
             flexShrink: 0,
             pointerEvents: 'none',
             zIndex: 5,
