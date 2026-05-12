@@ -83,7 +83,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(-50%) translateX(${t1X}px)`, width: 'min(420px, 38vw)', opacity: t1Opacity, pointerEvents: 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               Hello, my name is Edward Centorame.{' '}
-              <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I've been operating as All Conditions Studio since 2020, and I'm graduating from Toronto Metropolitan University's The Creative School — studying the intersection of art and technology :)</span>
+              <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused on product and brand. I've been operating as All Conditions Studio since 2020, and I'm graduating from Toronto Metropolitan University's The Creative School — where I studied the intersection of art and technology.</span>
             </p>
           </div>
 
@@ -91,7 +91,7 @@ function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteracti
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${t2SlideY}px))`, width: 'min(420px, 38vw)', opacity: t2Opacity, pointerEvents: t2Opacity > 0.1 ? 'auto' : 'none' }}>
             <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               I am obsessed with how design shapes the world we live in.{' '}
-              <span style={{ fontWeight: '400' }}>I have put together some examples of my work. Each project I work on contains a world of context and problem solving, so if you'd like to discuss any of these projects in more depth or discuss a new project, feel free to reach out to me{' '}
+              <span style={{ fontWeight: '400' }}>Below this you'll find some examples of my work for you to look through. Each project I work on contains a world of context and problem solving, if you'd like to discuss any of these projects in more depth or discuss a new project, feel free to reach out to me{' '}
                 <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>, I'm friendly, let's chat!
               </span>
             </p>
@@ -216,7 +216,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             <div style={{ position: 'absolute', inset: 0, opacity: t1Opacity, pointerEvents: 'none' }}>
               <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
                 Hello, my name is Edward Centorame.{' '}
-                <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused mainly on product and brand. I've been operating as All Conditions Studio since 2020, and I'm graduating from Toronto Metropolitan University's The Creative School — studying the intersection of art and technology :)</span>
+                <span style={{ fontWeight: '400' }}>I'm a designer and storyteller focused on product and brand. I've been operating as All Conditions Studio since 2020, and I'm graduating from Toronto Metropolitan University's The Creative School — where I studied the intersection of art and technology.</span>
               </p>
             </div>
 
@@ -224,7 +224,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             <div style={{ position: 'absolute', inset: 0, opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none' }}>
               <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
                 I am obsessed with how design shapes the world we live in.{' '}
-                <span style={{ fontWeight: '400' }}>Each project I work on contains a world of context and problem solving, so if you'd like to discuss any of these projects or a new project, feel free to reach out{' '}
+                <span style={{ fontWeight: '400' }}>Below this you'll find some examples of my work. Each project I work on contains a world of context and problem solving, if you'd like to discuss any of these projects in more depth or discuss a new project, feel free to reach out{' '}
                   <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>, I'm friendly, let's chat!
                 </span>
               </p>
