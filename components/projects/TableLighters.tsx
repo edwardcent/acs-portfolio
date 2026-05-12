@@ -1,30 +1,36 @@
-function Rect({ label, aspect = '1 / 1' }: { label: string; aspect?: string }) {
+// ─── Placeholder helpers ──────────────────────────────────────────────────────
+
+function Img({ label, aspect = '4/3', radius = '12px' }: { label: string; aspect?: string; radius?: string }) {
   return (
     <div style={{
       width: '100%',
       aspectRatio: aspect,
       background: '#e0ddd8',
+      borderRadius: radius,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
     }}>
-      <span style={{ fontSize: '10px', color: '#aaa', fontFamily: 'monospace', textAlign: 'center', padding: '12px', wordBreak: 'break-all' }}>{label}</span>
+      <span style={{ fontSize: '10px', color: '#aaa', fontFamily: 'monospace', textAlign: 'center', padding: '12px', wordBreak: 'break-all' }}>
+        {label}
+      </span>
     </div>
   );
 }
 
+// ─── Typography ───────────────────────────────────────────────────────────────
+
 function Heading({ children }: { children: React.ReactNode }) {
   return (
     <h2 style={{
-      fontFamily: "'Arial Black', 'Arial Bold', Gadget, sans-serif",
       fontWeight: 900,
-      fontSize: 'clamp(22px, 3.2vw, 40px)',
+      fontSize: 'clamp(22px, 3.2vw, 42px)',
       lineHeight: 1.05,
       textTransform: 'uppercase',
-      letterSpacing: '-0.01em',
+      letterSpacing: '-0.02em',
       color: '#0a0a0a',
-      margin: '0 0 16px',
+      margin: '0 0 20px',
     }}>{children}</h2>
   );
 }
@@ -39,15 +45,13 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function List({ items }: { items: string[] }) {
   return (
-    <ul style={{ fontSize: '14px', lineHeight: 1.75, color: '#0a0a0a', paddingLeft: '20px', margin: '0 0 14px' }}>
+    <ul style={{ fontSize: '14px', lineHeight: 1.75, color: '#0a0a0a', paddingLeft: '18px', margin: '0 0 14px' }}>
       {items.map((item, i) => <li key={i}>{item}</li>)}
     </ul>
   );
 }
 
-const gap = '8px';
-const sectionGap = '48px';
-const sectionMb = '72px';
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function TableLighters() {
   return (
@@ -58,157 +62,134 @@ export default function TableLighters() {
       fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
     }}>
 
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      {/* Left ~35%: top-down lighter image + ACS wordmark — tops aligned with product shots */}
-      {/* Right ~65%: 3 tall portrait product shots */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: sectionGap, alignItems: 'start', marginBottom: sectionMb }}>
-        <div>
-          <div style={{ width: '65%' }}>
-            <Rect label="hero-acs-circle" aspect="1 / 1" />
-          </div>
-          <div style={{
-            fontFamily: "'Arial Black', 'Arial Bold', Gadget, sans-serif",
-            fontWeight: 900,
-            fontSize: 'clamp(36px, 6vw, 72px)',
-            letterSpacing: '-0.03em',
-            color: '#0a0a0a',
-            lineHeight: 1,
-            marginTop: '12px',
-          }}>ACS</div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap }}>
-          <Rect label="hero-product-01" aspect="3 / 4" />
-          <Rect label="hero-product-02" aspect="3 / 4" />
-          <Rect label="hero-product-03" aspect="3 / 4" />
-        </div>
+      {/* ── HERO: two side-by-side landscape images ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '64px' }}>
+        <Img label="hero-left" aspect="4/3" radius="4px" />
+        <Img label="hero-right" aspect="4/3" radius="4px" />
       </div>
 
-      {/* ── REFERENCE / GOAL ────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: sectionGap, alignItems: 'start', marginBottom: sectionMb }}>
+      {/* ── REFERENCE / GOAL ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start', marginBottom: '72px' }}>
         <div>
           <Heading>Reference / Goal</Heading>
-          <P>When looking to obtain one of the beautiful lighters designed by Dieter Rams, I realized that the age of these products meant they were more rarely working than not.</P>
-          <P>I decided to make a tribute of sorts to his "T2" table lighter using a Bic as the ignition.</P>
+          <P>When looking through the work of Dieter Rams, I wanted to own something he designed. Prices for things credited to Rams are high, but I considered the prices for his lighter relatively reasonable; after searching through online listings I realized that the age of these products meant there was no guarantee they still worked, or how much longer they would.</P>
+          <P>I decided to make a tribute of sorts to his T2 lighter using a Bic as the ignition.</P>
           <P>My criteria for success with this product:</P>
           <List items={[
+            'It must be robust',
             'It should elevate the experience of owning a lighter',
             'I can produce it myself; using a removable Bic',
-            'It must be robust',
           ]} />
         </div>
-        {/* 1 wide landscape + 1 smaller square below */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap }}>
-          <Rect label="ref-braun-t2-collection" aspect="16 / 9" />
-          <div style={{ width: '55%' }}>
-            <Rect label="ref-braun-t2-boxed" aspect="1 / 1" />
+        {/* Right: 2 overlapping rounded images top + 1 smaller below */}
+        <div style={{ position: 'relative', height: '380px' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '60%' }}>
+            <Img label="ref-t2-box" aspect="1/1" radius="20px" />
+          </div>
+          <div style={{ position: 'absolute', top: '8%', right: 0, width: '58%' }}>
+            <Img label="ref-braun-lighters" aspect="4/3" radius="20px" />
+          </div>
+          <div style={{ position: 'absolute', bottom: 0, left: '15%', width: '45%' }}>
+            <Img label="ref-braun-cased" aspect="4/3" radius="4px" />
           </div>
         </div>
       </div>
 
-      {/* ── FIRST ATTEMPT ───────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: sectionGap, alignItems: 'start', marginBottom: sectionMb }}>
+      {/* ── FIRST ATTEMPT ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start', marginBottom: '72px' }}>
         <div>
           <Heading>First Attempt</Heading>
-          <P>I designed a rigid two-part mould which held the Bic in place for concrete to fill around it. After trial and error I designed a soft removable bic form that could be removed post pour. The post processing was tedious and the finish was not up to par.</P>
-          <P>This let me know that I was going in the right direction for the objects design, but needed to refine it in every way.</P>
+          <P>My first attempt used a two-part rigid 3D printed mould which held the Bic in place for concrete to fill around it. Several attempts at releasing the Bic post-pour led me to design a soft removable insert to fill the void instead of the lighter itself. This let me know that I was going in the right direction for the objects design, but needed to overhaul everything about it.</P>
           <Label>Successes:</Label>
           <List items={[
-            'Overall dimensions locked in — in-hand feel confirmed to be good',
+            'Overall dimensions locked in',
+            'In-hand feel confirmed to be good',
             'Stamped cork base confirmed functional',
           ]} />
           <Label>Issues:</Label>
           <List items={[
-            'Seam line from two part mould',
+            'Seam line from two part rigid mould',
             'Radii and level of polish need revision',
-            'Inconsistency of inner void',
+            'Inconsistency of inner void due to current mould design.',
           ]} />
         </div>
-        {/* Row 1: both portrait. Row 2: both square. Consistent per row = aligned. */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
-          <Rect label="attempt1-concrete-front" aspect="3 / 4" />
-          <Rect label="attempt1-top-bic" aspect="3 / 4" />
-          <Rect label="attempt1-hollow" aspect="1 / 1" />
-          <Rect label="attempt1-parts" aspect="1 / 1" />
+        {/* Right: 1 tall portrait left + 2 stacked right, then 2-wide bottom row */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+          <div style={{ gridRow: '1 / 2' }}>
+            <Img label="attempt-front" aspect="3/4" radius="12px" />
+          </div>
+          <div style={{ gridRow: '1 / 2', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Img label="attempt-top" aspect="1/1" radius="12px" />
+            <Img label="attempt-cork" aspect="1/1" radius="12px" />
+          </div>
+          <div>
+            <Img label="attempt-hollow" aspect="3/4" radius="12px" />
+          </div>
+          <div>
+            <Img label="attempt-parts" aspect="4/3" radius="12px" />
+          </div>
         </div>
       </div>
 
-      {/* ── FIRST REVISION ──────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: sectionGap, alignItems: 'start', marginBottom: sectionMb }}>
+      {/* ── FIRST REVISION ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start', marginBottom: '72px' }}>
         <div>
           <Heading>First Revision</Heading>
-          <P>I designed a new silicone mould system, and a 3D printed insert with an inner void that accommodates Bic's slight size variations. With a high level of polish achieved, I brought this version to market DTC and with some independent storefront placement in Toronto. Most sales came from high exposure TikToks I made talking about the product.</P>
-          <P>I talked to some repeat buyers and learned the concrete chipped or broke entirely after falling or being struck. Customers didn't view this as faulty product since they were buying a second time. I pulled the product from all markets, stopped all production, and began designing a second revision.</P>
+          <P>For this version I designed a new silicone mould system, and a 3D printed insert that creates a consistent inner void which accommodates Bic size variations between factories. After gifting these to friends and selling them globally; I had people buying them for a second time after a few months. I talked to the repeat buyers and learned the concrete either chipped or broke entirely after falling or being struck.</P>
           <Label>Successes:</Label>
           <List items={[
             'Dialled in corner radii and exact form',
             'Simplified production process',
-            'No more seam lines',
+            'No more seam lines from new silicone mould',
           ]} />
           <Label>Issues:</Label>
           <List items={[
+            'Less comfortable striking and removing the Bic for people with small hands (asking for a mini Bic version)',
             'Concrete proved too fragile',
-            'I noticed users with small hands would benefit from/appreciate a mini version',
           ]} />
         </div>
-        {/* 3 rows × 2 cols — each row uses matching aspect ratios */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
-          <Rect label="rev1-concrete-polished" aspect="3 / 4" />
-          <Rect label="rev1-top-view" aspect="3 / 4" />
-          <Rect label="rev1-tiktok" aspect="1 / 1" />
-          <Rect label="rev1-cork-stamp" aspect="1 / 1" />
-          <Rect label="rev1-silicone-mould" aspect="4 / 3" />
-          <Rect label="rev1-3d-insert" aspect="4 / 3" />
-        </div>
+        <Img label="revision-polished" aspect="3/4" radius="12px" />
       </div>
 
-      {/* ── FINAL PRODUCT ───────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: sectionGap, alignItems: 'start', marginBottom: '24px' }}>
+      {/* ── FINAL PRODUCT ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start', marginBottom: '64px' }}>
         <div>
           <Heading>Final Product</Heading>
-          <P>For this version I looked for a new material that could handle impact and was more environmentally friendly than concrete. I settled on aluminum — light, fully recyclable, and develops a unique patina with use. I made a mini version for individuals with small hands, and added a button that lets users poke the Bic out slightly from the bottom. I shifted from the stamped cork to wet-set debossed leather bases.</P>
-          <P>I designed a new internal structure for the Bic that leverages the flex of 3D printed walls for a snug fit. The structure bolts into the aluminum body and houses the print-in-place magnetic button.</P>
-          <P>I went through over 50 variations of the button, going between springs and magnets, because I wanted an interaction that was satisfying to use. The resulting button feel is addictive.</P>
-          <Label>Issues:</Label>
-          <List items={[
-            'Cost of machined aluminum higher than cast concrete — bringing the cost of the product up — worth it for the improved longevity.',
-          ]} />
+          <P>For this version I looked for a new material that could resist impact and wouldn't chip away over time. I settled on aluminum — light, recyclable, and developing a unique patina with use.</P>
+          <P>I made a mini version for individuals with small hands. I also added a button that lets users poke the Bic out slightly from the bottom, making it easier to remove.</P>
+          <P>I shifted from the cork to a leather, with wet-set debossed base. I designed a new internal sleeve for the Bic that leverages the flex of 3D printed walls. The sleeve bolts into the aluminum body and houses the print-in-place magnetic button. I went through over 50 variations of this button, testing springs and magnets, because I wanted an interaction that was satisfying to use. The button feel is addictive.</P>
         </div>
-        {/* Right column: 2 product shots, then button variants + leather base, then technical drawing */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
-            <Rect label="final-aluminum-regular" aspect="2 / 3" />
-            <Rect label="final-aluminum-mini" aspect="2 / 3" />
+        {/* Right: 2 stacked landscape images + row of 4 small detail circles */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Img label="final-aluminum-pair" aspect="4/3" radius="12px" />
+          <Img label="final-aluminum-side" aspect="4/3" radius="12px" />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+            <Img label="final-btn-1" aspect="1/1" radius="50%" />
+            <Img label="final-btn-2" aspect="1/1" radius="50%" />
+            <Img label="final-btn-3" aspect="1/1" radius="50%" />
+            <Img label="final-btn-4" aspect="1/1" radius="50%" />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
-            <Rect label="final-button-variants" aspect="1 / 1" />
-            <Rect label="final-leather-base" aspect="1 / 1" />
-          </div>
-          <Rect label="final-technical-drawing" aspect="4 / 3" />
         </div>
-      </div>
-      {/* Full-width exploded technical drawing */}
-      <div style={{ marginBottom: '24px' }}>
-        <Rect label="final-exploded-drawing" aspect="21 / 9" />
-      </div>
-      {/* 2 large full-width product shots below the whole Final Product section */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap, marginBottom: sectionMb }}>
-        <Rect label="final-hero-left" aspect="1 / 1" />
-        <Rect label="final-hero-right" aspect="1 / 1" />
       </div>
 
-      {/* ── PACKAGING ───────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: sectionGap, alignItems: 'start' }}>
+      {/* ── TECHNICAL DRAWING: full width ── */}
+      <div style={{ marginBottom: '72px' }}>
+        <Img label="technical-drawing" aspect="16/9" radius="4px" />
+      </div>
+
+      {/* ── PACKAGING ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start' }}>
         <div>
           <Heading>Packaging</Heading>
           <P>The packaging starts the customer's hands-on interaction with the product; and in this case likely the company that made it. I wanted to design an unwrapping experience — the customer can either carefully remove the tabs, cradling the product like a baby chick, or rip through it in excitement to get to the object itself.</P>
           <P>The packaging says a lot: who made the product, where it was made, what it is, and a small message at the bottom: Crafted with pride by ACS.</P>
         </div>
-        {/* 2×2 grid of square packaging photos */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
-          <Rect label="packaging-01" aspect="1 / 1" />
-          <Rect label="packaging-02" aspect="1 / 1" />
-          <Rect label="packaging-03" aspect="1 / 1" />
-          <Rect label="packaging-04" aspect="1 / 1" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Img label="packaging-main" aspect="4/3" radius="12px" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <Img label="packaging-detail-1" aspect="1/1" radius="12px" />
+            <Img label="packaging-detail-2" aspect="1/1" radius="12px" />
+          </div>
         </div>
       </div>
 
