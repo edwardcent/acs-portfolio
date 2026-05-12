@@ -59,11 +59,13 @@ export default function TableLighters() {
     }}>
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      {/* Left ~35%: circular lighter image + ACS wordmark */}
+      {/* Left ~35%: top-down lighter image + ACS wordmark — tops aligned with product shots */}
       {/* Right ~65%: 3 tall portrait product shots */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: sectionGap, alignItems: 'end', marginBottom: sectionMb }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: sectionGap, alignItems: 'start', marginBottom: sectionMb }}>
         <div>
-          <Rect label="hero-acs-circle" aspect="1 / 1" />
+          <div style={{ width: '65%' }}>
+            <Rect label="hero-acs-circle" aspect="1 / 1" />
+          </div>
           <div style={{
             fontFamily: "'Arial Black', 'Arial Bold', Gadget, sans-serif",
             fontWeight: 900,
@@ -75,9 +77,9 @@ export default function TableLighters() {
           }}>ACS</div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap }}>
-          <Rect label="hero-product-01" aspect="2 / 3" />
-          <Rect label="hero-product-02" aspect="2 / 3" />
-          <Rect label="hero-product-03" aspect="2 / 3" />
+          <Rect label="hero-product-01" aspect="3 / 4" />
+          <Rect label="hero-product-02" aspect="3 / 4" />
+          <Rect label="hero-product-03" aspect="3 / 4" />
         </div>
       </div>
 
@@ -121,11 +123,11 @@ export default function TableLighters() {
             'Inconsistency of inner void',
           ]} />
         </div>
-        {/* 2×2 grid: portrait, square, portrait, small landscape */}
+        {/* Row 1: both portrait. Row 2: both square. Consistent per row = aligned. */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
           <Rect label="attempt1-concrete-front" aspect="3 / 4" />
-          <Rect label="attempt1-cork-base" aspect="1 / 1" />
-          <Rect label="attempt1-hollow" aspect="3 / 4" />
+          <Rect label="attempt1-top-bic" aspect="3 / 4" />
+          <Rect label="attempt1-hollow" aspect="1 / 1" />
           <Rect label="attempt1-parts" aspect="1 / 1" />
         </div>
       </div>
@@ -148,12 +150,12 @@ export default function TableLighters() {
             'I noticed users with small hands would benefit from/appreciate a mini version',
           ]} />
         </div>
-        {/* 2-col sub-grid: 6 images (3 rows × 2 cols) */}
+        {/* 3 rows × 2 cols — each row uses matching aspect ratios */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
           <Rect label="rev1-concrete-polished" aspect="3 / 4" />
-          <Rect label="rev1-top-view" aspect="1 / 1" />
-          <Rect label="rev1-cork-stamp" aspect="3 / 4" />
-          <Rect label="rev1-tiktok" aspect="9 / 16" />
+          <Rect label="rev1-top-view" aspect="3 / 4" />
+          <Rect label="rev1-tiktok" aspect="1 / 1" />
+          <Rect label="rev1-cork-stamp" aspect="1 / 1" />
           <Rect label="rev1-silicone-mould" aspect="4 / 3" />
           <Rect label="rev1-3d-insert" aspect="4 / 3" />
         </div>
@@ -184,9 +186,14 @@ export default function TableLighters() {
           <Rect label="final-technical-drawing" aspect="4 / 3" />
         </div>
       </div>
-      {/* Full-width technical drawing spanning below both columns */}
-      <div style={{ marginBottom: sectionMb }}>
+      {/* Full-width exploded technical drawing */}
+      <div style={{ marginBottom: '24px' }}>
         <Rect label="final-exploded-drawing" aspect="21 / 9" />
+      </div>
+      {/* 2 large full-width product shots below the whole Final Product section */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap, marginBottom: sectionMb }}>
+        <Rect label="final-hero-left" aspect="1 / 1" />
+        <Rect label="final-hero-right" aspect="1 / 1" />
       </div>
 
       {/* ── PACKAGING ───────────────────────────────────────────────── */}
@@ -196,12 +203,12 @@ export default function TableLighters() {
           <P>The packaging starts the customer's hands-on interaction with the product; and in this case likely the company that made it. I wanted to design an unwrapping experience — the customer can either carefully remove the tabs, cradling the product like a baby chick, or rip through it in excitement to get to the object itself.</P>
           <P>The packaging says a lot: who made the product, where it was made, what it is, and a small message at the bottom: Crafted with pride by ACS.</P>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
-            <Rect label="packaging-box-front" aspect="1 / 1" />
-            <Rect label="packaging-box-open" aspect="1 / 1" />
-          </div>
-          <Rect label="packaging-flat-layout" aspect="4 / 3" />
+        {/* 2×2 grid of square packaging photos */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap }}>
+          <Rect label="packaging-01" aspect="1 / 1" />
+          <Rect label="packaging-02" aspect="1 / 1" />
+          <Rect label="packaging-03" aspect="1 / 1" />
+          <Rect label="packaging-04" aspect="1 / 1" />
         </div>
       </div>
 
