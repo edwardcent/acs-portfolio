@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import TableLighters from '@/components/projects/TableLighters';
+import MakewayCatchall from '@/components/projects/MakewayCatchall';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -48,6 +49,8 @@ export default async function ProjectPage({ params }: Props) {
       {/* Project content */}
       {slug === 'table-lighters' ? (
         <TableLighters />
+      ) : slug === 'makeway-catchall' ? (
+        <MakewayCatchall />
       ) : (
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 40px 80px' }}>
           <p style={{ fontSize: '14px', color: '#999', fontStyle: 'italic' }}>Content coming soon.</p>

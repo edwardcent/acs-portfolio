@@ -1,0 +1,214 @@
+'use client';
+
+// ─── Image files ──────────────────────────────────────────────────────────────
+// Drop into public/images/makeway/<label>.jpg
+// Grey labelled placeholder is shown until the file exists.
+//
+// hero-left          1/1      Batch of catchalls on grey surface
+// hero-center        1/1      Single catchall with incense + lighter
+// hero-right         1/1      Catchalls with accessories (keys, balm, lighter)
+// brief-logo         519/231  MakeWay wordmark logo
+// process-left-top   343/280  Two oval prototypes stacked/angled
+// process-left-bottom 333/181 Pill-shaped prototype
+// process-right-top  343/201  Rectangular prototype
+// process-right-bottom 340/265 Two silicone molds side by side
+// production-top-left    1/1  Catchall with sage smudge bundle
+// production-top-right   1/1  Catchall with incense sticks + lighter
+// production-bottom-left  1/1 Multiple catchalls overhead (batch)
+// production-bottom-right 1/1 Multiple catchalls arranged with accessories
+
+import { useState, useEffect, useCallback } from 'react';
+
+// ─── Lightbox ─────────────────────────────────────────────────────────────────
+
+function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div onClick={onClose} style={{
+      position: 'fixed', inset: 0, zIndex: 1000,
+      background: 'rgba(0,0,0,0.85)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      cursor: 'zoom-out', padding: '40px',
+    }}>
+      <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} style={{
+        maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
+        borderRadius: '8px', cursor: 'default',
+        boxShadow: '0 8px 48px rgba(0,0,0,0.5)',
+      }} />
+      <button onClick={onClose} style={{
+        position: 'fixed', top: '20px', right: '24px',
+        background: 'none', border: 'none',
+        color: '#fff', fontSize: '28px', cursor: 'pointer',
+        lineHeight: 1, padding: '4px 8px', opacity: 0.7,
+      }} aria-label="Close">×</button>
+    </div>
+  );
+}
+
+// ─── Image component ──────────────────────────────────────────────────────────
+
+function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+  const src = `/images/makeway/${label}.jpg`;
+  const [loaded, setLoaded] = useState(false);
+  const [lightbox, setLightbox] = useState(false);
+  const open = useCallback(() => setLightbox(true), []);
+  const close = useCallback(() => setLightbox(false), []);
+
+  return (
+    <>
+      <div
+        onClick={loaded ? open : undefined}
+        style={{
+          width: '100%', aspectRatio: aspect,
+          background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
+          flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
+        }}
+      >
+        {!loaded && (
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px',
+          }}>
+            <span style={{
+              fontSize: '11px', color: '#888',
+              letterSpacing: '0.04em', textAlign: 'center', lineHeight: 1.5,
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            }}>{label}</span>
+          </div>
+        )}
+        <img
+          src={src}
+          alt={label}
+          onLoad={() => setLoaded(true)}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', display: 'block',
+            opacity: loaded ? 1 : 0, transition: 'opacity 0.2s',
+          }}
+        />
+      </div>
+      {lightbox && loaded && <Lightbox src={src} alt={label} onClose={close} />}
+    </>
+  );
+}
+
+// ─── Typography ───────────────────────────────────────────────────────────────
+
+function H({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 style={{
+      fontWeight: 700, fontSize: 'clamp(20px, 2.2vw, 28px)', lineHeight: 1.05,
+      textTransform: 'uppercase', letterSpacing: '-0.01em',
+      color: '#0a0a0a', margin: '0 0 14px',
+    }}>{children}</h2>
+  );
+}
+
+function P({ children }: { children: React.ReactNode }) {
+  return <p style={{ fontSize: '14px', lineHeight: 1.75, color: '#0a0a0a', margin: '0 0 12px' }}>{children}</p>;
+}
+
+// ─── Layout constants ─────────────────────────────────────────────────────────
+
+const SECTION_MB = '48px';
+const IMG_GAP = '8px';
+const COL_GAP = '40px';
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export default function MakewayCatchall() {
+  return (
+    <div className="tl-wrap" style={{
+      maxWidth: '1100px', margin: '0 auto',
+      padding: '0 40px 120px',
+      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    }}>
+
+      {/* ── HERO ──────────────────────────────────────────────────────────────
+          3 equal-width square images
+          hero-left | hero-center | hero-right
+      */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
+        <Img label="hero-left" aspect="1/1" />
+        <Img label="hero-center" aspect="1/1" />
+        <Img label="hero-right" aspect="1/1" />
+      </div>
+
+      {/* ── CLIENT BRIEF ──────────────────────────────────────────────────────
+          Left: text
+          Right: MakeWay wordmark logo (brief-logo.jpg)
+      */}
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
+        <div>
+          <H>Client Brief</H>
+          <P>MakeWay (Toronto) reached out after seeing my concrete casting work on Instagram. They commissioned a branded concrete catchall / incense holder. The goal was to bring the brand into customers&apos; homes and routines.</P>
+        </div>
+        <Img label="brief-logo" aspect="519/231" />
+      </div>
+
+      {/* ── DESIGN PROCESS ────────────────────────────────────────────────────
+          Left: text
+          Right: 2 sub-columns
+            Left sub: process-left-top (343/280) + process-left-bottom (333/181)
+            Right sub: process-right-top (343/201) + process-right-bottom (340/265)
+      */}
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
+        <div>
+          <H>Design Process</H>
+          <P>I presented several form options to the team at MakeWay. After we selected the circular option, I produced 3D printed prototypes with slight variations so we could make decisions with the object in hand. Together we landed on the ideal dimensions, wall height, embossment height, and other small details — and I went ahead and made a few silicone molds for production.</P>
+        </div>
+        <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
+          {/* Left sub: 2 prototype shots */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+            <Img label="process-left-top" aspect="343/280" />
+            <Img label="process-left-bottom" aspect="333/181" />
+          </div>
+          {/* Right sub: rectangular prototype + molds */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+            <Img label="process-right-top" aspect="343/201" />
+            <Img label="process-right-bottom" aspect="340/265" />
+          </div>
+        </div>
+      </div>
+
+      {/* ── PRODUCTION ────────────────────────────────────────────────────────
+          Left: text
+          Right: 2 sub-columns of square images
+            Left sub:  production-top-left  + production-bottom-left
+            Right sub: production-top-right + production-bottom-right
+      */}
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
+        <div>
+          <H>Production</H>
+          <P>Using the silicone moulds I am able to make the catchall in batches whenever more stock is needed.</P>
+          <P>The product has been in continuous production since 2022. MakeWay owns the master models and moulds, and I produce the product for them.</P>
+          <P>The catchalls are available at the MakeWay storefront and <strong>online</strong>.</P>
+          <P>They were also promoted by Complex in their article <strong>&ldquo;20 Gifts For Canadians Who Love Streetwear&rdquo;</strong> (number 6!)</P>
+        </div>
+        <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
+          {/* Left sub: 2 square production shots */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+            <Img label="production-top-left" aspect="1/1" />
+            <Img label="production-bottom-left" aspect="1/1" />
+          </div>
+          {/* Right sub: 2 square production shots */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+            <Img label="production-top-right" aspect="1/1" />
+            <Img label="production-bottom-right" aspect="1/1" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
