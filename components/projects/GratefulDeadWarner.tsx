@@ -134,8 +134,8 @@ export default function GratefulDeadWarner() {
           hero-tshirts (2fr) | hero-bear (1fr)
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: IMG_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
-        <Img label="hero-tshirts" aspect="993/559" fit="contain" />
-        <Img label="hero-bear" aspect="1/1" fit="contain" />
+        <Img label="hero-tshirts" aspect="993/559" />
+        <Img label="hero-bear" aspect="1/1" />
       </div>
 
       {/* ── CLIENT BRIEF ──────────────────────────────────────────────────────
