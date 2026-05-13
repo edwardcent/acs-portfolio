@@ -411,6 +411,9 @@ export default function TableLighters() {
       </div>
 
       {/* ── FINAL PRODUCT ─────────────────────────────────────────────────────
+          Anchor: #final-product */}
+      <div id="final-product" style={{ scrollMarginTop: '64px' }} />
+      {/* ─────────────────────────────────────────────────────────────────────
           Left: text
           Right col (vertical flex):
             Top grid (2 sub-cols):
@@ -419,7 +422,7 @@ export default function TableLighters() {
             Bottom: technical drawing (landscape)
           Below the 2-col: full-width row of 2 large squares
       */}
-      <div style={{ marginBottom: SECTION_MB }}>
+      <div id="final-product" style={{ scrollMarginTop: '64px', marginBottom: SECTION_MB }}>
         <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: IMG_GAP }}>
           <div>
             <H>Final Product</H>
