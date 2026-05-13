@@ -356,10 +356,10 @@ export default function TableLighters() {
             'Inconsistency of inner void',
           ]} />
         </div>
-        <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-end' }}>
           {/* Left sub: 2 stacked (large square + medium square) */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="attempt-front" aspect="1/1" />
+            <Img label="attempt-front" aspect="347/564" />
             <Img label="attempt-hollow" aspect="1/1" />
           </div>
           {/* Right sub: 3 stacked squares */}
@@ -433,7 +433,7 @@ export default function TableLighters() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             {/* Top: 2 sub-columns */}
-            <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-end' }}>
               {/* Left sub: 2 squares */}
               <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
                 <Img label="final-lighters-pair" aspect="1/1" />
@@ -469,7 +469,7 @@ export default function TableLighters() {
           <P>I wanted to design an unwrapping experience — the customer can either carefully remove the tabs, cradling the product like a baby chick, or rip through it in excitement to get to the object itself.</P>
           <P>The packaging says a lot: who made the product, where it was made, what it is, and a small message at the bottom: Crafted with pride by ACS.</P>
         </div>
-        <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-end' }}>
           {/* Left sub: landscape + square */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             <Img label="packaging-landscape" aspect="4/3" />
