@@ -5,6 +5,7 @@ import Nav from '@/components/Nav';
 import TableLighters from '@/components/projects/TableLighters';
 import MakewayCatchall from '@/components/projects/MakewayCatchall';
 import GratefulDeadWarner from '@/components/projects/GratefulDeadWarner';
+import ParkFrequency from '@/components/projects/ParkFrequency';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -54,6 +55,8 @@ export default async function ProjectPage({ params }: Props) {
         <MakewayCatchall />
       ) : slug === 'grateful-dead-warner' ? (
         <GratefulDeadWarner />
+      ) : slug === 'park-frequency' ? (
+        <ParkFrequency />
       ) : (
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 40px 80px' }}>
           <p style={{ fontSize: '14px', color: '#999', fontStyle: 'italic' }}>Content coming soon.</p>
