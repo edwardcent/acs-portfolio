@@ -283,7 +283,7 @@ const COL_GAP = '40px';
 
 export default function TableLighters() {
   return (
-    <div style={{
+    <div className="tl-wrap" style={{
       maxWidth: '1100px',
       margin: '0 auto',
       padding: '0 40px 120px',
@@ -314,7 +314,7 @@ export default function TableLighters() {
             img3 (Braun cased):        top 62.40% left 14.65% right 47.36% bottom 5.41%
           Container aspect ratio from Figma: 745 × 643 ≈ 1.158
       */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Reference / Goal</H>
           <P>When looking to obtain one of the beautiful lighters designed by Dieter Rams, I realized that the age of these products meant they were more rarely working than not.</P>
@@ -339,7 +339,7 @@ export default function TableLighters() {
             Left sub: 2 stacked square clips (large concrete front + hollow)
             Right sub: 3 stacked squares (top-view, cork base, parts)
       */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>First Attempt</H>
           <P>I designed a rigid two-part mould which held the Bic in place for concrete to fill around it. After trial and error I designed a soft removable bic form that could be removed post pour. The post processing was tedious and the finish was not up to par.</P>
@@ -356,7 +356,7 @@ export default function TableLighters() {
             'Inconsistency of inner void',
           ]} />
         </div>
-        <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
+        <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: 2 stacked (large square + medium square) */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
             <Img label="attempt-front" aspect="347/564" />
@@ -377,7 +377,7 @@ export default function TableLighters() {
             Left sub: tall portrait + landscape + square
             Right sub: square + landscape + portrait
       */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>First Revision</H>
           <P>I designed a new silicone mould system, and a 3D printed insert with an inner void that accommodates Bic's slight size variations. With a high level of polish achieved, I brought this version to market DTC and with some independent storefront placement in Toronto. Most sales came from high exposure TikToks I made talking about the product.</P>
@@ -394,7 +394,7 @@ export default function TableLighters() {
             'I noticed users with small hands would benefit from a mini version',
           ]} />
         </div>
-        <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
+        <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             <Img label="revision-portrait-1" aspect="3/4" />
@@ -420,7 +420,7 @@ export default function TableLighters() {
           Below the 2-col: full-width row of 2 large squares
       */}
       <div style={{ marginBottom: SECTION_MB }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: IMG_GAP }}>
+        <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: IMG_GAP }}>
           <div>
             <H>Final Product</H>
             <P>For this version I looked for a new material that could handle impact and was more environmentally friendly than concrete. I settled on aluminum — light, fully recyclable, and develops a unique patina with use. I made a mini version for individuals with small hands, and added a button that lets users poke the Bic out slightly from the bottom. I shifted from the stamped cork to wet-set debossed leather bases.</P>
@@ -462,7 +462,7 @@ export default function TableLighters() {
             Left sub: landscape (411×348) + square (540×540)
             Right sub: square (302×302) + square (302×302)
       */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
           <H>Packaging</H>
           <P>The packaging starts the customer's hands-on interaction with the product; and in this case likely the company that made it.</P>

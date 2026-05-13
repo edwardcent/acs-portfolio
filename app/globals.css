@@ -29,3 +29,19 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; height: auto; }
 a, button { cursor: pointer; }
 ::selection { background: #0a0a0a; color: #fff; }
+
+/* ─── Project page: responsive image layout ─────────────────────────────── */
+@media (max-width: 768px) {
+  .tl-wrap { padding: 0 20px 80px !important; }
+  .tl-section { grid-template-columns: 1fr !important; }
+  .tl-img-row { flex-direction: column !important; }
+  .tl-img-row > div { flex: none !important; width: 100% !important; }
+}
+
+/* ─── Project nav preview ────────────────────────────────────────────────── */
+.project-nav-item { transition: background 0.15s ease; }
+.project-nav-item:hover { background: #f7f7f5; }
+@media (max-width: 640px) {
+  .project-nav-grid { grid-template-columns: 1fr !important; }
+  .project-nav-next { border-top: 1px solid #ccc; border-left: none !important; }
+}

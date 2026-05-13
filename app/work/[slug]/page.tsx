@@ -54,18 +54,36 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       )}
 
-      {/* Prev / Next */}
-      <div style={{ borderTop: '1px solid #ccc', display: 'grid', gridTemplateColumns: '1fr 1fr', marginTop: '80px' }}>
+      {/* Prev / Next preview */}
+      <div className="project-nav-grid" style={{ borderTop: '1px solid #ccc', display: 'grid', gridTemplateColumns: '1fr 1fr', marginTop: '80px' }}>
         {prev ? (
-          <Link href={`/work/${prev.slug}`} style={{ padding: '28px 40px', borderRight: '1px solid #ccc', display: 'block', textDecoration: 'none' }}>
-            <p style={{ fontSize: '11px', color: '#999', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>← Previous</p>
-            <p style={{ fontSize: '13px', fontWeight: '700', color: '#0a0a0a' }}>{prev.title}</p>
+          <Link href={`/work/${prev.slug}`} className="project-nav-item" style={{
+            padding: '24px 40px', borderRight: '1px solid #ccc',
+            display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
+          }}>
+            <div style={{ width: '72px', height: '54px', borderRadius: '8px', overflow: 'hidden', background: '#e0ddd8', flexShrink: 0 }}>
+              <img src={`/images/${prev.image}`} alt={prev.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+            <div>
+              <p style={{ fontSize: '11px', color: '#999', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>← Previous</p>
+              <p style={{ fontSize: '13px', fontWeight: '700', color: '#0a0a0a', marginBottom: '2px' }}>{prev.title}</p>
+              <p style={{ fontSize: '12px', color: '#999' }}>{prev.category}</p>
+            </div>
           </Link>
-        ) : <div />}
+        ) : <div style={{ borderRight: '1px solid #ccc' }} />}
         {next ? (
-          <Link href={`/work/${next.slug}`} style={{ padding: '28px 40px', textAlign: 'right', display: 'block', textDecoration: 'none' }}>
-            <p style={{ fontSize: '11px', color: '#999', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>Next →</p>
-            <p style={{ fontSize: '13px', fontWeight: '700', color: '#0a0a0a' }}>{next.title}</p>
+          <Link href={`/work/${next.slug}`} className="project-nav-item project-nav-next" style={{
+            padding: '24px 40px',
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px', textDecoration: 'none',
+          }}>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ fontSize: '11px', color: '#999', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>Next →</p>
+              <p style={{ fontSize: '13px', fontWeight: '700', color: '#0a0a0a', marginBottom: '2px' }}>{next.title}</p>
+              <p style={{ fontSize: '12px', color: '#999' }}>{next.category}</p>
+            </div>
+            <div style={{ width: '72px', height: '54px', borderRadius: '8px', overflow: 'hidden', background: '#e0ddd8', flexShrink: 0 }}>
+              <img src={`/images/${next.image}`} alt={next.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
           </Link>
         ) : <div />}
       </div>
