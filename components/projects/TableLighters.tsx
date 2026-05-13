@@ -1,46 +1,126 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+
+// ─── Lightbox ─────────────────────────────────────────────────────────────────
+
+function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 1000,
+        background: 'rgba(0,0,0,0.85)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        cursor: 'zoom-out',
+        padding: '40px',
+      }}
+    >
+      <img
+        src={src}
+        alt={alt}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          objectFit: 'contain',
+          borderRadius: '8px',
+          cursor: 'default',
+          boxShadow: '0 8px 48px rgba(0,0,0,0.5)',
+        }}
+      />
+      <button
+        onClick={onClose}
+        style={{
+          position: 'fixed', top: '20px', right: '24px',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '28px', cursor: 'pointer',
+          lineHeight: 1, padding: '4px 8px',
+          opacity: 0.7,
+        }}
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
+  );
+}
+
 // ─── Image component ─────────────────────────────────────────────────────────
 // Drop image files into public/images/table-lighters/ with the matching label
 // name, e.g. hero-braun-box.jpg. Shows a placeholder until the file exists.
 
 function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
   const src = `/images/table-lighters/${label}.jpg`;
+  const [lightbox, setLightbox] = useState(false);
+  const open = useCallback(() => setLightbox(true), []);
+  const close = useCallback(() => setLightbox(false), []);
+
   return (
-    <div style={{
-      width: '100%',
-      aspectRatio: aspect,
-      background: '#e0ddd8',
-      borderRadius: '12px',
-      overflow: 'hidden',
-      flexShrink: 0,
-      position: 'relative',
-    }}>
-      <img
-        src={src}
-        alt={label}
+    <>
+      <div
+        onClick={open}
         style={{
-          position: 'absolute',
-          inset: 0,
           width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          display: 'block',
+          aspectRatio: aspect,
+          background: '#e0ddd8',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          flexShrink: 0,
+          position: 'relative',
+          cursor: 'zoom-in',
         }}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-      />
-    </div>
+      >
+        <img
+          src={src}
+          alt={label}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+        />
+      </div>
+      {lightbox && <Lightbox src={src} alt={label} onClose={close} />}
+    </>
   );
 }
 
 function RefImg({ label, style }: { label: string; style: React.CSSProperties }) {
+  const src = `/images/table-lighters/${label}.jpg`;
+  const [lightbox, setLightbox] = useState(false);
+  const open = useCallback(() => setLightbox(true), []);
+  const close = useCallback(() => setLightbox(false), []);
+
   return (
-    <div style={{ position: 'absolute', background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden', ...style }}>
-      <img
-        src={`/images/table-lighters/${label}.jpg`}
-        alt={label}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-      />
-    </div>
+    <>
+      <div
+        onClick={open}
+        style={{ position: 'absolute', background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden', cursor: 'zoom-in', ...style }}
+      >
+        <img
+          src={src}
+          alt={label}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+        />
+      </div>
+      {lightbox && <Lightbox src={src} alt={label} onClose={close} />}
+    </>
   );
 }
 
