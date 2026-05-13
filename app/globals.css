@@ -34,8 +34,6 @@ a, button { cursor: pointer; }
 @media (max-width: 768px) {
   .tl-wrap { padding: 0 20px 80px !important; }
   .tl-section { grid-template-columns: 1fr !important; }
-  .tl-img-row { flex-direction: column !important; }
-  .tl-img-row > div { flex: none !important; width: 100% !important; }
 }
 
 /* ─── Project nav preview ────────────────────────────────────────────────── */
