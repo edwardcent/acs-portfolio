@@ -56,6 +56,121 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
   );
 }
 
+// ─── Video lightbox ───────────────────────────────────────────────────────────
+
+function VideoLightbox({ src, onClose }: { src: string; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 1000,
+        background: 'rgba(0,0,0,0.92)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        cursor: 'zoom-out',
+        padding: '40px',
+      }}
+    >
+      <video
+        src={src}
+        controls
+        autoPlay
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          borderRadius: '8px',
+          cursor: 'default',
+          boxShadow: '0 8px 48px rgba(0,0,0,0.6)',
+        }}
+      />
+      <button
+        onClick={onClose}
+        style={{
+          position: 'fixed', top: '20px', right: '24px',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '28px', cursor: 'pointer',
+          lineHeight: 1, padding: '4px 8px',
+          opacity: 0.7,
+        }}
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
+  );
+}
+
+// ─── Video component ──────────────────────────────────────────────────────────
+// Drop video files into public/images/table-lighters/ as <label>.mp4
+// Drop a poster image as <label>-poster.jpg — shown until the user clicks play.
+
+function Video({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+  const src = `/images/table-lighters/${label}.mp4`;
+  const poster = `/images/table-lighters/${label}-poster.jpg`;
+  const [lightbox, setLightbox] = useState(false);
+  const open = useCallback(() => setLightbox(true), []);
+  const close = useCallback(() => setLightbox(false), []);
+
+  return (
+    <>
+      <div
+        onClick={open}
+        style={{
+          width: '100%',
+          aspectRatio: aspect,
+          background: '#e0ddd8',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          flexShrink: 0,
+          position: 'relative',
+          cursor: 'pointer',
+        }}
+      >
+        {/* Poster image */}
+        <img
+          src={poster}
+          alt={label}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+        />
+        {/* Play button overlay */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <div style={{
+            width: '52px', height: '52px',
+            background: 'rgba(255,255,255,0.88)',
+            borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
+          }}>
+            {/* Triangle play icon */}
+            <div style={{
+              width: 0, height: 0,
+              borderTop: '10px solid transparent',
+              borderBottom: '10px solid transparent',
+              borderLeft: '16px solid #0a0a0a',
+              marginLeft: '4px',
+            }} />
+          </div>
+        </div>
+      </div>
+      {lightbox && <VideoLightbox src={src} onClose={close} />}
+    </>
+  );
+}
+
 // ─── Image component ─────────────────────────────────────────────────────────
 // Drop image files into public/images/table-lighters/ with the matching label
 // name, e.g. hero-braun-box.jpg. Shows a placeholder until the file exists.
@@ -336,8 +451,8 @@ export default function TableLighters() {
         </div>
         {/* Full-width 2-square row (Frame 45 in Figma) */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IMG_GAP }}>
-          <Img label="final-extra-1" aspect="1/1" />
-          <Img label="final-extra-2" aspect="1/1" />
+          <Video label="final-extra-1" aspect="1/1" />
+          <Video label="final-extra-2" aspect="1/1" />
         </div>
       </div>
 
