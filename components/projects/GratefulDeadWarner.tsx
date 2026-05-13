@@ -51,7 +51,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?: string; fit?: 'cover' | 'contain' }) {
   const src = `/images/grateful-dead-warner/${label}.jpg`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -87,7 +87,7 @@ function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%',
-            objectFit: 'cover', display: 'block',
+            objectFit: fit, objectPosition: 'center', display: 'block',
             opacity: loaded ? 1 : 0, transition: 'opacity 0.2s',
           }}
         />
@@ -134,8 +134,8 @@ export default function GratefulDeadWarner() {
           hero-tshirts (2fr) | hero-bear (1fr)
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
-        <Img label="hero-tshirts" aspect="993/559" />
-        <Img label="hero-bear" aspect="1/1" />
+        <Img label="hero-tshirts" aspect="993/559" fit="contain" />
+        <Img label="hero-bear" aspect="1/1" fit="contain" />
       </div>
 
       {/* ── CLIENT BRIEF ──────────────────────────────────────────────────────
@@ -148,7 +148,9 @@ export default function GratefulDeadWarner() {
           <P>As a fan of The Dead already making illustrations referencing them, getting the DM from The Grateful Dead&apos;s team at Warner Music was an honour.</P>
           <P>They came across my work and reached out about licensing an existing illustration, with some alterations to accommodate their licensing partners&apos; branding. They also commissioned a new piece featuring a camper-van — part of an effort to fill the merch line with work from passionate artists rather than commercial illustrators unfamiliar with the history of the band.</P>
         </div>
-        <Img label="brief-logo" aspect="1/1" />
+        <div style={{ width: '50%' }}>
+          <Img label="brief-logo" aspect="1/1" />
+        </div>
       </div>
 
       {/* ── FINAL PRODUCT ─────────────────────────────────────────────────────
