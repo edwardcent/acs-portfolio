@@ -133,7 +133,7 @@ export default function GratefulDeadWarner() {
           2:1 grid — wide tshirt pair + square bear shirt
           hero-tshirts (2fr) | hero-bear (1fr)
       */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: IMG_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
         <Img label="hero-tshirts" aspect="993/559" fit="contain" />
         <Img label="hero-bear" aspect="1/1" fit="contain" />
       </div>
@@ -148,7 +148,7 @@ export default function GratefulDeadWarner() {
           <P>As a fan of The Dead already making illustrations referencing them, getting the DM from The Grateful Dead&apos;s team at Warner Music was an honour.</P>
           <P>They came across my work and reached out about licensing an existing illustration, with some alterations to accommodate their licensing partners&apos; branding. They also commissioned a new piece featuring a camper-van — part of an effort to fill the merch line with work from passionate artists rather than commercial illustrators unfamiliar with the history of the band.</P>
         </div>
-        <div style={{ width: '50%' }}>
+        <div style={{ width: '50%', margin: '0 auto' }}>
           <Img label="brief-logo" aspect="1/1" />
         </div>
       </div>
