@@ -192,8 +192,8 @@ export default function MakewayCatchall() {
           <H>Production</H>
           <P>Using the silicone moulds I am able to make the catchall in batches whenever more stock is needed.</P>
           <P>The product has been in continuous production since 2022. MakeWay owns the master models and moulds, and I produce the product for them.</P>
-          <P>The catchalls are available at the MakeWay storefront and <strong>online</strong>.</P>
-          <P>They were also promoted by Complex in their article <strong>&ldquo;20 Gifts For Canadians Who Love Streetwear&rdquo;</strong> (number 6!)</P>
+          <P>The catchalls are available at the MakeWay storefront and <a href="https://shopmakeway.co/products/makeway-concrete-catchall?srsltid=AfmBOoo6otRIcLJEKwZqso9k2SihbrUAMg7PrXgxOgUTE4WqW22efH-h" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '2px' }}>online</a>.</P>
+          <P>They were also promoted by Complex in their article <a href="https://www.complex.com/style/a/josh-walker/streetwear-gifts-for-canadians-2021" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '2px' }}>&ldquo;20 Gifts For Canadians Who Love Streetwear&rdquo;</a> (number 6!)</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub: 2 square production shots */}
