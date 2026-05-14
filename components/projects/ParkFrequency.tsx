@@ -83,18 +83,6 @@ function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?:
           flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
         }}
       >
-        {!loaded && (
-          <div style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px',
-          }}>
-            <span style={{
-              fontSize: '11px', color: '#888',
-              letterSpacing: '0.04em', textAlign: 'center', lineHeight: 1.5,
-              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-            }}>{label}</span>
-          </div>
-        )}
         <img
           src={src}
           alt={label}

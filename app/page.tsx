@@ -14,11 +14,12 @@ function ease(t: number) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [winW, setWinW] = useState(1200);
   const [hovered, setHovered] = useState<string | null>(null);
   const [interactionOn, setInteractionOn] = useState(true);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => { setIsMobile(window.innerWidth < 768); setWinW(window.innerWidth); };
     check();
     window.addEventListener('resize', check);
     const onScroll = () => setScrollY(window.scrollY);
@@ -28,7 +29,7 @@ export default function Home() {
 
   return isMobile
     ? <MobileHome scrollY={scrollY} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />
-    : <DesktopHome scrollY={scrollY} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />;
+    : <DesktopHome scrollY={scrollY} winW={winW} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />;
 }
 
 // ─────────────────────────────────────────────
@@ -47,11 +48,12 @@ export default function Home() {
 // 8000– 8600  text 2 fades out → project list fades in
 // 8600– 9600  HOLD: project list (minifig stays right)
 
-function DesktopHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
+function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   const armP  = prog(scrollY, 600, 1800);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
   const moveP = ease(prog(scrollY, 2800, 3400));
-  const figTX = moveP * 25;
+  // Cap the absolute pixel offset so the minifig doesn't drift too far from the text on wide screens
+  const figTX = moveP * Math.min(25, 22000 / Math.max(winW, 1));
   const figTY = moveP * 5;
   const t1P      = ease(prog(scrollY, 4400, 5000));
   const t1Out    = prog(scrollY, 6000, 6400);
@@ -204,12 +206,11 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
 
-          {/* Text zone — strictly top 42vh, overflow hidden so it can never reach minifig */}
+          {/* Text zone — auto-height so it doesn't cover more of the minifig than the text needs */}
           <div style={{
             position: 'absolute', left: '6vw', right: '6vw',
-            top: '10vh', height: '28vh', zIndex: 20,
+            top: '10vh', zIndex: 20,
             background: `rgba(255,255,255,${Math.max(t1Opacity, t2Opacity)})`,
-            overflow: 'hidden',
           }}>
             {/* Text 1 */}
             <div style={{ position: 'absolute', inset: 0, opacity: t1Opacity, pointerEvents: 'none' }}>

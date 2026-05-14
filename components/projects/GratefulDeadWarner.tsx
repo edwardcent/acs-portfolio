@@ -68,18 +68,6 @@ function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?:
           flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
         }}
       >
-        {!loaded && (
-          <div style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px',
-          }}>
-            <span style={{
-              fontSize: '11px', color: '#888',
-              letterSpacing: '0.04em', textAlign: 'center', lineHeight: 1.5,
-              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-            }}>{label}</span>
-          </div>
-        )}
         <img
           src={src}
           alt={label}
@@ -145,8 +133,8 @@ export default function GratefulDeadWarner() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Client Brief</H>
-          <P>As a fan of The Dead already making illustrations referencing them, getting the DM from The Grateful Dead&apos;s team at Warner Music was an honour.</P>
-          <P>They came across my work and reached out about licensing an existing illustration, with some alterations to accommodate their licensing partners&apos; branding. They also commissioned a new piece featuring a camper-van — part of an effort to fill the merch line with work from passionate artists rather than commercial illustrators unfamiliar with the history of the band.</P>
+          <P>As a fan of The Dead already making illustrations referencing them, getting the DM from someone on their team at Warner Music was an honour.</P>
+          <P>They came across my work and reached out about licensing an existing illustration and commissioned a piece featuring a camper-van. They reached out to people like me in an effort to fill the merch line with work from genuine fans rather than commercial illustrators unfamiliar with the history of the band.</P>
         </div>
         <div style={{ width: '50%', margin: '0 auto' }}>
           <Img label="brief-logo" aspect="1/1" />
@@ -166,9 +154,7 @@ export default function GratefulDeadWarner() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
           <H>Final Product</H>
-          <P>The client&apos;s turnaround was three days, end to end, with no revision rounds.</P>
-          <P>Both pieces had to be delivered final on first pass. I altered my bear graphic, which was my existing illustration and added space for a licensor&apos;s branding on the bear&apos;s shirt.</P>
-          <P>For the commissioned camper-van illustration I made a chrome rendition of the band&apos;s logo with a space van and a smiling sun for the back graphic. We did alter the new illustration slightly on delivery, removing the black void aspect to make the graphic more cohesive with others in the line. The two designs were licensed as official Grateful Dead merchandise and sold internationally.</P>
+          <P>The client required a fast turnaround — both pieces delivered final on first pass, no revision rounds. I adapted an existing bear illustration, integrating space for the licensor&apos;s branding on the bear&apos;s shirt. The commissioned piece was a chrome rendition of the band&apos;s logo paired with a space van and smiling sun. On delivery we made one refinement, removing the black void to better cohese with the rest of the line. Both designs were licensed as official Grateful Dead merchandise and sold internationally.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           {/* Stacked landscapes */}
