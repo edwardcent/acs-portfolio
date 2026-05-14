@@ -18,16 +18,22 @@ import { useState, useEffect, useCallback } from 'react';
 
 // ─── Lightbox ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({ images, startIndex, onClose }: { images: string[]; startIndex: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIndex);
+  const src = images[idx];
+  const hasPrev = idx > 0;
+  const hasNext = idx < images.length - 1;
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setIdx(i => Math.max(0, i - 1));
+      if (e.key === 'ArrowRight') setIdx(i => Math.min(images.length - 1, i + 1));
+    };
     document.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handler);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [onClose, images.length]);
 
   return (
     <div onClick={onClose} style={{
@@ -36,7 +42,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       cursor: 'zoom-out', padding: '40px',
     }}>
-      <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} style={{
+      <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
         maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
         borderRadius: '8px', cursor: 'default',
         boxShadow: '0 8px 48px rgba(0,0,0,0.5)',
@@ -47,13 +53,29 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         color: '#fff', fontSize: '28px', cursor: 'pointer',
         lineHeight: 1, padding: '4px 8px', opacity: 0.7,
       }} aria-label="Close">×</button>
+      {hasPrev && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i - 1); }} style={{
+          position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Previous">‹</button>
+      )}
+      {hasNext && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i + 1); }} style={{
+          position: 'fixed', right: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Next">›</button>
+      )}
     </div>
   );
 }
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect?: string; images: string[]; myIndex: number }) {
   const src = `/images/bmw-grateful-dead/${label}.jpg`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -82,7 +104,7 @@ function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
           }}
         />
       </div>
-      {lightbox && loaded && <Lightbox src={src} alt={label} onClose={close} />}
+      {lightbox && loaded && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
@@ -112,6 +134,18 @@ const COL_GAP = '40px';
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BmwGratefulDead() {
+  const ALL_IMAGES = [
+    '/images/bmw-grateful-dead/hero-1.jpg',
+    '/images/bmw-grateful-dead/hero-2.jpg',
+    '/images/bmw-grateful-dead/hero-3.jpg',
+    '/images/bmw-grateful-dead/goal.jpg',
+    '/images/bmw-grateful-dead/process.jpg',
+    '/images/bmw-grateful-dead/release-1.jpg',
+    '/images/bmw-grateful-dead/release-2.jpg',
+    '/images/bmw-grateful-dead/final-top.jpg',
+    '/images/bmw-grateful-dead/final-bottom.jpg',
+  ];
+
   return (
     <div className="tl-wrap" style={{
       maxWidth: '1100px', margin: '0 auto',
@@ -124,9 +158,9 @@ export default function BmwGratefulDead() {
           hero-1 (528/434) | hero-2 (528/434) | hero-3 (1/1)
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '528fr 528fr 412fr', gap: IMG_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
-        <Img label="hero-1" aspect="528/434" />
-        <Img label="hero-2" aspect="528/434" />
-        <Img label="hero-3" aspect="1/1" />
+        <Img label="hero-1" aspect="528/434" images={ALL_IMAGES} myIndex={0} />
+        <Img label="hero-2" aspect="528/434" images={ALL_IMAGES} myIndex={1} />
+        <Img label="hero-3" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
       </div>
 
       {/* ── GOAL ──────────────────────────────────────────────────────────────
@@ -138,7 +172,7 @@ export default function BmwGratefulDead() {
           <H>Goal</H>
           <P>A self-initiated bootleg release: the combination came from a love of both the band and the brand. First I drew up the logo, but since I already owned one of the BMW shirts, I realized there was an opportunity to create a new product, without actually making a new product.</P>
         </div>
-        <Img label="goal" aspect="730/428" />
+        <Img label="goal" aspect="730/428" images={ALL_IMAGES} myIndex={3} />
       </div>
 
       {/* ── PROCESS ───────────────────────────────────────────────────────────
@@ -150,7 +184,7 @@ export default function BmwGratefulDead() {
           <H>Process</H>
           <P>I sourced 15 of the same vintage BMW t-shirts, in deadstock-adjacent condition. I then referenced the variations of the original graphics sizes to create a graphic that would fit around all of them. I worked with a local print house to screen-print the Grateful Dead Steal Your Face stealie around the BMW logo.</P>
         </div>
-        <Img label="process" aspect="743/497" />
+        <Img label="process" aspect="743/497" images={ALL_IMAGES} myIndex={4} />
       </div>
 
       {/* ── RELEASE ───────────────────────────────────────────────────────────
@@ -164,8 +198,8 @@ export default function BmwGratefulDead() {
           <P>The release went great and sold out direct-to-consumer.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
-          <div style={{ flex: 1 }}><Img label="release-1" aspect="1/1" /></div>
-          <div style={{ flex: 1 }}><Img label="release-2" aspect="1/1" /></div>
+          <div style={{ flex: 1 }}><Img label="release-1" aspect="1/1" images={ALL_IMAGES} myIndex={5} /></div>
+          <div style={{ flex: 1 }}><Img label="release-2" aspect="1/1" images={ALL_IMAGES} myIndex={6} /></div>
         </div>
       </div>
 
@@ -173,8 +207,8 @@ export default function BmwGratefulDead() {
           Two full-width images stacked
       */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-        <Img label="final-top" aspect="1378/495" />
-        <Img label="final-bottom" aspect="1463/731" />
+        <Img label="final-top" aspect="1378/495" images={ALL_IMAGES} myIndex={7} />
+        <Img label="final-bottom" aspect="1463/731" images={ALL_IMAGES} myIndex={8} />
       </div>
 
     </div>

@@ -30,16 +30,22 @@ import Link from 'next/link';
 
 // ─── Lightbox ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({ images, startIndex, onClose }: { images: string[]; startIndex: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIndex);
+  const src = images[idx];
+  const hasPrev = idx > 0;
+  const hasNext = idx < images.length - 1;
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setIdx(i => Math.max(0, i - 1));
+      if (e.key === 'ArrowRight') setIdx(i => Math.min(images.length - 1, i + 1));
+    };
     document.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handler);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [onClose, images.length]);
 
   return (
     <div onClick={onClose} style={{
@@ -48,7 +54,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       cursor: 'zoom-out', padding: '40px',
     }}>
-      <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} style={{
+      <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
         maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
         borderRadius: '8px', cursor: 'default',
         boxShadow: '0 8px 48px rgba(0,0,0,0.5)',
@@ -59,13 +65,29 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         color: '#fff', fontSize: '28px', cursor: 'pointer',
         lineHeight: 1, padding: '4px 8px', opacity: 0.7,
       }} aria-label="Close">×</button>
+      {hasPrev && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i - 1); }} style={{
+          position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Previous">‹</button>
+      )}
+      {hasNext && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i + 1); }} style={{
+          position: 'fixed', right: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Next">›</button>
+      )}
     </div>
   );
 }
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?: string; fit?: 'cover' | 'contain' }) {
+function Img({ label, aspect = '1/1', fit = 'cover', images, myIndex }: { label: string; aspect?: string; fit?: 'cover' | 'contain'; images: string[]; myIndex: number }) {
   const src = `/images/park-frequency/${label}.jpg`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -94,7 +116,7 @@ function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?:
           }}
         />
       </div>
-      {lightbox && loaded && <Lightbox src={src} alt={label} onClose={close} />}
+      {lightbox && loaded && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
@@ -124,6 +146,29 @@ const COL_GAP = '40px';
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ParkFrequency() {
+  const ALL_IMAGES = [
+    '/images/park-frequency/hero-left.jpg',
+    '/images/park-frequency/hero-center.jpg',
+    '/images/park-frequency/hero-right.jpg',
+    '/images/park-frequency/brief.jpg',
+    '/images/park-frequency/hangers-top-1.jpg',
+    '/images/park-frequency/hangers-top-2.jpg',
+    '/images/park-frequency/hangers-bot-left.jpg',
+    '/images/park-frequency/hangers-bot-right.jpg',
+    '/images/park-frequency/popup-l1.jpg',
+    '/images/park-frequency/popup-l2.jpg',
+    '/images/park-frequency/popup-l3.jpg',
+    '/images/park-frequency/popup-l4.jpg',
+    '/images/park-frequency/popup-l5.jpg',
+    '/images/park-frequency/popup-r1.jpg',
+    '/images/park-frequency/popup-r2.jpg',
+    '/images/park-frequency/popup-r3.jpg',
+    '/images/park-frequency/popup-r4.jpg',
+    '/images/park-frequency/popup-r5.jpg',
+    '/images/park-frequency/popup-r6.jpg',
+    '/images/park-frequency/lighters.jpg',
+  ];
+
   return (
     <div className="tl-wrap" style={{
       maxWidth: '1100px', margin: '0 auto',
@@ -136,9 +181,9 @@ export default function ParkFrequency() {
           hero-left (1/1) | hero-center (1/1) | hero-right (555/453)
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '452fr 452fr 555fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
-        <Img label="hero-left" aspect="1/1" />
-        <Img label="hero-center" aspect="1/1" />
-        <Img label="hero-right" aspect="555/453" />
+        <Img label="hero-left" aspect="1/1" images={ALL_IMAGES} myIndex={0} />
+        <Img label="hero-center" aspect="1/1" images={ALL_IMAGES} myIndex={1} />
+        <Img label="hero-right" aspect="555/453" images={ALL_IMAGES} myIndex={2} />
       </div>
 
       {/* ── CLIENT BRIEF ──────────────────────────────────────────────────────
@@ -151,7 +196,7 @@ export default function ParkFrequency() {
           <P>Frequency Worldwide - now Park, is a Toronto-based clothing brand with a strong online presence and growing retail ambition.</P>
           <P>The relationship started with a gifted table lighter — one of the owners had been liking my work and asked what I could do for them. Our first conversations covered home goods, branded lighters, and concrete trays. We discussed different uses of the brand&apos;s logos and the question of how a clothing brand becomes part of a customer&apos;s home and daily life.</P>
         </div>
-        <Img label="brief" aspect="726/300" />
+        <Img label="brief" aspect="726/300" images={ALL_IMAGES} myIndex={3} />
       </div>
 
       {/* ── CUSTOM HANGERS ────────────────────────────────────────────────────
@@ -170,13 +215,13 @@ export default function ParkFrequency() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           {/* Top row */}
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
-            <div style={{ flex: '351' }}><Img label="hangers-top-1" aspect="351/335" /></div>
-            <div style={{ flex: '336' }}><Img label="hangers-top-2" aspect="1/1" /></div>
+            <div style={{ flex: '351' }}><Img label="hangers-top-1" aspect="351/335" images={ALL_IMAGES} myIndex={4} /></div>
+            <div style={{ flex: '336' }}><Img label="hangers-top-2" aspect="1/1" images={ALL_IMAGES} myIndex={5} /></div>
           </div>
           {/* Bottom row */}
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
-            <div style={{ flex: '304' }}><Img label="hangers-bot-left" aspect="304/203" /></div>
-            <div style={{ flex: '383' }}><Img label="hangers-bot-right" aspect="383/203" /></div>
+            <div style={{ flex: '304' }}><Img label="hangers-bot-left" aspect="304/203" images={ALL_IMAGES} myIndex={6} /></div>
+            <div style={{ flex: '383' }}><Img label="hangers-bot-right" aspect="383/203" images={ALL_IMAGES} myIndex={7} /></div>
           </div>
         </div>
       </div>
@@ -196,21 +241,21 @@ export default function ParkFrequency() {
         <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left column */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="popup-l1" aspect="328/194" />
-            <Img label="popup-l2" aspect="328/194" />
-            <Img label="popup-l3" aspect="328/194" />
-            <Img label="popup-l4" aspect="328/194" />
-            <Img label="popup-l5" aspect="328/194" />
+            <Img label="popup-l1" aspect="328/194" images={ALL_IMAGES} myIndex={8} />
+            <Img label="popup-l2" aspect="328/194" images={ALL_IMAGES} myIndex={9} />
+            <Img label="popup-l3" aspect="328/194" images={ALL_IMAGES} myIndex={10} />
+            <Img label="popup-l4" aspect="328/194" images={ALL_IMAGES} myIndex={11} />
+            <Img label="popup-l5" aspect="328/194" images={ALL_IMAGES} myIndex={12} />
           </div>
           {/* Right column */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="popup-r1" aspect="328/194" />
-            <Img label="popup-r2" aspect="328/194" />
-            <Img label="popup-r3" aspect="328/194" />
-            <Img label="popup-r4" aspect="328/194" />
+            <Img label="popup-r1" aspect="328/194" images={ALL_IMAGES} myIndex={13} />
+            <Img label="popup-r2" aspect="328/194" images={ALL_IMAGES} myIndex={14} />
+            <Img label="popup-r3" aspect="328/194" images={ALL_IMAGES} myIndex={15} />
+            <Img label="popup-r4" aspect="328/194" images={ALL_IMAGES} myIndex={16} />
             <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
-              <div style={{ flex: 1 }}><Img label="popup-r5" aspect="156/196" /></div>
-              <div style={{ flex: 1 }}><Img label="popup-r6" aspect="156/196" /></div>
+              <div style={{ flex: 1 }}><Img label="popup-r5" aspect="156/196" images={ALL_IMAGES} myIndex={17} /></div>
+              <div style={{ flex: 1 }}><Img label="popup-r6" aspect="156/196" images={ALL_IMAGES} myIndex={18} /></div>
             </div>
           </div>
         </div>
@@ -230,7 +275,7 @@ export default function ParkFrequency() {
           </P>
           <P>The lighters are being seeded to friends of the brand and offered as in-real-life exclusives at pop-up events. This product aligned with Park&apos;s broader effort to translate a clothing brand into a world of objects.</P>
         </div>
-        <Img label="lighters" aspect="1/1" />
+        <Img label="lighters" aspect="1/1" images={ALL_IMAGES} myIndex={19} />
       </div>
 
     </div>

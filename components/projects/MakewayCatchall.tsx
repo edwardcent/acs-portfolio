@@ -21,16 +21,22 @@ import { useState, useEffect, useCallback } from 'react';
 
 // ─── Lightbox ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({ images, startIndex, onClose }: { images: string[]; startIndex: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIndex);
+  const src = images[idx];
+  const hasPrev = idx > 0;
+  const hasNext = idx < images.length - 1;
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setIdx(i => Math.max(0, i - 1));
+      if (e.key === 'ArrowRight') setIdx(i => Math.min(images.length - 1, i + 1));
+    };
     document.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handler);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [onClose, images.length]);
 
   return (
     <div onClick={onClose} style={{
@@ -39,7 +45,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       cursor: 'zoom-out', padding: '40px',
     }}>
-      <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} style={{
+      <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
         maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
         borderRadius: '8px', cursor: 'default',
         boxShadow: '0 8px 48px rgba(0,0,0,0.5)',
@@ -50,13 +56,29 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         color: '#fff', fontSize: '28px', cursor: 'pointer',
         lineHeight: 1, padding: '4px 8px', opacity: 0.7,
       }} aria-label="Close">×</button>
+      {hasPrev && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i - 1); }} style={{
+          position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Previous">‹</button>
+      )}
+      {hasNext && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i + 1); }} style={{
+          position: 'fixed', right: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Next">›</button>
+      )}
     </div>
   );
 }
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect?: string; images: string[]; myIndex: number }) {
   const src = `/images/makeway/${label}.jpg`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -85,7 +107,7 @@ function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
           }}
         />
       </div>
-      {lightbox && loaded && <Lightbox src={src} alt={label} onClose={close} />}
+      {lightbox && loaded && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
@@ -115,6 +137,21 @@ const COL_GAP = '40px';
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function MakewayCatchall() {
+  const ALL_IMAGES = [
+    '/images/makeway/hero-left.jpg',
+    '/images/makeway/hero-center.jpg',
+    '/images/makeway/hero-right.jpg',
+    '/images/makeway/brief-logo.jpg',
+    '/images/makeway/process-left-top.jpg',
+    '/images/makeway/process-left-bottom.jpg',
+    '/images/makeway/process-right-top.jpg',
+    '/images/makeway/process-right-bottom.jpg',
+    '/images/makeway/production-top-left.jpg',
+    '/images/makeway/production-top-right.jpg',
+    '/images/makeway/production-bottom-left.jpg',
+    '/images/makeway/production-bottom-right.jpg',
+  ];
+
   return (
     <div className="tl-wrap" style={{
       maxWidth: '1100px', margin: '0 auto',
@@ -127,9 +164,9 @@ export default function MakewayCatchall() {
           hero-left | hero-center | hero-right
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
-        <Img label="hero-left" aspect="1/1" />
-        <Img label="hero-center" aspect="1/1" />
-        <Img label="hero-right" aspect="1/1" />
+        <Img label="hero-left" aspect="1/1" images={ALL_IMAGES} myIndex={0} />
+        <Img label="hero-center" aspect="1/1" images={ALL_IMAGES} myIndex={1} />
+        <Img label="hero-right" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
       </div>
 
       {/* ── CLIENT BRIEF ──────────────────────────────────────────────────────
@@ -141,7 +178,7 @@ export default function MakewayCatchall() {
           <H>Client Brief</H>
           <P>MakeWay (Toronto) reached out after seeing my concrete casting work on Instagram. They commissioned a branded concrete catchall / incense holder. The goal was to bring the brand into customers&apos; homes and routines.</P>
         </div>
-        <Img label="brief-logo" aspect="519/231" />
+        <Img label="brief-logo" aspect="519/231" images={ALL_IMAGES} myIndex={3} />
       </div>
 
       {/* ── DESIGN PROCESS ────────────────────────────────────────────────────
@@ -158,13 +195,13 @@ export default function MakewayCatchall() {
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub: 2 prototype shots */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="process-left-top" aspect="343/280" />
-            <Img label="process-left-bottom" aspect="333/181" />
+            <Img label="process-left-top" aspect="343/280" images={ALL_IMAGES} myIndex={4} />
+            <Img label="process-left-bottom" aspect="333/181" images={ALL_IMAGES} myIndex={5} />
           </div>
           {/* Right sub: rectangular prototype + molds */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="process-right-top" aspect="343/201" />
-            <Img label="process-right-bottom" aspect="340/265" />
+            <Img label="process-right-top" aspect="343/201" images={ALL_IMAGES} myIndex={6} />
+            <Img label="process-right-bottom" aspect="340/265" images={ALL_IMAGES} myIndex={7} />
           </div>
         </div>
       </div>
@@ -186,13 +223,13 @@ export default function MakewayCatchall() {
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub: 2 square production shots */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="production-top-left" aspect="1/1" />
-            <Img label="production-bottom-left" aspect="1/1" />
+            <Img label="production-top-left" aspect="1/1" images={ALL_IMAGES} myIndex={8} />
+            <Img label="production-bottom-left" aspect="1/1" images={ALL_IMAGES} myIndex={10} />
           </div>
           {/* Right sub: 2 square production shots */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="production-top-right" aspect="1/1" />
-            <Img label="production-bottom-right" aspect="1/1" />
+            <Img label="production-top-right" aspect="1/1" images={ALL_IMAGES} myIndex={9} />
+            <Img label="production-bottom-right" aspect="1/1" images={ALL_IMAGES} myIndex={11} />
           </div>
         </div>
       </div>

@@ -16,16 +16,22 @@ import { useState, useEffect, useCallback } from 'react';
 
 // ─── Lightbox ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({ images, startIndex, onClose }: { images: string[]; startIndex: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIndex);
+  const src = images[idx];
+  const hasPrev = idx > 0;
+  const hasNext = idx < images.length - 1;
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setIdx(i => Math.max(0, i - 1));
+      if (e.key === 'ArrowRight') setIdx(i => Math.min(images.length - 1, i + 1));
+    };
     document.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handler);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [onClose, images.length]);
 
   return (
     <div onClick={onClose} style={{
@@ -34,7 +40,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       cursor: 'zoom-out', padding: '40px',
     }}>
-      <img src={src} alt={alt} onClick={(e) => e.stopPropagation()} style={{
+      <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
         maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
         borderRadius: '8px', cursor: 'default',
         boxShadow: '0 8px 48px rgba(0,0,0,0.5)',
@@ -45,13 +51,29 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         color: '#fff', fontSize: '28px', cursor: 'pointer',
         lineHeight: 1, padding: '4px 8px', opacity: 0.7,
       }} aria-label="Close">×</button>
+      {hasPrev && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i - 1); }} style={{
+          position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Previous">‹</button>
+      )}
+      {hasNext && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i + 1); }} style={{
+          position: 'fixed', right: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Next">›</button>
+      )}
     </div>
   );
 }
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?: string; fit?: 'cover' | 'contain' }) {
+function Img({ label, aspect = '1/1', fit = 'cover', images, myIndex }: { label: string; aspect?: string; fit?: 'cover' | 'contain'; images: string[]; myIndex: number }) {
   const src = `/images/grateful-dead-warner/${label}.jpg`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -80,7 +102,7 @@ function Img({ label, aspect = '1/1', fit = 'cover' }: { label: string; aspect?:
           }}
         />
       </div>
-      {lightbox && loaded && <Lightbox src={src} alt={label} onClose={close} />}
+      {lightbox && loaded && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
@@ -110,6 +132,16 @@ const COL_GAP = '40px';
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function GratefulDeadWarner() {
+  const ALL_IMAGES = [
+    '/images/grateful-dead-warner/hero-tshirts.jpg',
+    '/images/grateful-dead-warner/hero-bear.jpg',
+    '/images/grateful-dead-warner/brief-logo.jpg',
+    '/images/grateful-dead-warner/final-top-art.jpg',
+    '/images/grateful-dead-warner/final-shirts.jpg',
+    '/images/grateful-dead-warner/final-bear-art.jpg',
+    '/images/grateful-dead-warner/final-bear-shirt.jpg',
+  ];
+
   return (
     <div className="tl-wrap" style={{
       maxWidth: '1100px', margin: '0 auto',
@@ -122,8 +154,8 @@ export default function GratefulDeadWarner() {
           hero-tshirts (2fr) | hero-bear (1fr)
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: IMG_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
-        <Img label="hero-tshirts" aspect="993/559" />
-        <Img label="hero-bear" aspect="1/1" />
+        <Img label="hero-tshirts" aspect="993/559" images={ALL_IMAGES} myIndex={0} />
+        <Img label="hero-bear" aspect="1/1" images={ALL_IMAGES} myIndex={1} />
       </div>
 
       {/* ── CLIENT BRIEF ──────────────────────────────────────────────────────
@@ -137,7 +169,7 @@ export default function GratefulDeadWarner() {
           <P>They came across my work and reached out about licensing an existing illustration and commissioned a piece featuring a camper-van. They reached out to people like me in an effort to fill the merch line with work from genuine fans rather than commercial illustrators unfamiliar with the history of the band.</P>
         </div>
         <div style={{ width: '50%', margin: '0 auto' }}>
-          <Img label="brief-logo" aspect="1/1" />
+          <Img label="brief-logo" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
         </div>
       </div>
 
@@ -158,15 +190,15 @@ export default function GratefulDeadWarner() {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           {/* Stacked landscapes */}
-          <Img label="final-top-art" aspect="639/394" />
-          <Img label="final-shirts" aspect="613/345" />
+          <Img label="final-top-art" aspect="639/394" images={ALL_IMAGES} myIndex={3} />
+          <Img label="final-shirts" aspect="613/345" images={ALL_IMAGES} myIndex={4} />
           {/* Side-by-side bottom row */}
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
             <div style={{ flex: '269', display: 'flex', flexDirection: 'column' }}>
-              <Img label="final-bear-art" aspect="269/307" />
+              <Img label="final-bear-art" aspect="269/307" images={ALL_IMAGES} myIndex={5} />
             </div>
             <div style={{ flex: '339', display: 'flex', flexDirection: 'column' }}>
-              <Img label="final-bear-shirt" aspect="1/1" />
+              <Img label="final-bear-shirt" aspect="1/1" images={ALL_IMAGES} myIndex={6} />
             </div>
           </div>
         </div>

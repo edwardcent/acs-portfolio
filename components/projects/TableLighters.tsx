@@ -4,16 +4,22 @@ import { useState, useEffect, useCallback } from 'react';
 
 // ─── Lightbox ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({ images, startIndex, onClose }: { images: string[]; startIndex: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIndex);
+  const src = images[idx];
+  const hasPrev = idx > 0;
+  const hasNext = idx < images.length - 1;
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setIdx(i => Math.max(0, i - 1));
+      if (e.key === 'ArrowRight') setIdx(i => Math.min(images.length - 1, i + 1));
+    };
     document.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handler);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [onClose, images.length]);
 
   return (
     <div
@@ -28,7 +34,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
     >
       <img
         src={src}
-        alt={alt}
+        alt=""
         onClick={(e) => e.stopPropagation()}
         style={{
           maxWidth: '100%',
@@ -52,6 +58,22 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       >
         ×
       </button>
+      {hasPrev && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i - 1); }} style={{
+          position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Previous">‹</button>
+      )}
+      {hasNext && (
+        <button onClick={(e) => { e.stopPropagation(); setIdx(i => i + 1); }} style={{
+          position: 'fixed', right: '20px', top: '50%', transform: 'translateY(-50%)',
+          background: 'none', border: 'none',
+          color: '#fff', fontSize: '40px', cursor: 'pointer',
+          lineHeight: 1, padding: '8px 12px', opacity: 0.7,
+        }} aria-label="Next">›</button>
+      )}
     </div>
   );
 }
@@ -175,7 +197,7 @@ function Video({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
 // Drop image files into public/images/table-lighters/ with the matching label
 // name, e.g. hero-braun-box.jpg. Shows a placeholder until the file exists.
 
-function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
+function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect?: string; images: string[]; myIndex: number }) {
   const src = `/images/table-lighters/${label}.jpg`;
   const [lightbox, setLightbox] = useState(false);
   const open = useCallback(() => setLightbox(true), []);
@@ -210,12 +232,12 @@ function Img({ label, aspect = '1/1' }: { label: string; aspect?: string }) {
           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
         />
       </div>
-      {lightbox && <Lightbox src={src} alt={label} onClose={close} />}
+      {lightbox && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
 
-function RefImg({ label, style }: { label: string; style: React.CSSProperties }) {
+function RefImg({ label, style, images, myIndex }: { label: string; style: React.CSSProperties; images: string[]; myIndex: number }) {
   const src = `/images/table-lighters/${label}.jpg`;
   const [lightbox, setLightbox] = useState(false);
   const open = useCallback(() => setLightbox(true), []);
@@ -234,7 +256,7 @@ function RefImg({ label, style }: { label: string; style: React.CSSProperties })
           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
         />
       </div>
-      {lightbox && <Lightbox src={src} alt={label} onClose={close} />}
+      {lightbox && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
@@ -282,6 +304,37 @@ const COL_GAP = '40px';
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function TableLighters() {
+  const ALL_IMAGES = [
+    '/images/table-lighters/hero-braun-box.jpg',
+    '/images/table-lighters/hero-acs-logo.jpg',
+    '/images/table-lighters/hero-concrete-v1.jpg',
+    '/images/table-lighters/hero-concrete-v2.jpg',
+    '/images/table-lighters/hero-aluminum-pair.jpg',
+    '/images/table-lighters/ref-t2-box.jpg',
+    '/images/table-lighters/ref-braun-lighters.jpg',
+    '/images/table-lighters/ref-braun-cased.jpg',
+    '/images/table-lighters/attempt-front.jpg',
+    '/images/table-lighters/attempt-hollow.jpg',
+    '/images/table-lighters/attempt-topview.jpg',
+    '/images/table-lighters/attempt-cork.jpg',
+    '/images/table-lighters/attempt-parts.jpg',
+    '/images/table-lighters/revision-portrait-1.jpg',
+    '/images/table-lighters/revision-landscape-1.jpg',
+    '/images/table-lighters/revision-square-1.jpg',
+    '/images/table-lighters/revision-square-2.jpg',
+    '/images/table-lighters/revision-landscape-2.jpg',
+    '/images/table-lighters/revision-portrait-2.jpg',
+    '/images/table-lighters/final-lighters-pair.jpg',
+    '/images/table-lighters/final-buttons-array.jpg',
+    '/images/table-lighters/final-lighter-close.jpg',
+    '/images/table-lighters/final-leather-base.jpg',
+    '/images/table-lighters/final-technical-drawing.jpg',
+    '/images/table-lighters/packaging-landscape.jpg',
+    '/images/table-lighters/packaging-square-1.jpg',
+    '/images/table-lighters/packaging-square-2.jpg',
+    '/images/table-lighters/packaging-square-3.jpg',
+  ];
+
   return (
     <div className="tl-wrap" style={{
       maxWidth: '1100px',
@@ -298,12 +351,12 @@ export default function TableLighters() {
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.23fr 1.23fr 1.97fr', gap: IMG_GAP, alignItems: 'stretch', marginBottom: SECTION_MB }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-          <Img label="hero-braun-box" aspect="1/1" />
-          <Img label="hero-acs-logo" aspect="1/1" />
+          <Img label="hero-braun-box" aspect="1/1" images={ALL_IMAGES} myIndex={0} />
+          <Img label="hero-acs-logo" aspect="1/1" images={ALL_IMAGES} myIndex={1} />
         </div>
-        <Img label="hero-concrete-v1" aspect="2/3" />
-        <Img label="hero-concrete-v2" aspect="2/3" />
-        <Img label="hero-aluminum-pair" aspect="1/1" />
+        <Img label="hero-concrete-v1" aspect="2/3" images={ALL_IMAGES} myIndex={2} />
+        <Img label="hero-concrete-v2" aspect="2/3" images={ALL_IMAGES} myIndex={3} />
+        <Img label="hero-aluminum-pair" aspect="1/1" images={ALL_IMAGES} myIndex={4} />
       </div>
 
       {/* ── REFERENCE / GOAL ──────────────────────────────────────────────────
@@ -327,9 +380,9 @@ export default function TableLighters() {
           ]} />
         </div>
         <div style={{ position: 'relative', width: '100%', aspectRatio: '745/643', overflow: 'hidden' }}>
-          <RefImg label="ref-t2-box"         style={{ top: '2.18%',  left: '3.49%',  right: '48.63%', bottom: '42.34%' }} />
-          <RefImg label="ref-braun-lighters" style={{ top: '22.18%', left: '47.97%', right: '3.46%',  bottom: '21.53%' }} />
-          <RefImg label="ref-braun-cased"    style={{ top: '62.40%', left: '14.65%', right: '47.36%', bottom: '5.41%'  }} />
+          <RefImg label="ref-t2-box"         style={{ top: '2.18%',  left: '3.49%',  right: '48.63%', bottom: '42.34%' }} images={ALL_IMAGES} myIndex={5} />
+          <RefImg label="ref-braun-lighters" style={{ top: '22.18%', left: '47.97%', right: '3.46%',  bottom: '21.53%' }} images={ALL_IMAGES} myIndex={6} />
+          <RefImg label="ref-braun-cased"    style={{ top: '62.40%', left: '14.65%', right: '47.36%', bottom: '5.41%'  }} images={ALL_IMAGES} myIndex={7} />
         </div>
       </div>
 
@@ -359,14 +412,14 @@ export default function TableLighters() {
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: 2 stacked (large square + medium square) */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
-            <Img label="attempt-front" aspect="347/564" />
-            <Img label="attempt-hollow" aspect="1/1" />
+            <Img label="attempt-front" aspect="347/564" images={ALL_IMAGES} myIndex={8} />
+            <Img label="attempt-hollow" aspect="1/1" images={ALL_IMAGES} myIndex={9} />
           </div>
           {/* Right sub: 3 stacked squares */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
-            <Img label="attempt-topview" aspect="1/1" />
-            <Img label="attempt-cork" aspect="1/1" />
-            <Img label="attempt-parts" aspect="1/1" />
+            <Img label="attempt-topview" aspect="1/1" images={ALL_IMAGES} myIndex={10} />
+            <Img label="attempt-cork" aspect="1/1" images={ALL_IMAGES} myIndex={11} />
+            <Img label="attempt-parts" aspect="1/1" images={ALL_IMAGES} myIndex={12} />
           </div>
         </div>
       </div>
@@ -397,15 +450,15 @@ export default function TableLighters() {
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="revision-portrait-1" aspect="3/4" />
-            <Img label="revision-landscape-1" aspect="4/3" />
-            <Img label="revision-square-1" aspect="1/1" />
+            <Img label="revision-portrait-1" aspect="3/4" images={ALL_IMAGES} myIndex={13} />
+            <Img label="revision-landscape-1" aspect="4/3" images={ALL_IMAGES} myIndex={14} />
+            <Img label="revision-square-1" aspect="1/1" images={ALL_IMAGES} myIndex={15} />
           </div>
           {/* Right sub */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-            <Img label="revision-square-2" aspect="1/1" />
-            <Img label="revision-landscape-2" aspect="4/3" />
-            <Img label="revision-portrait-2" aspect="3/4" />
+            <Img label="revision-square-2" aspect="1/1" images={ALL_IMAGES} myIndex={16} />
+            <Img label="revision-landscape-2" aspect="4/3" images={ALL_IMAGES} myIndex={17} />
+            <Img label="revision-portrait-2" aspect="3/4" images={ALL_IMAGES} myIndex={18} />
           </div>
         </div>
       </div>
@@ -439,17 +492,17 @@ export default function TableLighters() {
             <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
               {/* Left sub: 2 squares */}
               <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
-                <Img label="final-lighters-pair" aspect="1/1" />
-                <Img label="final-buttons-array" aspect="1/1" />
+                <Img label="final-lighters-pair" aspect="1/1" images={ALL_IMAGES} myIndex={19} />
+                <Img label="final-buttons-array" aspect="1/1" images={ALL_IMAGES} myIndex={20} />
               </div>
               {/* Right sub: tall portrait + square */}
               <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
-                <Img label="final-lighter-close" aspect="3/4" />
-                <Img label="final-leather-base" aspect="1/1" />
+                <Img label="final-lighter-close" aspect="3/4" images={ALL_IMAGES} myIndex={21} />
+                <Img label="final-leather-base" aspect="1/1" images={ALL_IMAGES} myIndex={22} />
               </div>
             </div>
             {/* Bottom: technical drawing spans full right column width */}
-            <Img label="final-technical-drawing" aspect="4/3" />
+            <Img label="final-technical-drawing" aspect="4/3" images={ALL_IMAGES} myIndex={23} />
           </div>
         </div>
         {/* Full-width 2-square row (Frame 45 in Figma) */}
@@ -475,13 +528,13 @@ export default function TableLighters() {
         <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: landscape + square */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
-            <Img label="packaging-landscape" aspect="4/3" />
-            <Img label="packaging-square-1" aspect="1/1" />
+            <Img label="packaging-landscape" aspect="4/3" images={ALL_IMAGES} myIndex={24} />
+            <Img label="packaging-square-1" aspect="1/1" images={ALL_IMAGES} myIndex={25} />
           </div>
           {/* Right sub: 2 squares */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP, justifyContent: 'space-between' }}>
-            <Img label="packaging-square-2" aspect="1/1" />
-            <Img label="packaging-square-3" aspect="1/1" />
+            <Img label="packaging-square-2" aspect="1/1" images={ALL_IMAGES} myIndex={26} />
+            <Img label="packaging-square-3" aspect="1/1" images={ALL_IMAGES} myIndex={27} />
           </div>
         </div>
       </div>
