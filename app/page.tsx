@@ -11,12 +11,19 @@ function clamp(v: number, mn: number, mx: number) { return Math.min(Math.max(v, 
 function prog(s: number, a: number, b: number) { return clamp((s - a) / (b - a), 0, 1); }
 function ease(t: number) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
 
+function frameSrc(set: number, frame: number): string {
+  if (set === 1) return `/images/minifig-2/mf2-${frame}.png`;
+  if (set === 2) return `/images/minifig-3/mf3-${frame}.png`;
+  return `/images/arm-${frame}.png`;
+}
+
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [winW, setWinW] = useState(1200);
   const [hovered, setHovered] = useState<string | null>(null);
   const [interactionOn, setInteractionOn] = useState(true);
+  const [figSet, setFigSet] = useState(0);
 
   useEffect(() => {
     const check = () => { setIsMobile(window.innerWidth < 768); setWinW(window.innerWidth); };
@@ -24,6 +31,15 @@ export default function Home() {
     window.addEventListener('resize', check);
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    const stored = sessionStorage.getItem('figSet');
+    if (stored !== null) {
+      setFigSet(Number(stored));
+    } else {
+      const picked = Math.floor(Math.random() * 3);
+      sessionStorage.setItem('figSet', String(picked));
+      setFigSet(picked);
+    }
 
     const target = sessionStorage.getItem('scrollTo');
     if (target === 'projects') {
@@ -42,8 +58,8 @@ export default function Home() {
   }, []);
 
   return isMobile
-    ? <MobileHome scrollY={scrollY} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />
-    : <DesktopHome scrollY={scrollY} winW={winW} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />;
+    ? <MobileHome scrollY={scrollY} figSet={figSet} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />
+    : <DesktopHome scrollY={scrollY} winW={winW} figSet={figSet} hovered={hovered} setHovered={setHovered} interactionOn={interactionOn} setInteractionOn={setInteractionOn} />;
 }
 
 // ─────────────────────────────────────────────
@@ -62,7 +78,7 @@ export default function Home() {
 // 8000– 8600  text 2 fades out → project list fades in
 // 8600– 9600  HOLD: project list (minifig stays right)
 
-function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInteractionOn }: any) {
+function DesktopHome({ scrollY, winW, figSet, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   const armP  = prog(scrollY, 600, 1800);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
   const moveP = ease(prog(scrollY, 2800, 3400));
@@ -92,7 +108,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
             transform: `translate(calc(-50% + ${figTX}vw), calc(-50% + ${figTY}vh))`,
             height: '75vh', width: 'auto', pointerEvents: 'none', zIndex: 10,
           }}>
-            <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
+            <img src={frameSrc(figSet, frame)} alt="ACS mascot" style={{ height: '100%', width: 'auto', display: 'block' }} />
           </div>
 
           {/* Text 1 */}
@@ -192,7 +208,7 @@ function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: an
 // 2800– 3200  STATIC HOLD: text 2 readable
 // 3200+       project list below  (container height: 3443px)
 
-function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
+function MobileHome({ scrollY, figSet, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   const armP  = prog(scrollY, 240, 720);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
 
@@ -223,7 +239,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             pointerEvents: 'none',
             zIndex: 5,
           }}>
-            <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ width: '100%', height: 'auto', display: 'block' }} />
+            <img src={frameSrc(figSet, frame)} alt="ACS mascot" style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
 
           {/* Text zone — auto-height so it doesn't cover more of the minifig than the text needs */}
