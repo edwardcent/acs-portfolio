@@ -13,7 +13,7 @@ import AcsMarks from '@/components/projects/AcsMarks';
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects.filter((p) => !p.comingSoon).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -27,9 +27,10 @@ export default async function ProjectPage({ params }: Props) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) notFound();
 
-  const idx = projects.findIndex((p) => p.slug === slug);
-  const prev = projects[idx - 1] ?? null;
-  const next = projects[idx + 1] ?? null;
+  const routable = projects.filter((p) => !p.comingSoon);
+  const idx = routable.findIndex((p) => p.slug === slug);
+  const prev = routable[idx - 1] ?? null;
+  const next = routable[idx + 1] ?? null;
 
   return (
     <div style={{ paddingTop: '48px' }}>
@@ -88,7 +89,16 @@ export default async function ProjectPage({ params }: Props) {
               <p style={{ fontSize: '12px', color: '#999' }}>{prev.category}</p>
             </div>
           </Link>
-        ) : <div style={{ borderRight: '1px solid #ccc' }} />}
+        ) : (
+          <Link href="/" className="project-nav-item" style={{
+            padding: '24px 40px', borderRight: '1px solid #ccc',
+            display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
+          }}>
+            <div>
+              <p style={{ fontSize: '11px', color: '#999', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>← All Projects</p>
+            </div>
+          </Link>
+        )}
         {next ? (
           <Link href={`/work/${next.slug}`} className="project-nav-item project-nav-next" style={{
             padding: '24px 40px',
@@ -103,7 +113,16 @@ export default async function ProjectPage({ params }: Props) {
               <img src={`/images/${next.image}`} alt={next.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           </Link>
-        ) : <div />}
+        ) : (
+          <Link href="/" className="project-nav-item project-nav-next" style={{
+            padding: '24px 40px',
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px', textDecoration: 'none',
+          }}>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ fontSize: '11px', color: '#999', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>All Projects →</p>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

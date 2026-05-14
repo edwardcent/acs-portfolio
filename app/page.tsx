@@ -24,6 +24,20 @@ export default function Home() {
     window.addEventListener('resize', check);
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    const target = sessionStorage.getItem('scrollTo');
+    if (target === 'projects') {
+      sessionStorage.removeItem('scrollTo');
+      setTimeout(() => {
+        const el = document.getElementById('projects');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 8600, behavior: 'smooth' });
+        }
+      }, 80);
+    }
+
     return () => { window.removeEventListener('resize', check); window.removeEventListener('scroll', onScroll); };
   }, []);
 
@@ -135,25 +149,32 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
 }
 
 function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: any) {
-  return (
-    <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
-      <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ borderTop: isFirst ? 'none' : '1px solid #ccc' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', padding: '8px 0 4px' }}>
-          <span style={{ fontSize: 'clamp(12px, 1.3vw, 14px)', fontWeight: '700', color: '#0a0a0a' }}>{project.title}</span>
-          <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#999', whiteSpace: 'nowrap', flexShrink: 0 }}>{project.year}</span>
+  const inner = (
+    <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ borderTop: isFirst ? 'none' : '1px solid #ccc' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', padding: '8px 0 4px' }}>
+        <span style={{ fontSize: 'clamp(12px, 1.3vw, 14px)', fontWeight: '700', color: '#0a0a0a' }}>{project.title}</span>
+        <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#999', whiteSpace: 'nowrap', flexShrink: 0 }}>{project.year}</span>
+      </div>
+      <div style={{ paddingBottom: '4px' }}>
+        <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#999' }}>{project.category}</span>
+      </div>
+      {project.comingSoon ? (
+        <div style={{ width: '100%', aspectRatio: '1719 / 594', background: '#e0ddd8', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#aaa', fontStyle: 'italic' }}>Coming Soon</span>
         </div>
-        <div style={{ paddingBottom: '4px' }}>
-          <span style={{ fontSize: 'clamp(10px, 1.1vw, 12px)', color: '#999' }}>{project.category}</span>
-        </div>
+      ) : (
         <div style={{ display: 'grid', gridTemplateRows: isHovered ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
           <div style={{ overflow: 'hidden' }}>
             <img src={`/images/${project.image}`} alt={project.title} style={{ width: '100%', aspectRatio: '1719 / 594', display: 'block', objectFit: 'cover' }} />
           </div>
         </div>
-        <div style={{ borderBottom: '1px solid #ccc' }} />
-      </div>
-    </Link>
+      )}
+      <div style={{ borderBottom: '1px solid #ccc' }} />
+    </div>
   );
+  return project.comingSoon
+    ? <div style={{ display: 'block' }}>{inner}</div>
+    : <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>{inner}</Link>;
 }
 
 // ─────────────────────────────────────────────
@@ -189,7 +210,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   return (
     <>
       <Nav />
-      <div style={{ height: '9000px', position: 'relative' }}>
+      <div style={{ height: '8100px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig — centered then moves down, bottom quarter crops */}
@@ -266,37 +287,38 @@ function ProjectList({ hovered, setHovered, interactionOn, setInteractionOn, isM
 }
 
 function ProjectRow({ project, isFirst, isLast, isHovered, onEnter, onLeave }: any) {
-  return (
-    <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
-      {/* Border wraps the entire row including expanded image */}
-      <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{
-        borderTop: isFirst ? 'none' : '1px solid #ccc',
-      }}>
-        {/* Header: title, category, year */}
-        <div style={{ padding: '10px 0 6px' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
-            <span style={{ fontSize: 'clamp(13px, 1.4vw, 15px)', fontWeight: '700', color: '#0a0a0a' }}>
-              {project.title}
-            </span>
-            <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999', whiteSpace: 'nowrap', flexShrink: 0 }}>
-              {project.year}
-            </span>
-          </div>
-          <div style={{ marginTop: '1px' }}>
-            <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999' }}>
-              {project.category}
-            </span>
-          </div>
+  const inner = (
+    <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ borderTop: isFirst ? 'none' : '1px solid #ccc' }}>
+      <div style={{ padding: '10px 0 6px' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
+          <span style={{ fontSize: 'clamp(13px, 1.4vw, 15px)', fontWeight: '700', color: '#0a0a0a' }}>
+            {project.title}
+          </span>
+          <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999', whiteSpace: 'nowrap', flexShrink: 0 }}>
+            {project.year}
+          </span>
         </div>
-        {/* Expandable image */}
+        <div style={{ marginTop: '1px' }}>
+          <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#999' }}>
+            {project.category}
+          </span>
+        </div>
+      </div>
+      {project.comingSoon ? (
+        <div style={{ width: '100%', aspectRatio: '1719 / 594', background: '#e0ddd8', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: 'clamp(11px, 1.2vw, 13px)', color: '#aaa', fontStyle: 'italic' }}>Coming Soon</span>
+        </div>
+      ) : (
         <div style={{ display: 'grid', gridTemplateRows: isHovered ? '1fr' : '0fr', transition: 'grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1)' }}>
           <div style={{ overflow: 'hidden' }}>
             <img src={`/images/${project.image}`} alt={project.title} style={{ width: '100%', aspectRatio: '1719 / 594', display: 'block', objectFit: 'cover' }} />
           </div>
         </div>
-        {/* Bottom border always travels with content */}
-        <div style={{ borderBottom: '1px solid #ccc' }} />
-      </div>
-    </Link>
+      )}
+      <div style={{ borderBottom: '1px solid #ccc' }} />
+    </div>
   );
+  return project.comingSoon
+    ? <div style={{ display: 'block' }}>{inner}</div>
+    : <Link href={`/work/${project.slug}`} style={{ display: 'block', textDecoration: 'none' }}>{inner}</Link>;
 }

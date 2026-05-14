@@ -20,15 +20,14 @@ export default function Nav() {
   const handleProjects = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isHome) {
-      router.push('/#projects');
+      sessionStorage.setItem('scrollTo', 'projects');
+      router.push('/');
       return;
     }
-    // Mobile: #projects anchor exists in DOM below sticky section
     const el = document.getElementById('projects');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     } else {
-      // Desktop: project list is inside sticky section, appears at ~8600px scroll
       window.scrollTo({ top: 8600, behavior: 'smooth' });
     }
   };

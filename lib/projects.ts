@@ -6,6 +6,7 @@ export type Project = {
   description: string;
   image: string;
   sections: Section[];
+  comingSoon?: boolean;
 };
 
 export type Section = {
@@ -79,5 +80,25 @@ export const projects: Project[] = [
     description: 'Graphic tee collaboration merging BMW and Grateful Dead iconography.',
     image: 'bmw.png',
     sections: [],
+  },
+  {
+    slug: 'selected-illustrations',
+    title: 'Selected Illustrations 2020–2026',
+    year: '2020–2026',
+    category: 'Illustrations',
+    description: '',
+    image: '',
+    sections: [],
+    comingSoon: true,
+  },
+  {
+    slug: 'selected-products',
+    title: 'Selected Products 2020–2026',
+    year: '2020–2026',
+    category: 'Product Design',
+    description: '',
+    image: '',
+    sections: [],
+    comingSoon: true,
   },
 ];
