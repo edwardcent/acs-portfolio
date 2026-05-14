@@ -10,8 +10,7 @@
 // brief              726/300   Client brief landscape photo
 // hangers-top-1      351/335   Custom hangers top row, left image
 // hangers-top-2      1/1       Custom hangers top row, right image
-// hangers-bot-1      304/203   Custom hangers bottom row, left stack top
-// hangers-bot-2      304/203   Custom hangers bottom row, left stack bottom
+// hangers-bot-left   304/203   Custom hangers bottom row, left image
 // hangers-bot-right  383/203   Custom hangers bottom row, right image
 // popup-l1           328/194   Pop-up left column, image 1
 // popup-l2           328/194   Pop-up left column, image 2
@@ -174,15 +173,10 @@ export default function ParkFrequency() {
             <div style={{ flex: '351' }}><Img label="hangers-top-1" aspect="351/335" /></div>
             <div style={{ flex: '336' }}><Img label="hangers-top-2" aspect="1/1" /></div>
           </div>
-          {/* Bottom row: left stack + right */}
-          <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
-            <div style={{ flex: '304', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
-              <Img label="hangers-bot-1" aspect="304/203" />
-              <Img label="hangers-bot-2" aspect="304/203" />
-            </div>
-            <div style={{ flex: '383' }}>
-              <Img label="hangers-bot-right" aspect="383/203" />
-            </div>
+          {/* Bottom row */}
+          <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
+            <div style={{ flex: '304' }}><Img label="hangers-bot-left" aspect="304/203" /></div>
+            <div style={{ flex: '383' }}><Img label="hangers-bot-right" aspect="383/203" /></div>
           </div>
         </div>
       </div>
