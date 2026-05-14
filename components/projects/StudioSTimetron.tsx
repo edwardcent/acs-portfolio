@@ -158,7 +158,7 @@ export default function StudioSTimetron() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>Reference / Goal</H>
+          <H>Design Process</H>
           <P>I started with quick sketches and renderings to lock in proportions and the relationship between components. Once the form was settled, I moved to CAD.</P>
           <P>For the display, I used the module from a $15 Casio digital watch. I replicated the cavity from the Casio so the module had a perfect fit.</P>
           <P>I could have used an off-the-shelf strap, but designed and printed my own — a multi-link 3D printed strap that tied the body and band into a single visual system.</P>
