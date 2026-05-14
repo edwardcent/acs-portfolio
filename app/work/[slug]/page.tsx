@@ -7,6 +7,7 @@ import MakewayCatchall from '@/components/projects/MakewayCatchall';
 import GratefulDeadWarner from '@/components/projects/GratefulDeadWarner';
 import ParkFrequency from '@/components/projects/ParkFrequency';
 import StudioSTimetron from '@/components/projects/StudioSTimetron';
+import BmwGratefulDead from '@/components/projects/BmwGratefulDead';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -60,6 +61,8 @@ export default async function ProjectPage({ params }: Props) {
         <ParkFrequency />
       ) : slug === 'studio-s-timetron' ? (
         <StudioSTimetron />
+      ) : slug === 'bmw-grateful-dead' ? (
+        <BmwGratefulDead />
       ) : (
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 40px 80px' }}>
           <p style={{ fontSize: '14px', color: '#999', fontStyle: 'italic' }}>Content coming soon.</p>
