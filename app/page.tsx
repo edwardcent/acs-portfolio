@@ -180,29 +180,28 @@ function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: an
 // ─────────────────────────────────────────────
 // MOBILE
 // ─────────────────────────────────────────────
-// Mirrors desktop structure exactly:
-//    0–  600  static: minifig centered, arm down
-//  600– 1800  arm raises (10 frames, 120px each)
-// 1800– 2800  STATIC HOLD: arm fully up, centered
-// 2800– 3400  minifig moves down (bottom quarter crops off)
-// 3400– 4400  STATIC HOLD: minifig locked in position
-// 4400– 5000  text 1 fades in
-// 5000– 6000  STATIC HOLD: text 1 readable
-// 6000– 6400  text 1 fades out
-// 6400– 7000  text 2 fades in
-// 7000– 8000  STATIC HOLD: text 2 readable
-// 8000+       project list below
+//    0–  240  static: minifig centered, arm down
+//  240–  720  arm raises (10 frames)
+//  720– 1120  STATIC HOLD: arm fully up, centered
+// 1120– 1360  minifig moves down (bottom quarter crops off)
+// 1360– 1760  STATIC HOLD: minifig locked in position
+// 1760– 2000  text 1 fades in
+// 2000– 2400  STATIC HOLD: text 1 readable
+// 2400– 2560  text 1 fades out
+// 2560– 2800  text 2 fades in
+// 2800– 3200  STATIC HOLD: text 2 readable
+// 3200+       project list below  (container height: 3443px)
 
 function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP  = prog(scrollY, 600, 1800);
+  const armP  = prog(scrollY, 240, 720);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
 
-  const moveP = ease(prog(scrollY, 2800, 3400));
+  const moveP = ease(prog(scrollY, 1120, 1360));
 
-  const t1P      = ease(prog(scrollY, 4400, 5000));
-  const t1Out    = prog(scrollY, 6000, 6400);
+  const t1P      = ease(prog(scrollY, 1760, 2000));
+  const t1Out    = prog(scrollY, 2400, 2560);
   const t1Opacity = t1P * (1 - t1Out);
-  const t2Opacity = ease(prog(scrollY, 6400, 7000));
+  const t2Opacity = ease(prog(scrollY, 2560, 2800));
 
   // Minifig: centered → bottom quarter crops off
   const figCenterY = 50 + (81 - 50) * moveP; // vh
