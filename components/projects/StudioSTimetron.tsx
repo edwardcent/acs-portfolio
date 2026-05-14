@@ -186,8 +186,8 @@ export default function StudioSTimetron() {
           Left column: text block + portrait image stacked
           Right column: 2 square images stacked
       */}
-      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+      <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'stretch' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: IMG_GAP }}>
           <div>
             <H>Final Product</H>
             <P>The final product is a fully functional prototype. The 3D printed body is less impact-resistant than a machined metal or cast resin equivalent, and the seal (or lack thereof) isn&apos;t rated for water.</P>
