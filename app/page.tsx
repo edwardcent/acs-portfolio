@@ -47,100 +47,32 @@ export default function Home() {
 }
 
 // ─────────────────────────────────────────────
-// DESKTOP TUNER
-// ─────────────────────────────────────────────
-
-const DEFAULT_CFG = {
-  totalHeight: 5675,
-  armStart:     200, armEnd:    1000,
-  moveStart:   1500, moveEnd:   1900,
-  t1Start:     1700, t1End:     2000,
-  t1OutStart:  2500, t1OutEnd:  2600,
-  t2Start:     2575, t2End:     2875,
-  transStart:  3375, transEnd:  3675,
-};
-type Cfg = typeof DEFAULT_CFG;
-
-function Tuner({ cfg, setCfg }: { cfg: Cfg; setCfg: (c: Cfg) => void }) {
-  const [open, setOpen] = useState(true);
-  const set = (k: keyof Cfg, v: number) => setCfg({ ...cfg, [k]: v });
-  const field = (label: string, k: keyof Cfg) => (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '4px' }}>
-      <span style={{ fontSize: '11px', color: '#666', whiteSpace: 'nowrap' }}>{label}</span>
-      <input type="number" value={cfg[k]} step={100}
-        onChange={e => set(k, Number(e.target.value))}
-        style={{ width: '72px', fontSize: '11px', padding: '2px 4px', border: '1px solid #ddd', borderRadius: '3px', textAlign: 'right' }} />
-    </div>
-  );
-  const copyValues = () => {
-    const out = Object.entries(cfg).map(([k, v]) => `${k}: ${v}`).join('\n');
-    navigator.clipboard.writeText(out).then(() => alert('Copied!'));
-  };
-
-  return (
-    <div style={{
-      position: 'fixed', top: '60px', right: '12px', zIndex: 9999,
-      background: '#fff', border: '1px solid #ddd', borderRadius: '8px',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.12)', width: '220px',
-      fontFamily: 'monospace',
-    }}>
-      <div onClick={() => setOpen(o => !o)} style={{
-        padding: '8px 12px', cursor: 'pointer', display: 'flex',
-        justifyContent: 'space-between', alignItems: 'center',
-        borderBottom: open ? '1px solid #eee' : 'none',
-      }}>
-        <span style={{ fontSize: '12px', fontWeight: '700', color: '#0a0a0a' }}>⚙ Keyframe Tuner</span>
-        <span style={{ fontSize: '11px', color: '#999' }}>{open ? '▲' : '▼'}</span>
-      </div>
-      {open && (
-        <div style={{ padding: '10px 12px' }}>
-          {field('totalHeight', 'totalHeight')}
-          <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />
-          {field('armStart', 'armStart')}
-          {field('armEnd', 'armEnd')}
-          <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />
-          {field('moveStart', 'moveStart')}
-          {field('moveEnd', 'moveEnd')}
-          <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />
-          {field('t1Start', 't1Start')}
-          {field('t1End', 't1End')}
-          {field('t1OutStart', 't1OutStart')}
-          {field('t1OutEnd', 't1OutEnd')}
-          <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />
-          {field('t2Start', 't2Start')}
-          {field('t2End', 't2End')}
-          <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />
-          {field('transStart', 'transStart')}
-          {field('transEnd', 'transEnd')}
-          <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />
-          <div style={{ display: 'flex', gap: '6px' }}>
-            <button onClick={copyValues} style={{ flex: 1, fontSize: '11px', padding: '4px', border: '1px solid #ddd', borderRadius: '4px', cursor: 'pointer', background: '#f5f5f5' }}>Copy values</button>
-            <button onClick={() => setCfg(DEFAULT_CFG)} style={{ flex: 1, fontSize: '11px', padding: '4px', border: '1px solid #ddd', borderRadius: '4px', cursor: 'pointer', background: '#f5f5f5' }}>Reset</button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────
 // DESKTOP
 // ─────────────────────────────────────────────
+//    0–  200  static: arm down
+//  200– 1000  arm raises
+// 1000– 1500  HOLD: arm up
+// 1500– 1900  minifig moves right
+// 1700– 2000  text 1 slides in  (overlaps move)
+// 2000– 2500  HOLD: text 1
+// 2500– 2600  text 1 fades out
+// 2575– 2875  text 2 fades in
+// 2875– 3375  HOLD: text 2
+// 3375– 3675  text 2 fades out → project list fades in
+// 3675– 5675  HOLD: project list
 
 function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const [cfg, setCfg] = useState<Cfg>(DEFAULT_CFG);
-
-  const armP  = prog(scrollY, cfg.armStart, cfg.armEnd);
+  const armP  = prog(scrollY, 200, 1000);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP = ease(prog(scrollY, cfg.moveStart, cfg.moveEnd));
+  const moveP = ease(prog(scrollY, 1500, 1900));
   const figTX = moveP * Math.min(25, 22000 / Math.max(winW, 1));
   const figTY = moveP * 5;
-  const t1P      = ease(prog(scrollY, cfg.t1Start, cfg.t1End));
-  const t1Out    = prog(scrollY, cfg.t1OutStart, cfg.t1OutEnd);
+  const t1P      = ease(prog(scrollY, 1700, 2000));
+  const t1Out    = prog(scrollY, 2500, 2600);
   const t1Opacity = t1P * (1 - t1Out);
   const t1X      = (1 - t1P) * -60;
-  const t2In     = ease(prog(scrollY, cfg.t2Start, cfg.t2End));
-  const transP   = ease(prog(scrollY, cfg.transStart, cfg.transEnd));
+  const t2In     = ease(prog(scrollY, 2575, 2875));
+  const transP   = ease(prog(scrollY, 3375, 3675));
   const t2Opacity = t2In * (1 - transP);
   const t2SlideY  = transP * -160;
   const projOpacity = transP;
@@ -149,8 +81,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
   return (
     <>
       <Nav />
-      <Tuner cfg={cfg} setCfg={setCfg} />
-      <div style={{ height: `${cfg.totalHeight}px`, position: 'relative' }}>
+      <div style={{ height: '5675px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig */}
