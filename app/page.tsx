@@ -51,11 +51,11 @@ export default function Home() {
 // ─────────────────────────────────────────────
 
 const DEFAULT_CFG = {
-  totalHeight: 5675,
-  armStart:  200,  armEnd:  1000,
-  moveStart: 1500, moveEnd: 1900,
+  totalHeight: 4500,
+  armStart:  100,  armEnd:   700,
+  moveStart: 1500, moveEnd:  1900,
   t1Start:   1700, t1End:   2000,
-  transStart: 3375, transEnd: 3675,
+  transStart: 2300, transEnd: 2500,
 };
 type Cfg = typeof DEFAULT_CFG;
 
@@ -148,11 +148,11 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
 
           {/* Text */}
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${textSlideY}px)) translateX(${t1X}px)`, width: 'min(420px, 38vw)', opacity: textOpacity, pointerEvents: textOpacity > 0.1 ? 'auto' : 'none' }}>
-            <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
+            <p style={{ fontSize: 'clamp(15px, 1.5vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               I&apos;m Edward Centorame, a designer in Toronto.{' '}
               <span style={{ fontWeight: '400' }}>I make graphics, branded objects, and merchandise — mostly for artists and creative studios, sometimes for myself.</span>
             </p>
-            <p style={{ fontSize: 'clamp(20px, 2.2vw, 32px)', fontWeight: '400', lineHeight: 1.3, color: '#0a0a0a', marginTop: '1em' }}>
+            <p style={{ fontSize: 'clamp(15px, 1.5vw, 22px)', fontWeight: '400', lineHeight: 1.3, color: '#0a0a0a', marginTop: '1em' }}>
               I&apos;m finishing my BFA at TMU this month. I care about how design shapes the world around us. If you want to talk about a project or working together, reach out{' '}
               <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>.
             </p>
@@ -238,7 +238,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
   const moveP = ease(prog(scrollY, 1120, 1360));
   const textOpacity = ease(prog(scrollY, 1760, 2000));
-  const figCenterY = 50 + (81 - 50) * moveP;
+  const figCenterY = 50 + (72 - 50) * moveP;
 
   return (
     <>
