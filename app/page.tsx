@@ -51,13 +51,13 @@ export default function Home() {
 // ─────────────────────────────────────────────
 
 const DEFAULT_CFG = {
-  totalHeight: 10500,
-  armStart:    600,  armEnd:    1800,
-  moveStart:   2800, moveEnd:   3400,
-  t1Start:     4400, t1End:     5000,
-  t1OutStart:  6000, t1OutEnd:  6400,
-  t2Start:     6400, t2End:     7000,
-  transStart:  8000, transEnd:  8600,
+  totalHeight: 5675,
+  armStart:     200, armEnd:    1000,
+  moveStart:   1500, moveEnd:   1900,
+  t1Start:     1700, t1End:     2000,
+  t1OutStart:  2500, t1OutEnd:  2600,
+  t2Start:     2575, t2End:     2875,
+  transStart:  3375, transEnd:  3675,
 };
 type Cfg = typeof DEFAULT_CFG;
 
