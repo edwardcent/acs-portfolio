@@ -159,7 +159,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
           </div>
 
           {/* Project list — fades in over left column, minifig stays right */}
-          <div style={{
+          <div className="proj-list" style={{
             position: 'absolute', left: '10vw', top: '10vh',
             transform: `translateY(${projSlideY}px)`,
             width: 'min(520px, 44vw)',
@@ -266,7 +266,6 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
             top: '10vh', zIndex: 20,
             opacity: textOpacity,
             pointerEvents: textOpacity > 0.5 ? 'auto' : 'none',
-            background: `rgba(255,255,255,${textOpacity})`,
           }}>
             <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               I&apos;m Edward Centorame, a designer in Toronto.{' '}

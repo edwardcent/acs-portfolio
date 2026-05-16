@@ -36,6 +36,10 @@ a, button { cursor: pointer; }
   .tl-section { grid-template-columns: 1fr !important; }
 }
 
+/* ─── Desktop project list — hide scrollbar ─────────────────────────────── */
+.proj-list { scrollbar-width: none; -ms-overflow-style: none; }
+.proj-list::-webkit-scrollbar { display: none; }
+
 /* ─── Project nav preview ────────────────────────────────────────────────── */
 .project-nav-item { transition: background 0.15s ease; }
 .project-nav-item:hover { background: #f7f7f5; }
