@@ -234,10 +234,13 @@ function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: an
 // 2000+       text holds → project list below
 
 function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP  = prog(scrollY, 240, 720);
-  const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP = ease(prog(scrollY, 1120, 1360));
-  const textOpacity = ease(prog(scrollY, 1760, 2000));
+  const armP     = prog(scrollY, 240, 720);
+  const frame    = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
+  const moveP    = ease(prog(scrollY, 1120, 1360));
+  const t1P      = ease(prog(scrollY, 1760, 2000));
+  const t1Out    = prog(scrollY, 2400, 2560);
+  const t1Opacity = t1P * (1 - t1Out);
+  const t2Opacity = ease(prog(scrollY, 2560, 2800));
   const figCenterY = 50 + (72 - 50) * moveP;
 
   return (
@@ -246,32 +249,32 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
       <div style={{ height: 'calc(3400px + 100vh)', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
-          {/* Minifig — centered then moves down, bottom quarter crops */}
+          {/* Minifig — centered then moves down */}
           <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: `${figCenterY}vh`,
-            transform: 'translate(-50%, -50%)',
-            width: '85vw',
-            flexShrink: 0,
-            pointerEvents: 'none',
-            zIndex: 5,
+            position: 'absolute', left: '50%', top: `${figCenterY}vh`,
+            transform: 'translate(-50%, -50%)', width: '85vw',
+            flexShrink: 0, pointerEvents: 'none', zIndex: 5,
           }}>
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
 
-          {/* Text */}
+          {/* Text 1 */}
           <div style={{
-            position: 'absolute', left: '6vw', right: '6vw',
-            top: '10vh', zIndex: 20,
-            opacity: textOpacity,
-            pointerEvents: textOpacity > 0.5 ? 'auto' : 'none',
+            position: 'absolute', left: '6vw', right: '6vw', top: '10vh', zIndex: 20,
+            opacity: t1Opacity, pointerEvents: 'none',
           }}>
             <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               I&apos;m Edward Centorame, a designer in Toronto.{' '}
               <span style={{ fontWeight: '400' }}>I make graphics, branded objects, and merchandise — mostly for artists and creative studios, sometimes for myself.</span>
             </p>
-            <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '400', lineHeight: 1.3, color: '#0a0a0a', marginTop: '1em' }}>
+          </div>
+
+          {/* Text 2 */}
+          <div style={{
+            position: 'absolute', left: '6vw', right: '6vw', top: '10vh', zIndex: 20,
+            opacity: t2Opacity, pointerEvents: t2Opacity > 0.5 ? 'auto' : 'none',
+          }}>
+            <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '400', lineHeight: 1.3, color: '#0a0a0a' }}>
               I&apos;m finishing my BFA at TMU this month. I care about how design shapes the world around us. If you want to talk about a project or working together, reach out{' '}
               <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>.
             </p>
