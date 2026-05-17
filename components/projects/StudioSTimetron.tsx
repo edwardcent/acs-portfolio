@@ -180,9 +180,8 @@ export default function StudioSTimetron() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>Reference / Goal</H>
-          <P>The Studio S-Timetron is a concept watch based on the Seiko H-Timetron, a digital watch released in 1999 designed around the look and feel of an early personal computer — with rounded corners and a dot-matrix display. I came across the original online after finding a vintage L.L. Bean compass keychain; my brain put the two together.</P>
-          <P>The goal was a technically wearable and functional watch, that felt like it came out in the same era of esoteric watch design. Making it robust and waterproof was out of the scope for this project, and I planned on it living on my desk as a timepiece.</P>
+          <H>Design Brief</H>
+          <P>Create a functional wearable timepiece referencing late-90s esoteric watch design, specifically the Seiko H-Timetron&apos;s computer-inspired aesthetic. Project scope: technically functional watch for desk use, not ruggedized for daily wear. Focus on design and assembly rather than waterproofing or durability.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
@@ -200,9 +199,7 @@ export default function StudioSTimetron() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Design Process</H>
-          <P>I started with quick sketches and renderings to lock in proportions and the relationship between components. Once the form was settled, I moved to CAD.</P>
-          <P>For the display, I used the module from a $15 Casio digital watch. I replicated the cavity from the Casio so the module had a perfect fit.</P>
-          <P>I could have used an off-the-shelf strap, but designed and printed my own — a multi-link 3D printed strap that tied the body and band into a single visual system.</P>
+          <P>Started with sketches and renderings to establish proportions and component relationships. CAD modeling in [software name]. I salvaged a digital module from a $15 Casio watch, and reverse-engineered the cavity dimensions for precise fit. Then designed a custom multi-link 3D-printed band to unify the body and strap as a single visual system.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
@@ -230,10 +227,8 @@ export default function StudioSTimetron() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'stretch' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: IMG_GAP }}>
           <div>
-            <H>Final Product</H>
-            <P>The final product is a fully functional prototype. The 3D printed body is less impact-resistant than a machined metal or cast resin equivalent, and the seal (or lack thereof) isn&apos;t rated for water.</P>
-            <P>A future version could be machined or cast with tighter tolerances and a proper internal seal. While I do not plan on iterating on this specific design; the experience has taught me a lot about watch design.</P>
-            <P>The Watch now sits on my shelf — as a glanceable clock.</P>
+            <H>Final Prototype</H>
+            <P>Fully functional 3D-printed prototype. The current build is less impact-resistant than machined metal or cast resin and lacks a sufficient water seal. Future production versions would require CNC machining or resin casting with tighter tolerances and proper sealing. The project provided hands-on experience in watch design, component integration, and prototype assembly. Currently functions as my desk clock.</P>
           </div>
           <Img label="final-left" aspect="575/619" images={ALL_IMAGES} myIndex={13} />
         </div>

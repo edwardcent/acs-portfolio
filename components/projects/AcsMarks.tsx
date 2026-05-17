@@ -163,8 +163,8 @@ export default function AcsMarks() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
         <div>
-          <H>Logos &amp; Other Marks</H>
-          <P>These are logo marks and one off graphics I&apos;ve created for All Conditions Studio over the years. The marks pull from different influences — vintage athletics, garment tags, illustrations and simple typography — but each one is intended to feel like it belongs to the same studio.</P>
+          <H>Brand Identity Development</H>
+          <P>Logo marks and graphics created for All Conditions Studio (2020–2026). Visual system references vintage athletics, garment labels, illustration, and typographic systems while maintaining cohesive studio identity. Demonstrates logo variation, brand consistency, and application across contexts.</P>
         </div>
         <div style={{ width: '60%', margin: '0 auto' }}>
           <Img label="illustration" aspect="399/363" images={ALL_IMAGES} myIndex={1} />

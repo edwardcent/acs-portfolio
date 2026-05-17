@@ -55,6 +55,15 @@ export const projects: Project[] = [
     sections: [],
   },
   {
+    slug: 'bmw-grateful-dead',
+    title: 'Upcycling Project',
+    year: '2022',
+    category: 'Graphics',
+    description: 'Graphic tee collaboration merging BMW and Grateful Dead iconography.',
+    image: 'bmw.png',
+    sections: [],
+  },
+  {
     slug: 'studio-s-timetron',
     title: 'Concept Watch Design',
     year: '2024',
@@ -70,15 +79,6 @@ export const projects: Project[] = [
     category: 'Product Design, Packaging, Branding',
     description: 'Aluminum table lighter — a tribute to the Braun T2 by Dieter Rams, machined in Toronto.',
     image: 'lighter.png',
-    sections: [],
-  },
-  {
-    slug: 'bmw-grateful-dead',
-    title: 'Upcycling Project',
-    year: '2022',
-    category: 'Graphics',
-    description: 'Graphic tee collaboration merging BMW and Grateful Dead iconography.',
-    image: 'bmw.png',
     sections: [],
   },
 ];

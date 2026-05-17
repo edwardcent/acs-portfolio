@@ -369,15 +369,8 @@ export default function TableLighters() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>Reference / Goal</H>
-          <P>When looking to obtain one of the beautiful lighters designed by Dieter Rams, I realized that the age of these products meant they were more rarely working than not.</P>
-          <P>I decided to make a tribute of sorts to his "T2" table lighter using a Bic as the ignition.</P>
-          <P>My criteria for success with this product:</P>
-          <UL items={[
-            'It should elevate the experience of owning a lighter',
-            'I can produce it myself; using a removable Bic',
-            'It must be robust',
-          ]} />
+          <H>Design Brief</H>
+          <P>Inspired by Dieter Rams&apos; iconic Braun T2 lighter, I designed a modern reinterpretation using a standard Bic as the replaceable ignition source. Design criteria: elevate the lighter experience, enable self-production with removable insert system, ensure durability through material and construction choices.</P>
         </div>
         <div style={{ position: 'relative', width: '100%', aspectRatio: '745/643', overflow: 'hidden' }}>
           <RefImg label="ref-t2-box"         style={{ top: '2.18%',  left: '3.49%',  right: '48.63%', bottom: '42.34%' }} images={ALL_IMAGES} myIndex={5} />
@@ -394,20 +387,8 @@ export default function TableLighters() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>First Attempt</H>
-          <P>I designed a rigid two-part mould which held the Bic in place for concrete to fill around it. After trial and error I designed a soft removable bic form that could be removed post pour. The post processing was tedious and the finish was not up to par.</P>
-          <P>This let me know that I was going in the right direction for the objects design, but needed to refine it in every way.</P>
-          <SL>Successes:</SL>
-          <UL items={[
-            'Overall dimensions locked in, in-hand feel confirmed to be good',
-            'Stamped cork base confirmed functional',
-          ]} />
-          <SL>Issues:</SL>
-          <UL items={[
-            'Seam line from two part mould',
-            'Radii and level of polish need revision',
-            'Inconsistency of inner void',
-          ]} />
+          <H>Prototype V1: Concrete Casting</H>
+          <P>Initial prototypes used three-part 3D printed molds with removable Bic forms and stamped cork bases. The process validated overall dimensions and in-hand feel but revealed material limitations — Prototyping confirmed design direction but needed refinement.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: 2 stacked (large square + medium square) */}
@@ -432,20 +413,8 @@ export default function TableLighters() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>First Revision</H>
-          <P>I designed a new silicone mould system, and a 3D printed insert with an inner void that accommodates Bic's slight size variations. With a high level of polish achieved, I brought this version to market DTC and with some independent storefront placement in Toronto. Most sales came from high exposure TikToks I made talking about the product.</P>
-          <P>I talked to some repeat buyers and learned the concrete chipped or broke entirely after falling or being struck. Customers didn't view this as faulty product since they were buying a second time. I pulled the product from all markets, stopped all production, and began designing a second revision.</P>
-          <SL>Successes:</SL>
-          <UL items={[
-            'Dialled in corner radii and exact form',
-            'Simplified production process',
-            'No more seam lines',
-          ]} />
-          <SL>Issues:</SL>
-          <UL items={[
-            'Concrete proved too fragile',
-            'I noticed users with small hands would benefit from a mini version',
-          ]} />
+          <H>Prototype V2: Refined Concrete Production</H>
+          <P>Redesigned silicone mold system with 3D-printed insert to accommodate Bic size variations. Achieved high surface finish and simplified production process. Sold direct-to-consumer and placed in Toronto independent retailers, with high-exposure TikTok content driving majority of sales. Customer feedback revealed concrete fragility under impact — product pulled from market to redesign for durability.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub */}
@@ -479,13 +448,8 @@ export default function TableLighters() {
         <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: IMG_GAP }}>
           <div>
             <H>Final Product</H>
-            <P>For this version I looked for a new material that could handle impact and was more environmentally friendly than concrete. I settled on aluminum — light, fully recyclable, and develops a unique patina with use. I made a mini version for individuals with small hands, and added a button that lets users poke the Bic out slightly from the bottom. I shifted from the stamped cork to wet-set debossed leather bases.</P>
-            <P>I designed a new internal structure for the Bic that leverages the flex of 3D printed walls for a snug fit. The structure bolts into the aluminum body and houses the print-in-place magnetic button.</P>
-            <P>I went through over 50 variations of the button, going between springs and magnets, because I wanted an interaction that was satisfying to use. The resulting button feel is addictive.</P>
-            <SL>Issues:</SL>
-            <UL items={[
-              'Cost of machined aluminum higher than casted concrete — bringing the cost of the product up. Worth it for the improved longevity.',
-            ]} />
+            <P>Shifted to CNC-machined aluminum for impact resistance and recyclability. Added mini size for smaller hands. Designed 3D-printed internal structure with print-in-place magnetic button and flex-fit walls for secure Bic retention. Replaced stamped cork with wet-set debossed leather bases.</P>
+            <P>Iterated 50+ button variations to achieve tactile satisfaction — final magnetic mechanism provides addictive push-eject interaction. First batch of units sold to previous concrete lighter customers via direct email outreach. Production-ready files completed for Toronto CNC manufacturing.</P>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             {/* Top: 2 sub-columns */}
@@ -520,10 +484,8 @@ export default function TableLighters() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
-          <H>Packaging</H>
-          <P>The packaging starts the customer's hands-on interaction with the product; and in this case likely the company that made it.</P>
-          <P>I wanted to design an unwrapping experience — the customer can either carefully remove the tabs, cradling the product like a baby chick, or rip through it in excitement to get to the object itself.</P>
-          <P>The packaging says a lot: who made the product, where it was made, what it is, and a small message at the bottom: Crafted with pride by ACS.</P>
+          <H>Packaging Design</H>
+          <P>Unwrapping experience with zero glue — tuck tabs allow careful unraveling or immediate tear-through. Communicates product origin (Made in Toronto, Canada), manufacturer (All Conditions Studio), and quality positioning (&ldquo;Crafted with pride&rdquo;). Produced in-house using a printer/cutter system for rapid prototyping and small-batch production.</P>
         </div>
         <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: landscape + square */}

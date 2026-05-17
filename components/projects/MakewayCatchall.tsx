@@ -176,7 +176,7 @@ export default function MakewayCatchall() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Client Brief</H>
-          <P>MakeWay (Toronto) reached out after seeing my concrete casting work on Instagram. They commissioned a branded concrete catchall / incense holder. The goal was to bring the brand into customers&apos; homes and routines.</P>
+          <P>Toronto retailer and streetwear brand MakeWay commissioned a branded concrete catchall / incense holder after discovering my casting work on Instagram. Objective: create a functional branded object that extends brand presence into customers&apos; homes and daily routines.</P>
         </div>
         <Img label="brief-logo" aspect="519/231" images={ALL_IMAGES} myIndex={3} />
       </div>
@@ -190,7 +190,7 @@ export default function MakewayCatchall() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Design Process</H>
-          <P>I presented several form options to the team at MakeWay. After we selected the circular option, I produced 3D printed prototypes with slight variations so we could make decisions with the object in hand. Together we landed on the ideal dimensions, wall height, embossment height, and other small details — and I went ahead and made a few silicone molds for production.</P>
+          <P>Presented form options to clients, produced 3D-printed prototypes with dimensional variations for in-hand evaluation. Finalized dimensions, wall height, embossment depth, and surface details collaboratively. Produced silicone molds for batch production.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub: 2 prototype shots */}
@@ -214,11 +214,9 @@ export default function MakewayCatchall() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
-          <H>Production</H>
-          <P>Using the silicone moulds I am able to make the catchall in batches whenever more stock is needed.</P>
-          <P>The product has been in continuous production since 2022. MakeWay owns the master models and moulds, and I produce the product for them.</P>
-          <P>The catchalls are available at the MakeWay storefront and <a href="https://shopmakeway.co/products/makeway-concrete-catchall?srsltid=AfmBOoo6otRIcLJEKwZqso9k2SihbrUAMg7PrXgxOgUTE4WqW22efH-h" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '2px' }}>online</a>.</P>
-          <P>They were also promoted by Complex in their article <a href="https://www.complex.com/style/a/josh-walker/streetwear-gifts-for-canadians-2021" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '2px' }}>&ldquo;20 Gifts For Canadians Who Love Streetwear&rdquo;</a> (number 6!)</P>
+          <H>Production &amp; Outcome</H>
+          <P>The product has been in production since 2021 using the same silicone mold system. MakeWay owns the master models and molds; I produce batches on-demand.</P>
+          <P>Available at MakeWay storefront and <a href="https://shopmakeway.co/products/makeway-concrete-catchall?srsltid=AfmBOoo6otRIcLJEKwZqso9k2SihbrUAMg7PrXgxOgUTE4WqW22efH-h" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '2px' }}>online</a>. Featured in Complex&apos;s <a href="https://www.complex.com/style/a/josh-walker/streetwear-gifts-for-canadians-2021" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '2px' }}>&ldquo;20 Gifts For Canadians Who Love Streetwear&rdquo;</a> (#6).</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub: 2 square production shots */}

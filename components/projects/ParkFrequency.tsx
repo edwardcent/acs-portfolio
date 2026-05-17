@@ -193,8 +193,7 @@ export default function ParkFrequency() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Client Brief</H>
-          <P>Frequency Worldwide - now Park, is a Toronto-based clothing brand with a strong online presence and growing retail ambition.</P>
-          <P>The relationship started with a gifted table lighter — one of the owners had been liking my work and asked what I could do for them. Our first conversations covered home goods, branded lighters, and concrete trays. We discussed different uses of the brand&apos;s logos and the question of how a clothing brand becomes part of a customer&apos;s home and daily life.</P>
+          <P>Park (formerly Frequency Worldwide), Toronto-based clothing brand transitioning from online to retail, commissioned branded products and a pop-up retail build. Initial discussions explored brand extension into home goods. Relationship evolved into ongoing product design partnership spanning custom retail hardware, pop-up booth systems, and branded merchandise.</P>
         </div>
         <Img label="brief" aspect="726/300" images={ALL_IMAGES} myIndex={3} />
       </div>
@@ -207,10 +206,8 @@ export default function ParkFrequency() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>Custom Hangers</H>
-          <P>I provided some mockups but paused the request for trays and custom concrete lighters because I was phasing out the material in favour of aluminum.</P>
-          <P>I knew the brand was thinking about retail and how to stand out on a rack so I came back with a custom laser-cut metal hanger shaped from one of the brand&apos;s logos.</P>
-          <P>The idea came from a question I&apos;ve asked myself in previous work — what does the form of this logo lend itself to? The logo peeks out of the neck hole when in use. Infusing it into an otherwise overlooked feature in retail.</P>
+          <H>Custom Retail Hangers</H>
+          <P>Proposed laser-cut metal hangers shaped from brand&apos;s logo mark as retail differentiation strategy. Design emerged from functional question: what form does this logo lend itself to? Logo-shaped hanger creates brand visibility at point-of-sale, visible through garment neckline when displayed. Demonstrates brand application to overlooked retail touchpoints.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           {/* Top row */}
@@ -233,10 +230,9 @@ export default function ParkFrequency() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
-          <H>Atlanta Pop-Up Shop Build</H>
-          <P>The hangers led into a bigger ask. Frequency had a pop-up at the Atlanta Streetwear Convention in two months and wanted a booth that did three things: stood out, built a world at a glance, and could be reused for future events.</P>
-          <P>We landed on a pvc pipe structure the two owners could assemble themselves with my instructions. I accounted for steel-rod reinforcements, branded canvas panels, a plywood table top for transactions, and the custom hangers running the length of the racks.</P>
-          <P>To make the build possible without me there, I produced full assembly documentation — exploded views, joint counts, colour-coded pipe length legend for cutting. The banners shipped to their Airbnb; the hardware order was waiting at the nearest Home Depot. They built it themselves inside their Airbnb and reassembled on site.</P>
+          <H>Atlanta Pop-Up Booth (Remote Assembly)</H>
+          <P>Designed modular PVC pipe structure for Atlanta Streetwear Convention with two-week lead time. System requirements: visually distinctive, brand-coherent, reusable, client-assemblable without designer present.</P>
+          <P>Solution: PVC frame with some internal steel-rod reinforcements, branded canvas panels, plywood transaction surface, custom branded hangers. Produced complete assembly documentation: exploded views, joint counts, colour-coded pipe cutting guide. Hardware order staged at local Home Depot; canvas shipped to client Airbnb. Client assembled in accommodation, disassembled for transport, reassembled on-site independently.</P>
         </div>
         <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left column */}
@@ -268,12 +264,7 @@ export default function ParkFrequency() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
           <H>Branded Table Lighters</H>
-          <P>
-            Frequency rebranded to Park in late 2025. When I brought them my production-ready aluminum{' '}
-            <Link href="/work/table-lighters#final-product" style={{ fontWeight: 700, color: 'inherit', textDecoration: 'none' }}>table lighter</Link>
-            , they ordered the entire first run — with the Park logo in place of the standard ACS mark.
-          </P>
-          <P>The lighters are being seeded to friends of the brand and offered as in-real-life exclusives at pop-up events. This product aligned with Park&apos;s broader effort to translate a clothing brand into a world of objects.</P>
+          <P>Following the Park rebrand, client ordered a production run of aluminum <Link href="/work/table-lighters#final-product" style={{ fontWeight: 700, color: 'inherit', textDecoration: 'none' }}>table lighters</Link> with Park logo replacing standard ACS mark. Product seeded to brand collaborators and offered as IRL-exclusive at pop-up events. Supports Park&apos;s strategy to extend clothing brand into lifestyle object ecosystem.</P>
         </div>
         <Img label="lighters" aspect="1/1" images={ALL_IMAGES} myIndex={19} />
       </div>

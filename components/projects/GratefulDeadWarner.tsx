@@ -165,8 +165,7 @@ export default function GratefulDeadWarner() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Client Brief</H>
-          <P>As a fan of The Dead already making illustrations referencing them, getting the DM from someone on their team at Warner Music was an honour.</P>
-          <P>They came across my work and reached out about licensing an existing illustration and commissioned a piece featuring a camper-van. They reached out to people like me in an effort to fill the merch line with work from genuine fans rather than commercial illustrators unfamiliar with the history of the band.</P>
+          <P>Warner Music Group licensed existing Grateful Dead illustration and commissioned original artwork for their official merchandise line. Client sourced fan artists to ensure authentic brand representation. Fast turnaround required — both pieces delivered final on first submission with minimal revisions.</P>
         </div>
         <div style={{ width: '50%', margin: '0 auto' }}>
           <Img label="brief-logo" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
@@ -185,8 +184,8 @@ export default function GratefulDeadWarner() {
       */}
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
-          <H>Final Product</H>
-          <P>The client required a fast turnaround — both pieces delivered final on first pass, no revision rounds. I adapted an existing bear illustration, integrating space for the licensor&apos;s branding on the bear&apos;s shirt. The commissioned piece was a chrome rendition of the band&apos;s logo paired with a space van and smiling sun. On delivery we made one refinement, removing the black void to better cohese with the rest of the line. Both designs were licensed as official Grateful Dead merchandise and sold internationally.</P>
+          <H>Final Artwork</H>
+          <P>Delivered two designs: adapted bear illustration with space for integrated licensor branding, and commissioned chrome-rendered logo with space van and sun graphic. Both approved on first submission. Single revision: removed black void for visual cohesion with merchandise line. Licensed as official Grateful Dead merchandise, sold internationally.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           {/* Stacked landscapes */}
