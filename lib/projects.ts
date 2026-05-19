@@ -57,7 +57,7 @@ export const projects: Project[] = [
   {
     slug: 'bmw-grateful-dead',
     title: 'Upcycling Project',
-    year: '2022',
+    year: '2021',
     category: 'Graphics',
     description: 'Graphic tee collaboration merging BMW and Grateful Dead iconography.',
     image: 'bmw.png',
