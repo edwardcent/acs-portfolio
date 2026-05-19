@@ -199,7 +199,7 @@ export default function StudioSTimetron() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Design Process</H>
-          <P>Started with sketches and renderings to establish proportions and component relationships. CAD modeling in [software name]. I salvaged a digital module from a $15 Casio watch, and reverse-engineered the cavity dimensions for precise fit. Then designed a custom 3D-printed band to unify the body and strap aesthetically.</P>
+          <P>Started with sketches and renderings to establish proportions and component relationships. CAD modeling in Fusion 360 and Shapr3D. I salvaged a digital module from a $15 Casio watch, and reverse-engineered the cavity dimensions for precise fit. Then designed a custom 3D-printed band to unify the body and strap aesthetically.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
