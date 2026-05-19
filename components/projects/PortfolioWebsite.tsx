@@ -76,7 +76,7 @@ function Lightbox({ images, startIndex, onClose }: { images: string[]; startInde
 // ─── Image component ──────────────────────────────────────────────────────────
 
 function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect?: string; images: string[]; myIndex: number }) {
-  const src = `/images/portfolio-website/${label}.jpg`;
+  const src = `/images/portfolio-website/${label}.png`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
   const open = useCallback(() => setLightbox(true), []);
@@ -247,15 +247,15 @@ const COL_GAP = '40px';
 
 export default function PortfolioWebsite() {
   const ALL_IMAGES = [
-    '/images/portfolio-website/hero-1.jpg',
-    '/images/portfolio-website/hero-2.jpg',
-    '/images/portfolio-website/hero-3.jpg',
-    '/images/portfolio-website/landing.jpg',
-    '/images/portfolio-website/process-l1.jpg',
-    '/images/portfolio-website/process-l2.jpg',
+    '/images/portfolio-website/hero-1.png',
+    '/images/portfolio-website/hero-2.png',
+    '/images/portfolio-website/hero-3.png',
+    '/images/portfolio-website/landing.png',
+    '/images/portfolio-website/process-l1.png',
+    '/images/portfolio-website/process-l2.png',
     '/images/portfolio-website/process-l.gif',
-    '/images/portfolio-website/process-r1.jpg',
-    '/images/portfolio-website/process-r2.jpg',
+    '/images/portfolio-website/process-r1.png',
+    '/images/portfolio-website/process-r2.png',
     '/images/portfolio-website/process-r.gif',
   ];
 
