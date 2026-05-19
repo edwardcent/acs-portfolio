@@ -19,14 +19,11 @@ export async function POST(req: NextRequest) {
   const branch = 'main';
   const now = new Date();
   const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
-  const path = `submissions/${timestamp}.md`;
+  const path = `submissions/${timestamp}.txt`;
 
   const fileContent = [
-    `# Portfolio Comment`,
-    ``,
-    `**Received:** ${now.toUTCString()}`,
-    ``,
-    `---`,
+    `Portfolio Comment`,
+    `Received: ${now.toUTCString()}`,
     ``,
     message,
   ].join('\n');

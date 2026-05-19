@@ -267,7 +267,7 @@ export default function PortfolioWebsite() {
       {/* ── HERO ──────────────────────────────────────────────────────────────
           3 equal-width screenshots in a row
       */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: IMG_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
         <Img label="hero-1" aspect="1/1" images={ALL_IMAGES} myIndex={0} />
         <Img label="hero-2" aspect="483/425" images={ALL_IMAGES} myIndex={1} />
         <Img label="hero-3" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
