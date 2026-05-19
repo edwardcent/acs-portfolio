@@ -9,6 +9,7 @@ import ParkFrequency from '@/components/projects/ParkFrequency';
 import StudioSTimetron from '@/components/projects/StudioSTimetron';
 import BmwGratefulDead from '@/components/projects/BmwGratefulDead';
 import AcsMarks from '@/components/projects/AcsMarks';
+import PortfolioWebsite from '@/components/projects/PortfolioWebsite';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -53,7 +54,9 @@ export default async function ProjectPage({ params }: Props) {
       </div>
 
       {/* Project content */}
-      {slug === 'table-lighters' ? (
+      {slug === 'project_portfolio' ? (
+        <PortfolioWebsite />
+      ) : slug === 'table-lighters' ? (
         <TableLighters />
       ) : slug === 'makeway-catchall' ? (
         <MakewayCatchall />

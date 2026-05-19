@@ -19,6 +19,15 @@ export type Section = {
 
 export const projects: Project[] = [
   {
+    slug: 'project_portfolio',
+    title: 'Personal Portfolio Website',
+    year: '2025–2026',
+    category: 'UX/UI, Interaction Design',
+    description: 'The site you\'re on — designed in Figma, built with Next.js and AI-assisted tooling, deployed via Vercel.',
+    image: 'portfolio.png',
+    sections: [],
+  },
+  {
     slug: 'park-frequency',
     title: 'For Frequency Worldwide / Park',
     year: '2025–2026',
