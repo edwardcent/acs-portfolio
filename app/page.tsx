@@ -285,7 +285,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
           {/* Minifig — centered then moves down */}
           <div style={{
             position: 'absolute', left: '50%', top: `${figCenterY}vh`,
-            transform: 'translate(-50%, -50%)', width: '85vw',
+            transform: 'translate(-50%, -50%)', width: 'min(85vw, 340px)',
             flexShrink: 0, pointerEvents: 'none', zIndex: 5,
           }}>
             <img src={`/images/arm-${frame}.png`} alt="ACS mascot" style={{ width: '100%', height: 'auto', display: 'block' }} />
