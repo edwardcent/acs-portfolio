@@ -199,7 +199,7 @@ export default function StudioSTimetron() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Design Process</H>
-          <P>Started with sketches and renderings to establish proportions and component relationships. CAD modeling in [software name]. I salvaged a digital module from a $15 Casio watch, and reverse-engineered the cavity dimensions for precise fit. Then designed a custom multi-link 3D-printed band to unify the body and strap as a single visual system.</P>
+          <P>Started with sketches and renderings to establish proportions and component relationships. CAD modeling in [software name]. I salvaged a digital module from a $15 Casio watch, and reverse-engineered the cavity dimensions for precise fit. Then designed a custom 3D-printed band to unify the body and strap aesthetically.</P>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
           <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
@@ -228,7 +228,7 @@ export default function StudioSTimetron() {
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: IMG_GAP }}>
           <div>
             <H>Final Prototype</H>
-            <P>Fully functional 3D-printed prototype. The current build is less impact-resistant than machined metal or cast resin and lacks a sufficient water seal. Future production versions would require CNC machining or resin casting with tighter tolerances and proper sealing. The project provided hands-on experience in watch design, component integration, and prototype assembly. Currently functions as my desk clock.</P>
+            <P>Fully functional 3D-printed prototype. The current build is less impact-resistant than machined metal or cast resin and lacks a sufficient water seal. Future production versions would require metal or resin casting with tighter tolerances and proper sealing. The project provided hands-on experience in watch design, component integration, and prototype assembly. Currently functions as my desk clock.</P>
           </div>
           <Img label="final-left" aspect="575/619" images={ALL_IMAGES} myIndex={13} />
         </div>

@@ -170,7 +170,7 @@ export default function BmwGratefulDead() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Design Brief</H>
-          <P>Self-initiated apparel project combining Grateful Dead and BMW branding. Objective: create limited product release through upcycling existing inventory rather than new production.</P>
+          <P>Self-initiated apparel project combining Grateful Dead and BMW branding. Objective: add new elements to an existing product, which adds to an existing narrative, while upcycling existing garments rather than producing new ones.</P>
         </div>
         <Img label="goal" aspect="730/428" images={ALL_IMAGES} myIndex={3} />
       </div>
@@ -182,7 +182,7 @@ export default function BmwGratefulDead() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Process</H>
-          <P>Sourced 15 vintage BMW t-shirts in near-deadstock condition. Analyzed original graphic size variations to design overlay graphic fitting all base shirts. Collaborated with local Toronto screen printer to apply Grateful Dead &ldquo;Steal Your Face&rdquo; graphic around existing BMW logo.</P>
+          <P>Sourced 15 vintage BMW t-shirts in near-deadstock condition. Analyzed original graphic size variations to design an overlay graphic that fit all base shirts. Collaborated with a local Toronto screen printer to apply the Grateful Dead &ldquo;Steal Your Face&rdquo; graphic around the existing BMW logo.</P>
         </div>
         <Img label="process" aspect="743/497" images={ALL_IMAGES} myIndex={4} />
       </div>
@@ -194,7 +194,7 @@ export default function BmwGratefulDead() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'center', marginBottom: SECTION_MB }}>
         <div>
           <H>Release</H>
-          <P>Created period-appropriate 80s/90s advertising aesthetic. Released direct-to-consumer, sold out full run. Leveraged existing social audience (Grateful Dead + BMW content) for organic reach.</P>
+          <P>Created period-appropriate advertising with an 80s/90s aesthetic. Released direct-to-consumer, sold out. Leveraged existing social audience (Grateful Dead content) for organic reach.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP }}>
           <div style={{ flex: 1 }}><Img label="release-1" aspect="1/1" images={ALL_IMAGES} myIndex={5} /></div>

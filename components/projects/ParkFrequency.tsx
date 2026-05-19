@@ -231,8 +231,8 @@ export default function ParkFrequency() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Atlanta Pop-Up Booth (Remote Assembly)</H>
-          <P>Designed modular PVC pipe structure for Atlanta Streetwear Convention with two-week lead time. System requirements: visually distinctive, brand-coherent, reusable, client-assemblable without designer present.</P>
-          <P>Solution: PVC frame with some internal steel-rod reinforcements, branded canvas panels, plywood transaction surface, custom branded hangers. Produced complete assembly documentation: exploded views, joint counts, colour-coded pipe cutting guide. Hardware order staged at local Home Depot; canvas shipped to client Airbnb. Client assembled in accommodation, disassembled for transport, reassembled on-site independently.</P>
+          <P>Designed modular PVC pipe structure for Atlanta Streetwear Convention with two-week lead time. System requirements: visually distinctive, brand-coherent, functional, reusable, client-assemblable without designer present.</P>
+          <P>Solution: PVC frame with some internal steel-rod reinforcements, branded canvas panels, plywood transaction surface, custom branded hangers. The clothes and the canvas panels would let customers fully &ldquo;step into&rdquo; their brand. Produced complete assembly documentation: exploded views, joint counts, colour-coded pipe cutting guide. Hardware order staged at local Home Depot; canvas shipped to client Airbnb. Client assembled in accommodation, disassembled for transport, reassembled on-site independently.</P>
         </div>
         <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left column */}
@@ -264,7 +264,7 @@ export default function ParkFrequency() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
           <H>Branded Table Lighters</H>
-          <P>Following the Park rebrand, client ordered a production run of aluminum <Link href="/work/table-lighters#final-product" style={{ fontWeight: 700, color: 'inherit', textDecoration: 'none' }}>table lighters</Link> with Park logo replacing standard ACS mark. Product seeded to brand collaborators and offered as IRL-exclusive at pop-up events. Supports Park&apos;s strategy to extend clothing brand into lifestyle object ecosystem.</P>
+          <P>Following the Park rebrand, the client ordered a production run of my aluminum <Link href="/work/table-lighters#final-product" style={{ fontWeight: 700, color: 'inherit', textDecoration: 'none' }}>table lighters</Link> with the Park logo replacing the standard ACS mark. Product seeded to brand collaborators and offered as IRL-exclusive at pop-up events. Supports Park&apos;s strategy to extend their clothing brand into an ecosystem of products.</P>
         </div>
         <Img label="lighters" aspect="1/1" images={ALL_IMAGES} myIndex={19} />
       </div>

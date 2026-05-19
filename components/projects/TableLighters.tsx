@@ -388,7 +388,7 @@ export default function TableLighters() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Prototype V1: Concrete Casting</H>
-          <P>Initial prototypes used three-part 3D printed molds with removable Bic forms and stamped cork bases. The process validated overall dimensions and in-hand feel but revealed material limitations — Prototyping confirmed design direction but needed refinement.</P>
+          <P>Initial prototypes used three-part 3D printed molds with removable Bic forms and custom stamped cork bases. The process validated overall dimensions and in-hand feel but revealed material limitations — Prototyping confirmed design direction but needed refinement.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: 2 stacked (large square + medium square) */}
@@ -414,7 +414,7 @@ export default function TableLighters() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: SECTION_MB }}>
         <div>
           <H>Prototype V2: Refined Concrete Production</H>
-          <P>Redesigned silicone mold system with 3D-printed insert to accommodate Bic size variations. Achieved high surface finish and simplified production process. Sold direct-to-consumer and placed in Toronto independent retailers, with high-exposure TikTok content driving majority of sales. Customer feedback revealed concrete fragility under impact — product pulled from market to redesign for durability.</P>
+          <P>Redesigned silicone mold system with 3D-printed insert to accommodate Bic size variations. Achieved high surface finish and simplified production process. Sold direct-to-consumer and placed in Toronto independent retailers, with high-exposure TikTok content driving majority of sales. Repeat-customer feedback revealed concrete&apos;s fragility under impact — product pulled from market to redesign for durability.</P>
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
           {/* Left sub */}
@@ -448,7 +448,7 @@ export default function TableLighters() {
         <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start', marginBottom: IMG_GAP }}>
           <div>
             <H>Final Product</H>
-            <P>Shifted to CNC-machined aluminum for impact resistance and recyclability. Added mini size for smaller hands. Designed 3D-printed internal structure with print-in-place magnetic button and flex-fit walls for secure Bic retention. Replaced stamped cork with wet-set debossed leather bases.</P>
+            <P>Shifted to CNC-machined aluminum for impact resistance and recyclability. Added mini size for smaller hands. Designed a new 3D-printed internal with a print-in-place magnetic button. Replaced stamped cork with custom wet-set debossed leather bases.</P>
             <P>Iterated 50+ button variations to achieve tactile satisfaction — final magnetic mechanism provides addictive push-eject interaction. First batch of units sold to previous concrete lighter customers via direct email outreach. Production-ready files completed for Toronto CNC manufacturing.</P>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
@@ -485,7 +485,7 @@ export default function TableLighters() {
       <div className="tl-section" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: COL_GAP, alignItems: 'start' }}>
         <div>
           <H>Packaging Design</H>
-          <P>Unwrapping experience with zero glue — tuck tabs allow careful unraveling or immediate tear-through. Communicates product origin (Made in Toronto, Canada), manufacturer (All Conditions Studio), and quality positioning (&ldquo;Crafted with pride&rdquo;). Produced in-house using a printer/cutter system for rapid prototyping and small-batch production.</P>
+          <P>Unwrapping experience with zero glue — tuck tabs allow careful unraveling or a quick tear-through. Communicates product origin (Made in Toronto, Canada), manufacturer (All Conditions Studio), and quality positioning (&ldquo;Crafted with pride&rdquo;). Produced in-house using a printer/cutter system for rapid prototyping and small-batch production.</P>
         </div>
         <div style={{ display: 'flex', gap: IMG_GAP, alignItems: 'stretch' }}>
           {/* Left sub: landscape + square */}
