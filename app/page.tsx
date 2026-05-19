@@ -135,9 +135,9 @@ function ScrollEditor({ rows, onChange, label }: { rows: EditorRow[]; onChange: 
 function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   const [kf, setKf] = useState([
     { label: 'arm',   start: 100,  end: 700  },
-    { label: 'move',  start: 1500, end: 1900 },
-    { label: 'text',  start: 1700, end: 2000 },
-    { label: 'trans', start: 2300, end: 2500 },
+    { label: 'move',  start: 1000, end: 1400 },
+    { label: 'text',  start: 1200, end: 1500 },
+    { label: 'trans', start: 1900, end: 2100 },
   ]);
 
   const updateKf = (i: number, field: 'start' | 'end', val: number) =>
@@ -160,7 +160,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
     <>
       <Nav />
       <ScrollEditor rows={kf} onChange={updateKf} label="desktop" />
-      <div style={{ height: '4500px', position: 'relative' }}>
+      <div style={{ height: '2600px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig */}
@@ -258,25 +258,28 @@ function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: an
 
 function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
   const [kf, setKf] = useState([
-    { label: 'arm',  start: 240,  end: 720  },
-    { label: 'move', start: 1120, end: 1360 },
-    { label: 'text', start: 1760, end: 2000 },
+    { label: 'arm',   start: 0,   end: 300  },
+    { label: 'move',  start: 400, end: 700  },
+    { label: 'text',  start: 650, end: 800  },
+    { label: 'trans', start: 900, end: 1100 },
   ]);
 
   const updateKf = (i: number, field: 'start' | 'end', val: number) =>
     setKf(prev => prev.map((r, idx) => idx === i ? { ...r, [field]: val } : r));
 
-  const armP       = prog(scrollY, kf[0].start, kf[0].end);
-  const frame      = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP      = ease(prog(scrollY, kf[1].start, kf[1].end));
-  const textOpacity = ease(prog(scrollY, kf[2].start, kf[2].end));
-  const figCenterY = 50 + (72 - 50) * moveP;
+  const armP        = prog(scrollY, kf[0].start, kf[0].end);
+  const frame       = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
+  const moveP       = ease(prog(scrollY, kf[1].start, kf[1].end));
+  const t1P         = ease(prog(scrollY, kf[2].start, kf[2].end));
+  const transP      = ease(prog(scrollY, kf[3].start, kf[3].end));
+  const textOpacity = t1P * (1 - transP);
+  const figCenterY  = 50 + (72 - 50) * moveP;
 
   return (
     <>
       <Nav />
       <ScrollEditor rows={kf} onChange={updateKf} label="mobile" />
-      <div style={{ height: 'calc(3400px + 100vh)', position: 'relative' }}>
+      <div style={{ height: 'calc(1400px + 100vh)', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig — centered then moves down */}
