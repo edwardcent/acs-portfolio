@@ -86,7 +86,7 @@ function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect
     <>
       <div onClick={loaded ? open : undefined} style={{
         width: '100%', aspectRatio: aspect,
-        background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
+        background: '#fff', borderRadius: '12px', overflow: 'hidden',
         flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
       }}>
         <img src={src} alt={label}
@@ -118,7 +118,7 @@ function Gif({ label, aspect = '1/1', images, myIndex }: { label: string; aspect
     <>
       <div onClick={open} style={{
         width: '100%', aspectRatio: aspect,
-        background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
+        background: '#fff', borderRadius: '12px', overflow: 'hidden',
         flexShrink: 0, position: 'relative', cursor: 'zoom-in',
       }}>
         <img src={src} alt={label} style={{
@@ -191,48 +191,48 @@ function ContactForm() {
           I&apos;d like to hear it!
         </p>
       </div>
-      <div style={{ position: 'relative', width: '100%' }}>
-        <textarea
-          value={message}
-          onChange={e => { setMessage(e.target.value); if (status !== 'idle') setStatus('idle'); }}
-          placeholder="leave a message here..."
-          disabled={status === 'sent'}
-          rows={6}
-          style={{
-            width: '100%',
-            padding: '14px 16px 40px',
-            background: '#ebebeb',
-            border: 'none',
-            borderRadius: '12px',
-            fontSize: '14px',
-            lineHeight: 1.5,
-            color: '#0a0a0a',
-            fontFamily: 'inherit',
-            resize: 'none',
-            outline: 'none',
-            boxSizing: 'border-box',
-          }}
-        />
+      <textarea
+        value={message}
+        onChange={e => { setMessage(e.target.value); if (status !== 'idle') setStatus('idle'); }}
+        placeholder="leave a message here..."
+        disabled={status === 'sent'}
+        rows={5}
+        style={{
+          width: '100%',
+          padding: '14px 16px',
+          background: '#ebebeb',
+          border: 'none',
+          borderRadius: '12px',
+          fontSize: '14px',
+          lineHeight: 1.5,
+          color: '#0a0a0a',
+          fontFamily: 'inherit',
+          resize: 'none',
+          outline: 'none',
+          boxSizing: 'border-box',
+          display: 'block',
+        }}
+      />
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
+        {status === 'error' && (
+          <p style={{ fontSize: '13px', color: '#c00', margin: 0 }}>Something went wrong — try again.</p>
+        )}
         <button
           onClick={handleSend}
           disabled={status === 'sending' || status === 'sent' || !message.trim()}
           style={{
-            position: 'absolute', bottom: '12px', right: '16px',
-            background: 'none', border: 'none', padding: 0,
+            background: 'none', border: 'none', padding: '4px 0',
             fontSize: '14px', fontWeight: 700,
             color: status === 'sent' ? '#888' : '#0a0a0a',
             cursor: (status === 'sent' || !message.trim()) ? 'default' : 'pointer',
             fontFamily: 'inherit',
-            opacity: !message.trim() && status === 'idle' ? 0.35 : 1,
+            opacity: !message.trim() && status === 'idle' ? 0.3 : 1,
             transition: 'opacity 0.15s',
           }}
         >
           {status === 'sending' ? '...' : status === 'sent' ? 'sent ✓' : 'send'}
         </button>
       </div>
-      {status === 'error' && (
-        <p style={{ fontSize: '13px', color: '#c00', margin: 0 }}>Something went wrong — try again.</p>
-      )}
     </div>
   );
 }
@@ -288,7 +288,7 @@ export default function PortfolioWebsite() {
         </div>
         <div style={{
           width: '100%', aspectRatio: '519/231',
-          background: '#e0ddd8', borderRadius: '12px',
+          background: '#fff', border: '1px solid #e0e0e0', borderRadius: '12px',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{
@@ -335,14 +335,14 @@ export default function PortfolioWebsite() {
           ]} />
         </div>
         <div className="tl-img-row" style={{ display: 'flex', gap: IMG_GAP, alignItems: 'flex-start' }}>
-          {/* Left sub: 2 squares + gif */}
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+          {/* Left sub: wider col (~62%) — 3 squares */}
+          <div style={{ flex: '418', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             <Img label="process-l1" aspect="1/1" images={ALL_IMAGES} myIndex={4} />
             <Img label="process-l2" aspect="1/1" images={ALL_IMAGES} myIndex={5} />
             <Gif label="process-l" aspect="1/1" images={ALL_IMAGES} myIndex={6} />
           </div>
-          {/* Right sub: 2 portraits + gif */}
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
+          {/* Right sub: narrower col (~38%) — 3 portraits */}
+          <div style={{ flex: '258', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             <Img label="process-r1" aspect="257/401" images={ALL_IMAGES} myIndex={7} />
             <Img label="process-r2" aspect="215/343" images={ALL_IMAGES} myIndex={8} />
             <Gif label="process-r" aspect="258/369" images={ALL_IMAGES} myIndex={9} />
