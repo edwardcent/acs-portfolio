@@ -80,7 +80,7 @@ function Lightbox({ images, startIndex, onClose }: { images: string[]; startInde
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect?: string; images: string[]; myIndex: number }) {
+function Img({ label, aspect = '1/1', images, myIndex, radius = '12px' }: { label: string; aspect?: string; images: string[]; myIndex: number; radius?: string }) {
   const src = `/images/acs-marks/${label}.jpg`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -93,7 +93,7 @@ function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect
         onClick={loaded ? open : undefined}
         style={{
           width: '100%', aspectRatio: aspect,
-          background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
+          background: '#e0ddd8', borderRadius: radius, overflow: 'hidden',
           flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
         }}
       >
@@ -153,8 +153,8 @@ export default function AcsMarks() {
     }}>
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
-      <div style={{ marginBottom: SECTION_MB }}>
-        <Img label="hero" aspect="1474/462" images={ALL_IMAGES} myIndex={0} />
+      <div style={{ marginBottom: SECTION_MB, background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden', paddingBottom: '40px' }}>
+        <Img label="hero" aspect="1474/462" images={ALL_IMAGES} myIndex={0} radius="0" />
       </div>
 
       {/* ── LOGOS & OTHER MARKS ───────────────────────────────────────────────
