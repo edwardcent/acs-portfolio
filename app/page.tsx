@@ -58,14 +58,98 @@ export default function Home() {
 // 2300– 2500  text out → project list in
 // 2500– 4500  HOLD: project list
 
+// ─── Scroll Editor ────────────────────────────────────────────────────────────
+
+type EditorRow = { label: string; start: number; end: number };
+
+function ScrollEditor({ rows, onChange, label }: { rows: EditorRow[]; onChange: (i: number, field: 'start' | 'end', val: number) => void; label: string }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copy = () => {
+    const lines = rows.map(r => `  ${r.label}: [${r.start}, ${r.end}]`).join('\n');
+    const text = `// ${label}\n{\n${lines}\n}`;
+    navigator.clipboard.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1800); });
+  };
+
+  const inp: React.CSSProperties = {
+    width: '64px', padding: '3px 6px', fontSize: '11px', fontFamily: 'monospace',
+    border: '1px solid #ccc', borderRadius: '4px', background: '#fff', color: '#0a0a0a',
+  };
+
+  return (
+    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999, fontFamily: 'monospace' }}>
+      <button onClick={() => setOpen(v => !v)} style={{
+        padding: '5px 10px', fontSize: '11px', background: '#0a0a0a', color: '#fff',
+        border: 'none', borderRadius: '6px', cursor: 'pointer', display: 'block', marginLeft: 'auto',
+      }}>
+        {open ? 'hide scroll editor' : 'scroll editor'}
+      </button>
+      {open && (
+        <div style={{
+          marginTop: '8px', background: 'rgba(255,255,255,0.96)', border: '1px solid #ccc',
+          borderRadius: '8px', padding: '12px 14px', boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+          minWidth: '260px',
+        }}>
+          <p style={{ fontSize: '10px', color: '#aaa', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '10px' }}>{label}</p>
+          <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+            <thead>
+              <tr>
+                <th style={{ fontSize: '10px', color: '#aaa', textAlign: 'left', paddingBottom: '6px', fontWeight: 400 }}>stage</th>
+                <th style={{ fontSize: '10px', color: '#aaa', textAlign: 'center', paddingBottom: '6px', fontWeight: 400 }}>start</th>
+                <th style={{ fontSize: '10px', color: '#aaa', textAlign: 'center', paddingBottom: '6px', fontWeight: 400 }}>end</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => (
+                <tr key={r.label}>
+                  <td style={{ fontSize: '11px', color: '#0a0a0a', paddingRight: '12px', paddingBottom: '6px' }}>{r.label}</td>
+                  <td style={{ paddingBottom: '6px', paddingRight: '6px' }}>
+                    <input type="number" value={r.start} style={inp}
+                      onChange={e => onChange(i, 'start', Number(e.target.value))} />
+                  </td>
+                  <td style={{ paddingBottom: '6px' }}>
+                    <input type="number" value={r.end} style={inp}
+                      onChange={e => onChange(i, 'end', Number(e.target.value))} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '6px' }}>
+            <button onClick={copy} style={{
+              padding: '4px 10px', fontSize: '11px', background: copied ? '#2a2' : '#0a0a0a',
+              color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', transition: 'background 0.2s',
+            }}>
+              {copied ? 'copied!' : 'copy values'}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+
 function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP  = prog(scrollY, 100, 700);
+  const [kf, setKf] = useState([
+    { label: 'arm',   start: 100,  end: 700  },
+    { label: 'move',  start: 1500, end: 1900 },
+    { label: 'text',  start: 1700, end: 2000 },
+    { label: 'trans', start: 2300, end: 2500 },
+  ]);
+
+  const updateKf = (i: number, field: 'start' | 'end', val: number) =>
+    setKf(prev => prev.map((r, idx) => idx === i ? { ...r, [field]: val } : r));
+
+  const armP  = prog(scrollY, kf[0].start, kf[0].end);
   const frame = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP = ease(prog(scrollY, 1500, 1900));
+  const moveP = ease(prog(scrollY, kf[1].start, kf[1].end));
   const figTX = moveP * Math.min(25, 22000 / Math.max(winW, 1));
   const figTY = moveP * 5;
-  const t1P      = ease(prog(scrollY, 1700, 2000));
-  const transP   = ease(prog(scrollY, 2300, 2500));
+  const t1P      = ease(prog(scrollY, kf[2].start, kf[2].end));
+  const transP   = ease(prog(scrollY, kf[3].start, kf[3].end));
   const textOpacity = t1P * (1 - transP);
   const t1X      = (1 - t1P) * -60;
   const textSlideY = transP * -160;
@@ -75,6 +159,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
   return (
     <>
       <Nav />
+      <ScrollEditor rows={kf} onChange={updateKf} label="desktop" />
       <div style={{ height: '4500px', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
@@ -172,15 +257,25 @@ function DesktopProjectRow({ project, isFirst, isHovered, onEnter, onLeave }: an
 // 2000+       text holds → project list below
 
 function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractionOn }: any) {
-  const armP       = prog(scrollY, 240, 720);
+  const [kf, setKf] = useState([
+    { label: 'arm',  start: 240,  end: 720  },
+    { label: 'move', start: 1120, end: 1360 },
+    { label: 'text', start: 1760, end: 2000 },
+  ]);
+
+  const updateKf = (i: number, field: 'start' | 'end', val: number) =>
+    setKf(prev => prev.map((r, idx) => idx === i ? { ...r, [field]: val } : r));
+
+  const armP       = prog(scrollY, kf[0].start, kf[0].end);
   const frame      = clamp(Math.round(armP * (TOTAL_FRAMES - 1)), 0, TOTAL_FRAMES - 1) + 1;
-  const moveP      = ease(prog(scrollY, 1120, 1360));
-  const textOpacity = ease(prog(scrollY, 1760, 2000));
+  const moveP      = ease(prog(scrollY, kf[1].start, kf[1].end));
+  const textOpacity = ease(prog(scrollY, kf[2].start, kf[2].end));
   const figCenterY = 50 + (72 - 50) * moveP;
 
   return (
     <>
       <Nav />
+      <ScrollEditor rows={kf} onChange={updateKf} label="mobile" />
       <div style={{ height: 'calc(3400px + 100vh)', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
