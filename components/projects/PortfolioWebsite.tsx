@@ -269,7 +269,7 @@ export default function PortfolioWebsite() {
       */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: IMG_GAP, marginBottom: SECTION_MB }}>
         <Img label="hero-1" aspect="1/1" images={ALL_IMAGES} myIndex={0} />
-        <Img label="hero-2" aspect="1/1" images={ALL_IMAGES} myIndex={1} />
+        <Img label="hero-2" aspect="483/425" images={ALL_IMAGES} myIndex={1} />
         <Img label="hero-3" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
       </div>
 
@@ -285,7 +285,7 @@ export default function PortfolioWebsite() {
         </div>
         <div style={{
           width: '100%', aspectRatio: '519/231',
-          background: '#fff', border: '1px solid #e0e0e0', borderRadius: '12px',
+          background: '#fff', borderRadius: '12px',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{
