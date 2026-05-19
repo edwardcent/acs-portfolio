@@ -77,29 +77,26 @@ function Lightbox({ images, startIndex, onClose }: { images: string[]; startInde
 
 function Img({ label, aspect = '1/1', images, myIndex }: { label: string; aspect?: string; images: string[]; myIndex: number }) {
   const src = `/images/portfolio-website/${label}.png`;
-  const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
   const open = useCallback(() => setLightbox(true), []);
   const close = useCallback(() => setLightbox(false), []);
 
   return (
     <>
-      <div onClick={loaded ? open : undefined} style={{
+      <div onClick={open} style={{
         width: '100%', aspectRatio: aspect,
         background: '#fff', borderRadius: '12px', overflow: 'hidden',
-        flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
+        flexShrink: 0, position: 'relative', cursor: 'zoom-in',
       }}>
         <img src={src} alt={label}
-          onLoad={() => setLoaded(true)}
           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%',
             objectFit: 'cover', display: 'block',
-            opacity: loaded ? 1 : 0, transition: 'opacity 0.2s',
           }}
         />
       </div>
-      {lightbox && loaded && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
+      {lightbox && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
   );
 }
@@ -339,13 +336,17 @@ export default function PortfolioWebsite() {
           <div style={{ flex: '418', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             <Img label="process-l1" aspect="1/1" images={ALL_IMAGES} myIndex={4} />
             <Img label="process-l2" aspect="1/1" images={ALL_IMAGES} myIndex={5} />
-            <Gif label="process-l" aspect="1/1" images={ALL_IMAGES} myIndex={6} />
+            <div style={{ paddingLeft: '10px' }}>
+              <Gif label="process-l" aspect="1/1" images={ALL_IMAGES} myIndex={6} />
+            </div>
           </div>
           {/* Right sub: narrower col (~38%) — 3 portraits */}
           <div style={{ flex: '258', display: 'flex', flexDirection: 'column', gap: IMG_GAP }}>
             <Img label="process-r1" aspect="257/401" images={ALL_IMAGES} myIndex={7} />
             <Img label="process-r2" aspect="215/343" images={ALL_IMAGES} myIndex={8} />
-            <Gif label="process-r" aspect="258/369" images={ALL_IMAGES} myIndex={9} />
+            <div style={{ paddingLeft: '10px' }}>
+              <Gif label="process-r" aspect="258/369" images={ALL_IMAGES} myIndex={9} />
+            </div>
           </div>
         </div>
       </div>
