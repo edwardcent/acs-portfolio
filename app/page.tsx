@@ -77,7 +77,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
   return (
     <>
       <Nav />
-      <div style={{ height: '2600px', position: 'relative' }}>
+      <div style={{ height: 'calc(2600px + 100vh)', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', pointerEvents: 'none' }}>
 
           {/* Minifig */}
