@@ -70,7 +70,7 @@ function Lightbox({ images, startIndex, onClose }: { images: string[]; startInde
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg' }: { label: string; aspect?: string; images: string[]; myIndex: number; ext?: string }) {
+function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg', bg = '#e0ddd8' }: { label: string; aspect?: string; images: string[]; myIndex: number; ext?: string; bg?: string }) {
   const src = `/images/more-graphics/${label}.${ext}`;
   const [loaded, setLoaded] = useState(false);
   const [lightbox, setLightbox] = useState(false);
@@ -83,7 +83,7 @@ function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg' }: { label: s
         onClick={loaded ? open : undefined}
         style={{
           width: '100%', aspectRatio: aspect,
-          background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
+          background: bg, borderRadius: '12px', overflow: 'hidden',
           flexShrink: 0, position: 'relative', cursor: loaded ? 'zoom-in' : 'default',
         }}
       >
@@ -164,7 +164,7 @@ export default function MoreGraphics() {
         {/* ── ROW 4 — square | smaller centered square | square | square
             Col 2 image is ~83.8% of column width (312px vs 372px in Figma), centered.
         */}
-        <Img label="41" aspect="1/1" images={ALL_IMAGES} myIndex={12} ext="png" />
+        <Img label="41" aspect="1/1" images={ALL_IMAGES} myIndex={12} ext="png" bg="#fff" />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ width: '83.8%' }}>
             <Img label="42" aspect="1/1" images={ALL_IMAGES} myIndex={13} ext="png" />
