@@ -60,7 +60,7 @@ export const projects: Project[] = [
     year: '2020–2026',
     category: 'Illustration, Graphic Design',
     description: 'A collection of illustrations and graphic work from All Conditions Studio.',
-    image: 'more-graphics.jpg',
+    image: 'graphics-132.png',
     sections: [],
   },
   {
