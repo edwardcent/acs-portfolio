@@ -70,9 +70,10 @@ function Lightbox({ images, startIndex, onClose }: { images: string[]; startInde
 
 // ─── Image component ──────────────────────────────────────────────────────────
 
-function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg', bg = '#e0ddd8' }: { label: string; aspect?: string; images: string[]; myIndex: number; ext?: string; bg?: string }) {
+function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg', bg = '#e0ddd8', caption }: { label: string; aspect?: string; images: string[]; myIndex: number; ext?: string; bg?: string; caption?: string }) {
   const src = `/images/more-graphics/${label}.${ext}`;
   const [loaded, setLoaded] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [lightbox, setLightbox] = useState(false);
   const open = useCallback(() => setLightbox(true), []);
   const close = useCallback(() => setLightbox(false), []);
@@ -81,6 +82,8 @@ function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg', bg = '#e0ddd
     <>
       <div
         onClick={loaded ? open : undefined}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         style={{
           width: '100%', aspectRatio: aspect,
           background: bg, borderRadius: '12px', overflow: 'hidden',
@@ -98,6 +101,23 @@ function Img({ label, aspect = '1/1', images, myIndex, ext = 'jpg', bg = '#e0ddd
             opacity: loaded ? 1 : 0, transition: 'opacity 0.2s',
           }}
         />
+        {caption && (
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(0,0,0,0.52)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '16px',
+            opacity: hovered ? 1 : 0,
+            transition: 'opacity 0.18s ease',
+            pointerEvents: 'none',
+          }}>
+            <p style={{
+              color: '#fff', fontSize: '13px', fontWeight: 600,
+              textAlign: 'center', lineHeight: 1.45, margin: 0,
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            }}>{caption}</p>
+          </div>
+        )}
       </div>
       {lightbox && loaded && <Lightbox images={images} startIndex={myIndex} onClose={close} />}
     </>
@@ -137,41 +157,36 @@ export default function MoreGraphics() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: GAP }}>
 
         {/* ── ROW 1 — all square, full column width ───────────────────────── */}
-        <Img label="11" aspect="1/1" images={ALL_IMAGES} myIndex={0} />
-        <Img label="12" aspect="1/1" images={ALL_IMAGES} myIndex={1} />
-        <Img label="13" aspect="1/1" images={ALL_IMAGES} myIndex={2} />
-        <Img label="14" aspect="1/1" images={ALL_IMAGES} myIndex={3} ext="png" />
+        <Img label="11" aspect="1/1" images={ALL_IMAGES} myIndex={0}  caption="personal Grateful Dead Land Rover illustration" />
+        <Img label="12" aspect="1/1" images={ALL_IMAGES} myIndex={1}  caption="personal Grateful Dead Bart Simpson illustration" />
+        <Img label="13" aspect="1/1" images={ALL_IMAGES} myIndex={2}  caption="personal Grateful Dead Porsche illustration" />
+        <Img label="14" aspect="1/1" images={ALL_IMAGES} myIndex={3}  ext="png" caption="personal Air Jordan 1 illustration" />
 
         {/* ── ROW 2 — all square, full column width ───────────────────────── */}
-        <Img label="21" aspect="1/1" images={ALL_IMAGES} myIndex={4} />
-        <Img label="22" aspect="1/1" images={ALL_IMAGES} myIndex={5} />
-        <Img label="23" aspect="1/1" images={ALL_IMAGES} myIndex={6} ext="png" />
-        <Img label="24" aspect="1/1" images={ALL_IMAGES} myIndex={7} />
+        <Img label="21" aspect="1/1" images={ALL_IMAGES} myIndex={4}  caption="personal Grateful Dead Polo Bear illustration" />
+        <Img label="22" aspect="1/1" images={ALL_IMAGES} myIndex={5}  caption="personal Lego minifig mockup" />
+        <Img label="23" aspect="1/1" images={ALL_IMAGES} myIndex={6}  ext="png" caption="personal Lego minifig mockup" />
+        <Img label="24" aspect="1/1" images={ALL_IMAGES} myIndex={7}  caption="ACS vintage basketball logo" />
 
-        {/* ── ROW 3 — square (centered) | portrait | portrait | square (centered)
-            Row height is driven by the portrait images (aspect 372:466).
-            The square images in col 1 and col 4 are vertically centered within that taller row.
-        */}
+        {/* ── ROW 3 — square (centered) | portrait | portrait | square (centered) */}
         <div style={{ alignSelf: 'center' }}>
-          <Img label="31" aspect="1/1" images={ALL_IMAGES} myIndex={8} ext="png" />
+          <Img label="31" aspect="1/1" images={ALL_IMAGES} myIndex={8}  ext="png" caption="commissioned single cover" />
         </div>
-        <Img label="32" aspect="372/466" images={ALL_IMAGES} myIndex={9} />
-        <Img label="33" aspect="372/466" images={ALL_IMAGES} myIndex={10} />
+        <Img label="32" aspect="372/466" images={ALL_IMAGES} myIndex={9}  caption="ACS incense holder ad" />
+        <Img label="33" aspect="372/466" images={ALL_IMAGES} myIndex={10} caption="ACS incense holder ad" />
         <div style={{ alignSelf: 'center' }}>
-          <Img label="34" aspect="1/1" images={ALL_IMAGES} myIndex={11} />
+          <Img label="34" aspect="1/1" images={ALL_IMAGES} myIndex={11} caption="commissioned Primeau logo" />
         </div>
 
-        {/* ── ROW 4 — square | smaller centered square | square | square
-            Col 2 image is ~83.8% of column width (312px vs 372px in Figma), centered.
-        */}
-        <Img label="41" aspect="1/1" images={ALL_IMAGES} myIndex={12} ext="png" bg="#fff" />
+        {/* ── ROW 4 — square | smaller centered square | square | square */}
+        <Img label="41" aspect="1/1" images={ALL_IMAGES} myIndex={12} ext="png" bg="#fff" caption="ACS logo coloured" />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ width: '83.8%' }}>
-            <Img label="42" aspect="1/1" images={ALL_IMAGES} myIndex={13} ext="png" />
+            <Img label="42" aspect="1/1" images={ALL_IMAGES} myIndex={13} ext="png" caption="commissioned Whine to Me logo mark" />
           </div>
         </div>
-        <Img label="43" aspect="1/1" images={ALL_IMAGES} myIndex={14} />
-        <Img label="44" aspect="1/1" images={ALL_IMAGES} myIndex={15} ext="png" />
+        <Img label="43" aspect="1/1" images={ALL_IMAGES} myIndex={14} caption="concept Throwing Fits style Yankees logo" />
+        <Img label="44" aspect="1/1" images={ALL_IMAGES} myIndex={15} ext="png" caption={'ACS "recon" logo'} />
 
       </div>
     </div>
