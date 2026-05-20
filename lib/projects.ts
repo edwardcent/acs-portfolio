@@ -55,6 +55,15 @@ export const projects: Project[] = [
     sections: [],
   },
   {
+    slug: 'project_more_graphics',
+    title: 'More Graphics & Illustrations',
+    year: '2020–2026',
+    category: 'Illustration, Graphic Design',
+    description: 'A collection of illustrations and graphic work from All Conditions Studio.',
+    image: 'more-graphics.jpg',
+    sections: [],
+  },
+  {
     slug: 'makeway-catchall',
     title: 'Branded Catchall for MakeWay',
     year: '2021',
