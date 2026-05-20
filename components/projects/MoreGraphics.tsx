@@ -120,7 +120,7 @@ export default function MoreGraphics() {
     '/images/more-graphics/24.jpg',
     '/images/more-graphics/31.png',
     '/images/more-graphics/32.jpg',
-    '/images/more-graphics/33.png',
+    '/images/more-graphics/33.jpg',
     '/images/more-graphics/34.jpg',
     '/images/more-graphics/41.png',
     '/images/more-graphics/42.png',
@@ -156,7 +156,7 @@ export default function MoreGraphics() {
           <Img label="31" aspect="1/1" images={ALL_IMAGES} myIndex={8} ext="png" />
         </div>
         <Img label="32" aspect="372/466" images={ALL_IMAGES} myIndex={9} />
-        <Img label="33" aspect="372/466" images={ALL_IMAGES} myIndex={10} ext="png" />
+        <Img label="33" aspect="372/466" images={ALL_IMAGES} myIndex={10} />
         <div style={{ alignSelf: 'center' }}>
           <Img label="34" aspect="1/1" images={ALL_IMAGES} myIndex={11} />
         </div>
