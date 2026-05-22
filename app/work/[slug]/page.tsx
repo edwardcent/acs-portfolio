@@ -79,7 +79,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       )}
 
-      {/* Prev / Next preview */}
+      {/* Prev / Next navigation */}
       <div className="project-nav-grid" style={{ borderTop: '1px solid #ccc', display: 'grid', gridTemplateColumns: '1fr 1fr', marginTop: '80px' }}>
         {prev ? (
           <Link href={`/work/${prev.slug}`} className="project-nav-item" style={{
