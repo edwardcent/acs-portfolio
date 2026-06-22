@@ -93,7 +93,7 @@ function DesktopHome({ scrollY, winW, hovered, setHovered, interactionOn, setInt
           <div style={{ position: 'absolute', left: '10vw', top: '50%', transform: `translateY(calc(-50% + ${textSlideY}px)) translateX(${t1X}px)`, width: 'min(420px, 38vw)', opacity: textOpacity, pointerEvents: textOpacity > 0.1 ? 'auto' : 'none' }}>
             <p style={{ fontSize: 'clamp(15px, 1.5vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               Hi, I&apos;m Edward Centorame, a designer in Toronto.{' '}
-              <span style={{ fontWeight: '400' }}>I design and fabricate graphics, branded objects, merchandise, and identity systems. I&apos;m finishing my BFA at TMU this month. If you want to talk about a project, reach out{' '}
+              <span style={{ fontWeight: '400' }}>I design and fabricate graphics, branded objects, merchandise, and identity systems. TMU New Media Alumni. If you want to talk about a project, reach out{' '}
               <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>.</span>
             </p>
           </div>
@@ -204,7 +204,7 @@ function MobileHome({ scrollY, hovered, setHovered, interactionOn, setInteractio
           }}>
             <p style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: '700', lineHeight: 1.3, color: '#0a0a0a' }}>
               Hi, I&apos;m Edward Centorame, a designer in Toronto.{' '}
-              <span style={{ fontWeight: '400' }}>I design and fabricate graphics, branded objects, merchandise, and identity systems. I&apos;m finishing my BFA at TMU this month. If you want to talk about a project, reach out{' '}
+              <span style={{ fontWeight: '400' }}>I design and fabricate graphics, branded objects, merchandise, and identity systems. TMU New Media Alumni. If you want to talk about a project, reach out{' '}
               <Link href="/contact" style={{ textDecoration: 'none', borderBottom: '2px solid #0a0a0a', fontWeight: '700', pointerEvents: 'auto' }}>here</Link>.</span>
             </p>
           </div>
