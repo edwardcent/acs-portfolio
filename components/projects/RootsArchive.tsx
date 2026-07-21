@@ -63,7 +63,7 @@ export default function RootsArchive() {
     }}>
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: IGAP, marginBottom: MB }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: IGAP, marginBottom: MB, alignItems: 'center' }}>
         <Img src={`${B}/hero-01.png`} fit="contain" />
         <FullImg src={`${B}/hero-02.png`} />
         <Img src={`${B}/hero-03.png`} crop={{ height: '120.95%', left: '-10.32%', top: '-10.47%', width: '120.69%' }} />
