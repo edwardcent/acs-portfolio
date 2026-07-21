@@ -19,6 +19,15 @@ export type Section = {
 
 export const projects: Project[] = [
   {
+    slug: 'roots-archive',
+    title: 'Roots Archive Sale: Speculative Design',
+    year: '2026',
+    category: 'Branding, Graphic Design',
+    description: 'Speculative branding for a Roots annual archive sale — event-based retail inspired by jjjjound\'s Entrepôt and Stussy\'s archive drops.',
+    image: 'roots.png',
+    sections: [],
+  },
+  {
     slug: 'park-frequency',
     title: 'For Frequency Worldwide / Park',
     year: '2025–2026',

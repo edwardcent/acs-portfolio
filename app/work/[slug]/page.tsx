@@ -11,6 +11,7 @@ import BmwGratefulDead from '@/components/projects/BmwGratefulDead';
 import AcsMarks from '@/components/projects/AcsMarks';
 import PortfolioWebsite from '@/components/projects/PortfolioWebsite';
 import MoreGraphics from '@/components/projects/MoreGraphics';
+import RootsArchive from '@/components/projects/RootsArchive';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -55,7 +56,9 @@ export default async function ProjectPage({ params }: Props) {
       </div>
 
       {/* Project content */}
-      {slug === 'project_more_graphics' ? (
+      {slug === 'roots-archive' ? (
+        <RootsArchive />
+      ) : slug === 'project_more_graphics' ? (
         <MoreGraphics />
       ) : slug === 'project_portfolio' ? (
         <PortfolioWebsite />
