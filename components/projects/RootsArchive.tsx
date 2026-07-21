@@ -52,26 +52,41 @@ function P({ children }: { children: React.ReactNode }) {
 function Img({ src, aspect = '1/1', fit = 'cover' }: {
   src: string; aspect?: string; fit?: 'cover' | 'contain';
 }) {
+  const label = src.split('/').pop() ?? src;
   return (
     <div style={{
       width: '100%', aspectRatio: aspect,
       background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
       position: 'relative', flexShrink: 0,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
+      <span style={{
+        fontSize: '11px', color: '#888', fontFamily: 'monospace',
+        position: 'absolute', zIndex: 1, textAlign: 'center', padding: '4px',
+        pointerEvents: 'none',
+      }}>{label}</span>
       <img src={src} alt="" style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
-        objectFit: fit, display: 'block',
+        objectFit: fit, display: 'block', zIndex: 2,
       }} />
     </div>
   );
 }
 
 function FullImg({ src }: { src: string }) {
+  const label = src.split('/').pop() ?? src;
   return (
-    <img src={src} alt="" style={{
-      width: '100%', height: 'auto', display: 'block',
-      borderRadius: '12px', background: '#e0ddd8',
-    }} />
+    <div style={{
+      width: '100%', background: '#e0ddd8', borderRadius: '12px',
+      minHeight: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      position: 'relative',
+    }}>
+      <span style={{ fontSize: '11px', color: '#888', fontFamily: 'monospace' }}>{label}</span>
+      <img src={src} alt="" style={{
+        position: 'absolute', inset: 0, width: '100%', height: 'auto',
+        display: 'block', borderRadius: '12px',
+      }} />
+    </div>
   );
 }
 
