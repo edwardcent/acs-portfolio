@@ -64,7 +64,7 @@ export default function RootsArchive() {
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: IGAP, marginBottom: MB }}>
         <Img src={`${B}/hero-01.png`} fit="contain" />
-        <Img src={`${B}/hero-02.png`} fit="cover" />
+        <Img src={`${B}/hero-02.png`} fit="contain" />
         <Img src={`${B}/hero-03.png`} crop={{ height: '120.95%', left: '-10.32%', top: '-10.47%', width: '120.69%' }} />
       </div>
 
@@ -87,11 +87,11 @@ export default function RootsArchive() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP }}>
           {/* ref-01–02: Figma had left/width crops on the (now pre-rotated) portraits */}
-          <Img src={`${B}/ref-01.jpeg`} crop={{ height: '100%', left: '-7.79%', top: '0', width: '113.56%' }} />
-          <Img src={`${B}/ref-02.jpeg`} crop={{ height: '116.67%', left: '-25.93%', top: '-12.19%', width: '141.98%' }} />
+          <Img src={`${B}/ref-01.jpeg`} fit="cover" />
+          <Img src={`${B}/ref-02.jpeg`} fit="cover" />
           <Img src={`${B}/ref-03.jpeg`} crop={{ height: '141.73%', left: '-2.92%', top: '0.02%', width: '106.06%' }} />
-          <Img src={`${B}/ref-04.jpeg`} crop={{ height: '100%', left: '-17.31%', top: '0', width: '135.48%' }} />
-          <Img src={`${B}/ref-05.jpeg`} crop={{ height: '100%', left: '-28.55%', top: '0', width: '145.51%' }} />
+          <Img src={`${B}/ref-04.jpeg`} fit="cover" />
+          <Img src={`${B}/ref-05.jpeg`} fit="cover" />
           <Img src={`${B}/ref-06.jpeg`} fit="cover" />
         </div>
       </div>
@@ -142,10 +142,10 @@ export default function RootsArchive() {
         </div>
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP, marginBottom: IGAP }}>
-            <Img src={`${B}/ig-01.png`} fit="contain" />
-            <Img src={`${B}/ig-02.png`} fit="contain" />
-            <Img src={`${B}/ig-03.png`} fit="contain" />
-            <Img src={`${B}/ig-04.png`} fit="contain" />
+            <Img src={`${B}/ig-01.png`} fit="cover" />
+            <Img src={`${B}/ig-02.png`} fit="cover" />
+            <Img src={`${B}/ig-03.png`} fit="cover" />
+            <Img src={`${B}/ig-04.png`} fit="cover" />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP }}>
             <Img src={`${B}/ig-05.png`} aspect="9/16" fit="cover" />
