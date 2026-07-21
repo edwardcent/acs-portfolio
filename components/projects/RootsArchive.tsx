@@ -89,8 +89,8 @@ export default function RootsArchive() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP }}>
           {/* ref-01–02: Figma had left/width crops on the (now pre-rotated) portraits */}
           <Img src={`${B}/ref-01.jpeg`} fit="cover" position="center 20%" />
-          <Img src={`${B}/ref-02.jpeg`} fit="cover" />
-          <Img src={`${B}/ref-03.jpeg`} crop={{ height: '141.73%', left: '-2.92%', top: '-20%', width: '106.06%' }} />
+          <Img src={`${B}/ref-02.jpeg`} fit="cover" position="center 20%" />
+          <Img src={`${B}/ref-03.jpeg`} crop={{ height: '141.73%', left: '-2.92%', top: '0.02%', width: '106.06%' }} />
           <Img src={`${B}/ref-04.jpeg`} fit="cover" />
           <Img src={`${B}/ref-05.jpeg`} fit="cover" position="center 20%" />
           <Img src={`${B}/ref-06.jpeg`} fit="cover" />
