@@ -22,17 +22,18 @@ type ImgProps = {
   aspect?: string;
   fit?: 'cover' | 'contain';
   crop?: React.CSSProperties;
+  position?: string;
 };
 
-function Img({ src, aspect = '1/1', fit = 'cover', crop }: ImgProps) {
+function Img({ src, aspect = '1/1', fit = 'cover', crop, position = 'center' }: ImgProps) {
   const imgStyle: React.CSSProperties = crop
     ? { position: 'absolute', display: 'block', maxWidth: 'none', ...crop }
-    : { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: fit, display: 'block' };
+    : { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: fit, objectPosition: position, display: 'block' };
 
   return (
     <div style={{
       width: '100%', aspectRatio: aspect,
-      background: '#e0ddd8', borderRadius: '12px', overflow: 'hidden',
+      background: '#fff', borderRadius: '12px', overflow: 'hidden',
       position: 'relative', flexShrink: 0,
     }}>
       <img src={src} alt="" style={imgStyle} />
@@ -44,7 +45,7 @@ function FullImg({ src }: { src: string }) {
   return (
     <img src={src} alt="" style={{
       width: '100%', height: 'auto', display: 'block',
-      borderRadius: '12px', background: '#e0ddd8',
+      borderRadius: '12px', background: '#fff',
     }} />
   );
 }
@@ -87,11 +88,11 @@ export default function RootsArchive() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP }}>
           {/* ref-01–02: Figma had left/width crops on the (now pre-rotated) portraits */}
-          <Img src={`${B}/ref-01.jpeg`} fit="cover" />
+          <Img src={`${B}/ref-01.jpeg`} fit="cover" position="center 20%" />
           <Img src={`${B}/ref-02.jpeg`} fit="cover" />
-          <Img src={`${B}/ref-03.jpeg`} crop={{ height: '141.73%', left: '-2.92%', top: '0.02%', width: '106.06%' }} />
+          <Img src={`${B}/ref-03.jpeg`} crop={{ height: '141.73%', left: '-2.92%', top: '-20%', width: '106.06%' }} />
           <Img src={`${B}/ref-04.jpeg`} fit="cover" />
-          <Img src={`${B}/ref-05.jpeg`} fit="cover" />
+          <Img src={`${B}/ref-05.jpeg`} fit="cover" position="center 20%" />
           <Img src={`${B}/ref-06.jpeg`} fit="cover" />
         </div>
       </div>
@@ -142,10 +143,10 @@ export default function RootsArchive() {
         </div>
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP, marginBottom: IGAP }}>
-            <Img src={`${B}/ig-01.png`} fit="cover" />
-            <Img src={`${B}/ig-02.png`} fit="cover" />
-            <Img src={`${B}/ig-03.png`} fit="cover" />
-            <Img src={`${B}/ig-04.png`} fit="cover" />
+            <Img src={`${B}/ig-01.png`} fit="contain" />
+            <Img src={`${B}/ig-02.png`} fit="contain" />
+            <Img src={`${B}/ig-03.png`} fit="contain" />
+            <Img src={`${B}/ig-04.png`} fit="contain" />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: IGAP }}>
             <Img src={`${B}/ig-05.png`} aspect="9/16" fit="cover" />
