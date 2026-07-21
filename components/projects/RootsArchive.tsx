@@ -173,7 +173,7 @@ export default function RootsArchive() {
         <div>
           <H>Brief / Inspo</H>
           <P>Every time I read GAP across someone's chest walking around Toronto, I wish it said ROOTS instead.</P>
-          <P>What if Roots hosted an annual "archive sale" in Canada's major cities, selling mainline product, not outlet runoff, like jjjjound's recent Entrepôt, Stussy's archive sales, or Aritzia's warehouse sale? Both jjjjound and Aritzia move serious volume doing this. Event-based shopping is a recent phenomenon, and consumers enjoy it more than a trip to an outlet mall. This project explores what the branding for such an event could look like.</P>
+          <P>What if Roots hosted an annual "archive sale" in Canada's major cities, selling mainline product, not outlet runoff, like jjjjound's recent Entrepôt, Stussy's archive sales, or Aritzia's warehouse sale? Both jjjjound and Aritzia move serious volume doing this. People clearly want a reason to line up for this stuff - and I just want to read ROOTS a little more often. This project explores what the branding for such an event could look like.</P>
         </div>
         <Img src={`${B}/brief.png`} myIndex={3} fit="contain" />
       </div>
